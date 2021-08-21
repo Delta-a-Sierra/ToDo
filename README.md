@@ -9,12 +9,12 @@ A simple to-do application hosted on Azure built using Python and Django.
 <!-- * [Setup](#setup) -->
 
 ## General Info
-This application is hosted on Azure and uses Azure Devops for planning as well as CI/CD pipelines.
-Terraform and Ansible were used for creating and configuring the infastructure.
+This application uses a React frontend, Django backend and is hosted on Azure using Azure Devops for planning as well as CI/CD pipelines. Terraform and Ansible were used for creating and configuring the infastructure.
 
 ## Technologies
 Project is created with:
 * Python
+* React
 * Django
 * Azure Devops
 * Terraform
