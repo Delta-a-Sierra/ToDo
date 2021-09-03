@@ -1,11 +1,15 @@
+import Form from "../componets/form/Form";
+
 const Login = () => {
     return ( 
         <div>
             <h1>Login</h1>
 
-            <input type="text" />
+            <Form />
+
         </div>
      );
 }
+
  
 export default Login;
