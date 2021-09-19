@@ -1,4 +1,3 @@
-import config
 from auth import auth
 from models import db, todo_app
 from resources.users import users_api
