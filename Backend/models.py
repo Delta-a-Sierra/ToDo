@@ -1,10 +1,16 @@
 from datetime import datetime
 
+from argon2 import PasswordHasher
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from itsdangerous import BadSignature, SignatureExpired
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from sqlalchemy.exc import IntegrityError
+
+HASHER = PasswordHasher()
 
 todo_app = Flask(__name__)
-todo_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///todo.db"
+todo_app.config.from_pyfile("config.py")
 db = SQLAlchemy(todo_app)
 
 
@@ -14,6 +20,7 @@ class User(db.Model):
     password = db.Column(db.String(), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __repr__(self):
         return f"""User:
@@ -21,7 +28,44 @@ class User(db.Model):
         email = {self.email}
         password = {self.password}
         first_name = {self.first_name}
-        last_name = {self.last_name}"""
+        last_name = {self.last_name}
+        created_at = {self.created_at}"""
+
+    @classmethod
+    def create_user(cls, email, password, first_name, last_name):
+        email = email.lower()
+        password = HASHER.hash(password)
+        user = cls(
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        db.session.add(user)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def verify_auth_token(token):
+        serializer = Serializer(todo_app.secret_key)
+        try:
+            data = serializer.loads(token)
+        except (SignatureExpired, BadSignature):
+            return None
+        else:
+            user = User.query.filter_by(id=data["id"]).first()
+            return user
+
+    def verify_password(self, password):
+        return HASHER.verify(self.password, password)
+
+    def generate_auth_token(self):
+        serializer = Serializer(todo_app.secret_key, expires_in=604800)
+        return serializer.dumps({"id": self.id})
 
 
 class Icon(db.Model):

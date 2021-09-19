@@ -1,3 +1,4 @@
-DEBUG = True
-HOST = "127.0.0.1"
-PORT = 8000
+from secrets import token_urlsafe
+
+SQLALCHEMY_DATABASE_URI = "sqlite:///todo.db"
+SECRET_KEY = token_urlsafe(24)

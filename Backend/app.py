@@ -1,18 +1,21 @@
 import config
-from models import Task, User, db, todo_app
+from auth import auth
+from models import db, todo_app
+from resources.users import users_api
+
+DEBUG = True
+HOST = "127.0.0.1"
+PORT = 8000
+
+todo_app.register_blueprint(users_api)
+
+# view to test auth
+@todo_app.route("/test")
+@auth.login_required
+def test():
+    return "Hello World!"
+
 
 if __name__ == "__main__":
     db.create_all()
-
-    # cj = User(
-    #     email="carltonlnd@hotmail.com",
-    #     password="Password123",
-    #     first_name="Carlton",
-    #     last_name="Nunes Desouza",
-    # )
-    # task = Task(title="todo models", owner_id=1)
-    # db.session.add(task)
-    # db.session.add(cj)
-    # db.session.commit()
-
-    # todo_app.run(debug=config.DEBUG, host=config.HOST, port=config.PORT)
+    todo_app.run(debug=DEBUG, host=HOST, port=PORT)
