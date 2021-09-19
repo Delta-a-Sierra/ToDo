@@ -47,6 +47,7 @@ class User(db.Model):
         except IntegrityError:
             return False
         else:
+            # Generate auth on signup
             return True
 
     @staticmethod
