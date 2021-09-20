@@ -83,5 +83,5 @@ class UserLogin(Resource):
 
 users_api = Blueprint("res_users", __name__)
 api = Api(users_api)
-api.add_resource(UserSignup, "/v1/signup", endpoint="signup")
-api.add_resource(UserLogin, "/v1/login", endpoint="login")
+api.add_resource(UserSignup, "/signup", endpoint="signup")
+api.add_resource(UserLogin, "/login", endpoint="login")

@@ -48,7 +48,6 @@ class User(db.Model):
         except IntegrityError:
             return False
         else:
-            # Generate auth on signup
             return True
 
     @staticmethod
@@ -68,6 +67,11 @@ class User(db.Model):
     def generate_auth_token(self):
         serializer = Serializer(todo_app.secret_key, expires_in=604800)
         return serializer.dumps({"id": self.id})
+
+    def verify_admin(self):
+        if self.is_admin:
+            return True
+        return False
 
 
 class Icon(db.Model):
