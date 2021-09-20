@@ -39,8 +39,13 @@ class UserSignup(Resource):
         if result == False:
             message = jsonify(message="Email already exists")
             return make_response(message, 409)
-        message = jsonify(message="User created successfully")
-        return make_response(message, 201)
+        verify_login(email=args.email, password=args.password)
+        token = g.user.generate_auth_token()
+        response = {
+            "message": "User created successfully",
+            "token": token.decode("ascii"),
+        }
+        return make_response(response, 201)
 
 
 class UserLogin(Resource):
