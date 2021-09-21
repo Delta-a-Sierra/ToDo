@@ -91,7 +91,9 @@ class TaskGroup(db.Model):
     group_description = db.Column(db.Text, nullable=True)
 
     owner_id = db.Column(db.ForeignKey("user.id"))
-    owner = db.relationship("User", backref=db.backref("task_groups"))
+    owner = db.relationship(
+        "User", backref=db.backref("task_groups", cascade="all, delete-orphan")
+    )
 
     icon_id = db.Column(db.ForeignKey("icon.id"))
     icon = db.relationship("Icon", backref=db.backref("task_group"))
@@ -112,8 +114,15 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
+    task_g_id = db.Column(db.ForeignKey("taskgroup.id"))
+    task_g = db.relationship(
+        "TaskGroup", backref=db.backref("tasks", cascade="all, delete-orphan")
+    )
+
     owner_id = db.Column(db.ForeignKey("user.id"))
-    owner = db.relationship("User", backref=db.backref("tasks"))
+    owner = db.relationship(
+        "User", backref=db.backref("tasks", cascade="all, delete-orphan")
+    )
 
     def __repr__(self):
         return f"""Task:

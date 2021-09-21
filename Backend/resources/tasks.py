@@ -1,16 +1,9 @@
 from datetime import datetime
 
 from auth import auth
-from flask import Blueprint, g, json, jsonify, make_response
-from flask_restful import (
-    Api,
-    Resource,
-    fields,
-    marshal,
-    marshal_with,
-    reqparse,
-)
-from models import Task, User
+from flask import Blueprint, g
+from flask_restful import Api, Resource, fields, marshal, reqparse
+from models import Task
 
 task_fields = {
     "id": fields.Integer,

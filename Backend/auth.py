@@ -3,12 +3,12 @@ from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth, MultiAuth
 
 from models import User
 
-auth = HTTPBasicAuth()
+basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
-# auth = MultiAuth(token_auth, basic_auth)
+auth = MultiAuth(token_auth, basic_auth)
 
 
-@auth.verify_password
+@basic_auth.verify_password
 def verify_login(email, password):
     email = email.lower()
     user = User.query.filter_by(email=email).first()
