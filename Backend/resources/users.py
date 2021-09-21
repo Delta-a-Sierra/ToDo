@@ -1,5 +1,5 @@
 from auth import verify_login
-from flask import Blueprint, g, jsonify, make_response
+from flask import Blueprint, g
 from flask_restful import Api, Resource, reqparse
 from models import User
 
@@ -37,7 +37,7 @@ class UserSignup(Resource):
         args = self.reqparse.parse_args()
         result = User.create_user(**args)
         if result == False:
-            message = jsonify(message="Email already exists")
+            message = {"message": "Email already exists"}
             return message, 409
 
         verify_login(email=args.email, password=args.password)
@@ -74,8 +74,8 @@ class UserLogin(Resource):
                 "message": "Login Successful",
                 "token": token.decode("ascii"),
             }
-            return make_response(response, 200)
-        message = jsonify(message="Invalid Login Credentials")
+            return response, 200
+        message = {"message": "Invalid Login Credentials"}
         return message, 401
 
 
