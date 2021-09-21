@@ -2,6 +2,7 @@ from datetime import datetime
 
 from argon2 import PasswordHasher
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -10,6 +11,7 @@ from sqlalchemy.exc import IntegrityError
 HASHER = PasswordHasher()
 
 todo_app = Flask(__name__)
+CORS(todo_app)
 todo_app.config.from_pyfile("config.py")
 db = SQLAlchemy(todo_app)
 

@@ -1,5 +1,3 @@
-from os import read
-
 from auth import auth
 from config import DEBUG, HOST, PORT
 from models import db, todo_app
