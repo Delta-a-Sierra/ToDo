@@ -86,6 +86,8 @@ class Icon(db.Model):
 
 
 class TaskGroup(db.Model):
+    __tablename__ = "task groups"
+
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(100), nullable=False)
     group_description = db.Column(db.Text, nullable=True)
@@ -114,7 +116,7 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
-    task_g_id = db.Column(db.ForeignKey("taskgroup.id"))
+    task_g_id = db.Column(db.ForeignKey("task groups.id"))
     task_g = db.relationship(
         "TaskGroup", backref=db.backref("tasks", cascade="all, delete-orphan")
     )

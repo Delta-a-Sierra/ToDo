@@ -38,14 +38,15 @@ class UserSignup(Resource):
         result = User.create_user(**args)
         if result == False:
             message = jsonify(message="Email already exists")
-            return make_response(message, 409)
+            return message, 409
+
         verify_login(email=args.email, password=args.password)
         token = g.user.generate_auth_token()
         response = {
             "message": "User created successfully",
             "token": token.decode("ascii"),
         }
-        return make_response(response, 201)
+        return response, 201
 
 
 class UserLogin(Resource):
@@ -75,10 +76,7 @@ class UserLogin(Resource):
             }
             return make_response(response, 200)
         message = jsonify(message="Invalid Login Credentials")
-        return make_response(
-            message,
-            401,
-        )
+        return message, 401
 
 
 users_api = Blueprint("res_users", __name__)
