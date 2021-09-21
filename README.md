@@ -15,7 +15,7 @@ This application uses a React frontend, Django backend and is hosted on Azure us
 Project is created with:
 * Python
 * React
-* Django
+* Flask
 * Azure Devops
 * Terraform
 * Ansible
