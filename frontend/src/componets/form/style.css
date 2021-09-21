@@ -1,0 +1,119 @@
+.Auth {
+  margin-top: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.Auth h1 {
+  font-family: "Cera-Black", Arial, Helvetica, sans-serif;
+  font-size: 4em;
+  margin-bottom: 2em;
+  color: var(--color-primary);
+}
+
+.Auth form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 40%;
+}
+
+.Auth .two-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1em;
+}
+
+.Auth .customInput {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid var(--color-primary);
+  border-radius: 20em;
+  padding: 1em 2em;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+.Auth .customInput svg {
+  margin-right: 1em;
+}
+
+.Auth .txtInput {
+  border: none;
+  font-size: 1em;
+  outline: none;
+  width: 100%;
+}
+
+.Auth button {
+  margin-top: 4em;
+  font-family: "Cera-Bold", Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: var(--color-primary);
+  font-size: 1.2em;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1em 3em;
+  border-radius: 20em;
+  border: none;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.Auth button:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.Auth .checkboxContainer {
+  margin-top: 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+}
+
+.Auth .checkboxContainer div {
+  font-family: "Gilroy-Light", Arial, Helvetica, sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 10%;
+}
+
+.Auth .checkboxContainer .checkbox {
+  margin-right: 1em;
+}
+
+.Auth .checkboxContainer p {
+  font-family: "Gilroy-Medium", Arial, Helvetica, sans-serif;
+}
+/*# sourceMappingURL=style.css.map */
