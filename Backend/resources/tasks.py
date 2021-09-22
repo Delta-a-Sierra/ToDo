@@ -1,6 +1,6 @@
-from datetime import datetime
+# from datetime import datetime
 
-from auth import auth
+from auth import token_auth
 from flask import Blueprint, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
 from models import Task
@@ -35,7 +35,7 @@ class TaskList(Resource):
         )
         super().__init__()
 
-    @auth.login_required
+    @token_auth.login_required
     def get(self):
         task_list = Task.query.filter(Task.owner_id == g.user.id).all()
         if not task_list:

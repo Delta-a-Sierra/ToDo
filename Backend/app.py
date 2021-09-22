@@ -1,19 +1,31 @@
-from auth import auth
+from flask import Flask
+
 from config import DEBUG, HOST, PORT
-from models import db, todo_app
-from resources.tasks import tasks_api
-from resources.users import users_api
+from extensions import cors, db
+from resources import tasks, users
 
-todo_app.register_blueprint(users_api, url_prefix="/v1")
-todo_app.register_blueprint(tasks_api, url_prefix="/v1")
 
-# view to test auth
-@todo_app.route("/test")
-@auth.login_required
-def test():
-    return "Hello World!"
+def initialize_app(config="./config.py"):
+    """Initialises the app with imported extentions"""
+    todo_app = Flask(__name__)
+    todo_app.config.from_pyfile(config)
+    register_all_extensions(todo_app)
+    register_all_blueprints(todo_app)
+    todo_app.run(debug=DEBUG, host=HOST, port=PORT)
+    return todo_app
+
+
+def register_all_extensions(todo_app):
+    """Registers flask extensions"""
+    cors.init_app(todo_app)
+    db.init_app(todo_app)
+
+
+def register_all_blueprints(todo_app):
+    """Registers flask blueprints from resources import"""
+    todo_app.register_blueprint(users.users_api, url_prefix="/v1")
+    todo_app.register_blueprint(tasks.tasks_api, url_prefix="/v1")
 
 
 if __name__ == "__main__":
-    db.create_all()
-    todo_app.run(debug=DEBUG, host=HOST, port=PORT)
+    initialize_app()

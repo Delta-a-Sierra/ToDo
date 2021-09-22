@@ -1,0 +1,5 @@
+
+app_debug=         True or False
+app_host=          domain - default = 127.0.0.1
+app_port=          port - default = 5000
+db_uri=            SQLAlchemy databse uri eg. sqlite:///your_db.db

@@ -1,19 +1,11 @@
 from datetime import datetime
 
-from argon2 import PasswordHasher
-from flask import Flask
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.exc import IntegrityError
 
-HASHER = PasswordHasher()
-
-todo_app = Flask(__name__)
-CORS(todo_app)
-todo_app.config.from_pyfile("config.py")
-db = SQLAlchemy(todo_app)
+from config import HASHER, SECRET_KEY
+from extensions import db
 
 
 class User(db.Model):
@@ -54,7 +46,7 @@ class User(db.Model):
 
     @staticmethod
     def verify_auth_token(token):
-        serializer = Serializer(todo_app.secret_key)
+        serializer = Serializer(SECRET_KEY)
         try:
             data = serializer.loads(token)
         except (SignatureExpired, BadSignature):
@@ -67,13 +59,13 @@ class User(db.Model):
         return HASHER.verify(self.password, password)
 
     def generate_auth_token(self):
-        serializer = Serializer(todo_app.secret_key, expires_in=604800)
+        serializer = Serializer(SECRET_KEY, expires_in=604800)
         return serializer.dumps({"id": self.id})
 
-    def verify_admin(self):
-        if self.is_admin:
-            return True
-        return False
+    # def verify_admin(self):
+    #     if self.is_admin:
+    #         return True
+    #     return False
 
 
 class Icon(db.Model):
