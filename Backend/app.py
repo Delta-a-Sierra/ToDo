@@ -12,19 +12,18 @@ def initialize_app(config="./config.py"):
     register_all_extensions(todo_app)
     register_all_blueprints(todo_app)
     todo_app.run(debug=DEBUG, host=HOST, port=PORT)
-    return todo_app
 
 
-def register_all_extensions(todo_app):
+def register_all_extensions(app):
     """Registers flask extensions"""
-    cors.init_app(todo_app)
-    db.init_app(todo_app)
+    cors.init_app(app)
+    db.init_app(app)
 
 
-def register_all_blueprints(todo_app):
+def register_all_blueprints(app):
     """Registers flask blueprints from resources import"""
-    todo_app.register_blueprint(users.users_api, url_prefix="/v1")
-    todo_app.register_blueprint(tasks.tasks_api, url_prefix="/v1")
+    app.register_blueprint(users.users_api, url_prefix="/v1")
+    app.register_blueprint(tasks.tasks_api, url_prefix="/v1")
 
 
 if __name__ == "__main__":
