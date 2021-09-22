@@ -1,5 +1,5 @@
 .Auth {
-  margin-top: 3em;
+  margin-top: 6em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +8,7 @@
   h1 {
     font-family: "Cera-Black", Arial, Helvetica, sans-serif;
     font-size: 4em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     color: var(--color-primary);
   }
 
@@ -20,8 +20,30 @@
   }
 
   .two-col {
+    width: 100%;
     display: flex;
     gap: 1em;
+  }
+
+  .input-Container {
+    width: 100%;
+
+    .errorText {
+      width: fit-content;
+      color: red;
+      margin-left: 2em;
+      max-height: 1.2em;
+      min-height: 1.2em;
+      padding: 0 10px;
+      position: relative;
+      top: 10px;
+      background-color: white;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .invisible {
+      opacity: 0;
+    }
   }
 
   .customInput {
@@ -66,6 +88,7 @@
     margin-top: 2em;
     display: flex;
     align-items: center;
+    justify-content: centergit;
     width: 80%;
 
     div {
@@ -80,6 +103,10 @@
 
     p {
       font-family: "Gilroy-Medium", Arial, Helvetica, sans-serif;
+    }
+
+    span {
+      font-weight: bold;
     }
   }
 }

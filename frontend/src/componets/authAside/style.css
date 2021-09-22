@@ -27,6 +27,7 @@
 }
 
 .AuthAside p {
+  width: 70%;
   font-family: "Gilroy-Light", Arial, Helvetica, sans-serif;
   font-size: 1em;
   letter-spacing: 0.15em;
