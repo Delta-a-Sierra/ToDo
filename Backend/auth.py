@@ -1,3 +1,4 @@
+from argon2.exceptions import VerifyMismatchError
 from flask import g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
@@ -11,14 +12,15 @@ token_auth = HTTPTokenAuth()
 def verify_login(email, password):
     email = email.lower()
     user = User.query.filter_by(email=email).first()
-    try:
-        if not user.verify_password(password):
+    if user:
+        try:
+            user.verify_password(password)
+        except VerifyMismatchError:
             return False
-    # Throws an AttributeError if email not found
-    except AttributeError:
-        return False
-    g.user = user
-    return True
+        else:
+            g.user = user
+            return True
+    return False
 
 
 @token_auth.verify_token

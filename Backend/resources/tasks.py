@@ -5,12 +5,18 @@ from flask import Blueprint, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
 from models import Task
 
+
+class MyDateFormat(fields.Raw):
+    def format(self, value):
+        return value.strftime("%a, %d %b %Y")
+
+
 task_fields = {
     "id": fields.Integer,
     "title": fields.String,
     "description": fields.String,
-    "due_date": fields.DateTime,
-    "created_at": fields.DateTime,
+    "due_date": MyDateFormat,
+    "created_at": MyDateFormat,
 }
 
 
@@ -27,10 +33,9 @@ class TaskList(Resource):
             "description",
             location=["form", "json"],
         )
-        # type=datetime.strptime when i know input format
         self.reqparse.add_argument(
             "due_date",
-            help="Please provide a constant datetime format",
+            help="Please provide a date as dd/mm/yyyy",
             location=["form", "json"],
         )
         super().__init__()
@@ -45,6 +50,13 @@ class TaskList(Resource):
             "tasks": marshal(task_list, task_fields),
         }
         return response, 200
+
+    @token_auth.login_required
+    def post(self):
+        args = self.reqparse.parse_args()
+        Task.create_task(**args)
+        response = {"message": "Task created"}
+        return response, 201
 
 
 tasks_api = Blueprint("res_tasks", __name__)
