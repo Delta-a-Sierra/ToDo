@@ -1,49 +1,128 @@
 import "./style.css";
 import { useState } from "react";
 
-const Form = ({ title, type }) => {
-  const [form, setForm] = useState({
-    username: "",
-    password: "",
-    password2: "",
-    firstName: "",
-    lastName: "",
-  });
+const intialForm = {
+  userName: "",
+  password: "",
+  password2: "",
+  firstName: "",
+  lastName: "",
+};
 
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    password2: "",
-    tandc: "",
-  });
+const intialErrors = {
+  firstName: "",
+  lastName: "",
+  userName: "",
+  password: "",
+  password2: "",
+  tandc: "",
+};
+
+const Form = ({ title, type }) => {
+  const [form, setForm] = useState({ ...intialForm });
+
+  const [errors, setErrors] = useState({ ...intialErrors });
 
   const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: [e.target.value] });
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const validate = () => {
+    setErrors({ ...intialErrors });
+    let newErrors = { ...intialErrors };
+
+    validateName(newErrors);
+    validatePassword(newErrors);
+    validateEmail(newErrors);
+    validatePassword2(newErrors);
+
+    setErrors({ ...newErrors }, () => {
+      return !errors.active;
+    });
+  };
+
+  const validatePassword = (newErrors) => {
+    const passwordRegex =
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$";
+    const regexContainsCaps = "^(.*[A-Z]).*$";
+    const regexContainsLower = "^(.*[a-z]).*$";
+
+    if (!form.password.match(regexContainsCaps)) {
+      newErrors.password =
+        "Passwords needs to contain atleast 1 captial letter";
+      newErrors.active = true;
+    }
+
+    if (!form.password.match(regexContainsLower)) {
+      newErrors.password =
+        "Passwords needs to contain atleast 1 lowercase letter";
+      newErrors.active = true;
+    }
+  };
+
+  const validatePassword2 = (newErrors) => {
+    if (form.password !== form.password2) {
+      newErrors.password2 = "Passwords do not match";
+      newErrors.active = true;
+    }
+  };
+
+  const validateEmail = (newErrors) => {
+    const regexEmail = ".+\\@.+\\..+";
+
+    if (!form.userName.match(regexEmail)) {
+      newErrors.userName = "Please enter a valid Email";
+      newErrors.active = true;
+    }
+  };
+
+  const validateName = (newErrors) => {
+    if (!form.firstName && type === "signup") {
+      console.log("Firstname error");
+      newErrors.firstName = "A first name is required";
+      newErrors.active = true;
+    }
+    if (!form.lastName && type === "signup") {
+      console.log("lastname error");
+      newErrors.lastName = "A last name is required";
+      newErrors.active = true;
+    }
+  };
+
+  const apiCall = async (url, body) => {
+    const options = {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(body),
+      headers: {
+        "content-type": "application/json",
+      },
+    };
+    let response = await fetch(url, options);
+    return await response.json();
   };
 
   const Login = async (e) => {
     e.preventDefault();
+    console.log(type);
 
+    const url = "http://127.0.0.1:8000/v1/login";
     let user = {
       email: form.username,
       password: form.password,
     };
 
-    const url = "http://127.0.0.1:8000/v1/login";
-    const options = {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(user),
-      headers: {
-        "content-type": "application/json",
-      },
-    };
+    const valid = await validate();
 
-    let response = await fetch(url, options);
-    response = await response.json();
-    window.localStorage.setItem("token", response.token);
+    if (!valid) {
+      console.log("there were errors with the form");
+    }
+
+    if (valid) {
+      console.log("Making Api Call");
+      const response = apiCall(url, user);
+      window.localStorage.setItem("token", response.token);
+    }
   };
 
   const Signup = async (e) => {
@@ -57,19 +136,18 @@ const Form = ({ title, type }) => {
     };
 
     const url = "http://127.0.0.1:8000/v1/signup";
-    const options = {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(user),
-      headers: {
-        "content-type": "application/json",
-      },
-    };
 
-    let response = await fetch(url, options);
-    response = await response.json();
+    const valid = validate();
 
-    window.localStorage.setItem("token", response.token);
+    if (!valid) {
+      console.log("there were errors with the form");
+    }
+
+    if (valid) {
+      console.log("Making Api Call");
+      // const response = apiCall(url, user);
+      // window.localStorage.setItem("token", response.token);
+    }
   };
 
   return (
@@ -79,7 +157,13 @@ const Form = ({ title, type }) => {
         {type === "signup" ? (
           <div className="two-col">
             <div className="input-Container">
-              <p className="errorText">{errors.firstName}</p>
+              <p
+                className={
+                  errors.firstName ? "errorText" : "errorText invisible"
+                }
+              >
+                {errors.firstName}
+              </p>
               <label className="customInput" htmlFor="firstName">
                 <input
                   className="txtInput"
@@ -93,7 +177,13 @@ const Form = ({ title, type }) => {
               </label>
             </div>
             <div className="input-Container">
-              <p className="errorText">{errors.lastName}</p>
+              <p
+                className={
+                  errors.lastName ? "errorText" : "errorText invisible"
+                }
+              >
+                {errors.lastName}
+              </p>
               <label className="customInput" htmlFor="lastName">
                 <input
                   className="txtInput"
@@ -111,7 +201,9 @@ const Form = ({ title, type }) => {
           ""
         )}
         <div className="input-Container">
-          <p className="errorText">{errors.email}</p>
+          <p className={errors.userName ? "errorText" : "errorText invisible"}>
+            {errors.userName}
+          </p>
           <label className="customInput" htmlFor="username">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -133,14 +225,16 @@ const Form = ({ title, type }) => {
               id="username"
               name="username"
               onChange={(e) => onChange(e)}
-              value={form.username}
+              value={form.userName}
               placeholder="Username"
               type="email"
             />
           </label>
         </div>
         <div className="input-Container">
-          <p className="errorText">{errors.password}</p>
+          <p className={errors.password ? "errorText" : "errorText invisible"}>
+            {errors.password}
+          </p>
           <label className="customInput" htmlFor="password">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +262,11 @@ const Form = ({ title, type }) => {
         </div>
         {type === "signup" ? (
           <div className="input-Container">
-            <p className="errorText">{errors.password2}</p>
+            <p
+              className={errors.password2 ? "errorText" : "errorText invisible"}
+            >
+              {errors.password2}
+            </p>
             <label className="customInput" htmlFor="password">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
