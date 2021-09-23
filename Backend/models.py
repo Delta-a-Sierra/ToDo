@@ -23,13 +23,15 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"""User:
-        id = {self.id}
-        email = {self.email}
-        password = {self.password}
-        first_name = {self.first_name}
-        last_name = {self.last_name}
-        created_at = {self.created_at}"""
+        return f"""User(
+        id={self.id}
+        email={self.email}
+        password={self.password}
+        first_name={self.first_name}
+        last_name={self.last_name}
+        created_at={self.created_at}
+        is_admin={self.is_admin}
+        )"""
 
     @classmethod
     def create_user(cls, email, password, first_name, last_name):
@@ -79,9 +81,11 @@ class Icon(db.Model):
     svg = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f"""Icon:
-        name = {self.name}
-        svg = {self.svg}"""
+        return f"""Icon(
+        id={self.id}
+        name={self.name}
+        svg={self.svg}
+        )"""
 
 
 class TaskGroup(db.Model):
@@ -100,12 +104,13 @@ class TaskGroup(db.Model):
     icon = db.relationship("Icon", backref=db.backref("task_group"))
 
     def __repr__(self):
-        return f"""TaskGroup:
-        id = {self.id}
-        group_name = {self.group_name}
-        group_description = {self.group_description}
-        owner_id = {self.owner_id}
-        icon_id = {self.icon.id}"""
+        return f"""TaskGroup(
+        id={self.id}
+        group_name={self.group_name}
+        group_description={self.group_description}
+        owner_id={self.owner_id}
+        icon_id={self.icon.id}
+        )"""
 
 
 class Task(db.Model):
@@ -141,13 +146,11 @@ class Task(db.Model):
         return True
 
     def __repr__(self):
-        return f"""Task:
-        id = {self.id}
-        title = {self.title}
-        description = {self.description}
-        due_date = {self.due_date}
-        created_at = {self.created_at}
-        owner_id = {self.owner_id}"""
-
-
-db.create_all()
+        return f"""Task(
+        id={self.id}
+        title={self.title}
+        description={self.description}
+        due_date={self.due_date}
+        created_at={self.created_at}
+        owner_id={self.owner_id}
+        )"""
