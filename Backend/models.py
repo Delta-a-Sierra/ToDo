@@ -25,14 +25,13 @@ class User(db.Model):
 
     def __repr__(self):
         return f"""User(
-        id={self.id}
-        email={self.email}
-        password={self.password}
-        first_name={self.first_name}
-        last_name={self.last_name}
-        created_at={self.created_at}
-        is_admin={self.is_admin}
-        )"""
+            id={self.id}
+            email={self.email}
+            password={self.password}
+            first_name={self.first_name}
+            last_name={self.last_name}
+            created_at={self.created_at}
+            is_admin={self.is_admin})"""
 
     @classmethod
     def create_user(cls, email, password, first_name, last_name):
@@ -83,10 +82,9 @@ class Icon(db.Model):
 
     def __repr__(self):
         return f"""Icon(
-        id={self.id}
-        name={self.name}
-        svg={self.svg}
-        )"""
+            id={self.id}
+            name={self.name}
+            svg={self.svg})"""
 
 
 class TaskGroup(db.Model):
@@ -106,12 +104,11 @@ class TaskGroup(db.Model):
 
     def __repr__(self):
         return f"""TaskGroup(
-        id={self.id}
-        group_name={self.group_name}
-        group_description={self.group_description}
-        owner_id={self.owner_id}
-        icon_id={self.icon.id}
-        )"""
+            id={self.id}
+            group_name={self.group_name}
+            group_description={self.group_description}
+            owner_id={self.owner_id}
+            icon_id={self.icon.id})"""
 
 
 class Task(db.Model):
@@ -135,10 +132,7 @@ class Task(db.Model):
     def create_task(cls, title, description, due_date):
         owner_id = g.user.id
         if due_date:
-            try:
-                due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
-            except ValueError:
-                abort(409, message="Please provide a date as dd/mm/yyyy")
+            due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
         task = cls(
             title=title,
             description=description,
@@ -149,16 +143,14 @@ class Task(db.Model):
         db.session.commit()
         return True
 
-    def edit_task(self, title, description, due_date):
-        if due_date:
-            try:
-                self.due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
-            except ValueError:
-                abort(409, message="Please provide a date as dd/mm/yyyy")
-        if title:
-            self.title = title
-        if description:
-            self.description = description
+    def edit_task(self, **kwargs):
+        for key, value in kwargs.items():
+            if key == "due_date" and value:
+                self.due_date = datetime.strptime(
+                    kwargs.get(key), "%d/%m/%Y"
+                ).date()
+            elif value:
+                self.__setattr__(key, value)
         db.session.commit()
 
     def delete_task(self):
@@ -167,10 +159,9 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"""Task(
-        id={self.id}
-        title={self.title}
-        description={self.description}
-        due_date={self.due_date}
-        created_at={self.created_at}
-        owner_id={self.owner_id}
-        )"""
+            id={self.id}
+            title={self.title}
+            description={self.description}
+            due_date={self.due_date}
+            created_at={self.created_at}
+            owner_id={self.owner_id})"""

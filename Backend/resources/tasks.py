@@ -69,8 +69,8 @@ class TaskList(Resource):
 
     @basic_auth.login_required
     def post(self):
-        args = self.reqparse.parse_args()
-        models.Task.create_task(**args)
+        kwargs = self.reqparse.parse_args()
+        models.Task.create_task(**kwargs)
         response = {"message": "Task created"}
         return response, 201
 
@@ -106,9 +106,9 @@ class Task(Resource):
 
     @basic_auth.login_required
     def put(self, id):
-        args = self.reqparse.parse_args()
+        kwargs = self.reqparse.parse_args()
         task = task_ownership(id)
-        task.edit_task(**args)
+        task.edit_task(**kwargs)
         return {"message": "Task updated"}, 200
 
     @basic_auth.login_required
