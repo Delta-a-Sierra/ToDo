@@ -2,3 +2,6 @@ Before completion:
     
     - change back to token authentication
     - uncomment task_ownership check function
+
+    - location headers for DELETE / POST of task
+    

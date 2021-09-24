@@ -95,6 +95,7 @@ class Task(Resource):
         )
         super().__init__()
 
+    @basic_auth.login_required
     def get(self, id):
         task = task_ownership(id)
         response = {
@@ -103,12 +104,14 @@ class Task(Resource):
         }
         return response, 200
 
+    @basic_auth.login_required
     def put(self, id):
         args = self.reqparse.parse_args()
         task = task_ownership(id)
         task.edit_task(**args)
         return {"message": "Task updated"}, 200
 
+    @basic_auth.login_required
     def delete(self, id):
         task = task_ownership(id)
         task.delete_task()
