@@ -46,7 +46,7 @@
   width: 100%;
 }
 
-.Auth .input-Container .errorText {
+.Auth .errorText {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -58,11 +58,11 @@
   position: relative;
   top: 10px;
   background-color: white;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-.Auth .input-Container .invisible {
+.Auth .invisible {
   opacity: 0;
 }
 
@@ -82,6 +82,10 @@
 
 .Auth .customInput svg {
   margin-right: 1em;
+}
+
+.Auth .errorInput {
+  border: 2px solid rgba(221, 53, 53, 0.767);
 }
 
 .Auth .txtInput {
@@ -117,6 +121,10 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

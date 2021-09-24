@@ -27,25 +27,24 @@
 
   .input-Container {
     width: 100%;
-
-    .errorText {
-      width: fit-content;
-      color: rgba(221, 53, 53, 0.767);
-      margin-left: 1em;
-      max-height: 1.2em;
-      min-height: 1.2em;
-      padding: 0 10px;
-      position: relative;
-      top: 10px;
-      background-color: white;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .invisible {
-      opacity: 0;
-    }
   }
 
+  .errorText {
+    width: fit-content;
+    color: rgba(221, 53, 53, 0.767);
+    margin-left: 1em;
+    max-height: 1.2em;
+    min-height: 1.2em;
+    padding: 0 10px;
+    position: relative;
+    top: 10px;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .invisible {
+    opacity: 0;
+  }
   .customInput {
     display: flex;
     align-items: center;
@@ -58,6 +57,10 @@
     svg {
       margin-right: 1em;
     }
+  }
+
+  .errorInput {
+    border: 2px solid rgba(221, 53, 53, 0.767);
   }
 
   .txtInput {
@@ -87,6 +90,7 @@
   .checkboxContainer {
     margin-top: 2em;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: centergit;
     width: 80%;

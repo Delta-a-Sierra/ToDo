@@ -7,6 +7,8 @@ const intialForm = {
   password2: "",
   firstName: "",
   lastName: "",
+  tandc: false,
+  rememmberMe: false,
 };
 
 const intialErrors = {
@@ -16,6 +18,7 @@ const intialErrors = {
   password: "",
   password2: "",
   tandc: "",
+  active: false,
 };
 
 const Form = ({ title, type }) => {
@@ -23,29 +26,73 @@ const Form = ({ title, type }) => {
 
   const [errors, setErrors] = useState({ ...intialErrors });
 
+  // ------------------------- Form update functions -------------------------
+
+  //#region Form Update Function
+
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
+  const toggleCheckBox = (e) => {
+    setForm({ ...form, [e.target.name]: !form[e.target.name] });
+  };
+  //#endregion
+
+  //#region Form Validation functions
+  let newErrors = { ...intialErrors };
+
+  const resetErrors = () => {
     setErrors({ ...intialErrors });
-    let newErrors = { ...intialErrors };
+  };
 
-    validateName(newErrors);
-    validatePassword(newErrors);
-    validateEmail(newErrors);
-    validatePassword2(newErrors);
+  const validateName = (newErrors) => {
+    if (!form.firstName && type === "signup") {
+      console.log("Firstname error");
+      newErrors.firstName = "A first name is required";
+      newErrors.active = true;
+    }
+    if (!form.lastName && type === "signup") {
+      newErrors.lastName = "A last name is required";
+      newErrors.active = true;
+    }
+  };
 
-    setErrors({ ...newErrors }, () => {
-      return !errors.active;
-    });
+  const validateEmail = (newErrors) => {
+    const regexEmail = ".+\\@.+\\..+";
+
+    if (!form.userName.match(regexEmail)) {
+      newErrors.userName = "Please enter a valid Email";
+      newErrors.active = true;
+    }
   };
 
   const validatePassword = (newErrors) => {
-    const passwordRegex =
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$";
     const regexContainsCaps = "^(.*[A-Z]).*$";
     const regexContainsLower = "^(.*[a-z]).*$";
+    const regexContainsNumber = "^(.*[0-9]).*$";
+    const regexContainsSpecial = "^(.*[!@#$%^&*_=+-]).*$";
+
+    if (form.password.length < 6) {
+      newErrors.password = "Passwords needs to be atleast 6 letters long";
+      newErrors.active = true;
+    }
+
+    if (form.password.length > 20) {
+      newErrors.password = "Passwords cannot be longer than 20 letters";
+      newErrors.active = true;
+    }
+
+    if (!form.password.match(regexContainsSpecial)) {
+      newErrors.password =
+        "Passwords needs to contain atleast 1 special character";
+      newErrors.active = true;
+    }
+
+    if (!form.password.match(regexContainsNumber)) {
+      newErrors.password = "Passwords needs to contain atleast 1 number";
+      newErrors.active = true;
+    }
 
     if (!form.password.match(regexContainsCaps)) {
       newErrors.password =
@@ -65,29 +112,31 @@ const Form = ({ title, type }) => {
       newErrors.password2 = "Passwords do not match";
       newErrors.active = true;
     }
-  };
 
-  const validateEmail = (newErrors) => {
-    const regexEmail = ".+\\@.+\\..+";
-
-    if (!form.userName.match(regexEmail)) {
-      newErrors.userName = "Please enter a valid Email";
+    if (!form.password) {
+      newErrors.password2 = "Confirming password is required";
       newErrors.active = true;
     }
   };
 
-  const validateName = (newErrors) => {
-    if (!form.firstName && type === "signup") {
-      console.log("Firstname error");
-      newErrors.firstName = "A first name is required";
-      newErrors.active = true;
-    }
-    if (!form.lastName && type === "signup") {
-      console.log("lastname error");
-      newErrors.lastName = "A last name is required";
+  const ValidatTandC = (newErrors) => {
+    if (!form.tandc) {
+      newErrors.tandc = "Please Agree to terms and conditions";
       newErrors.active = true;
     }
   };
+
+  const validateAll = (newErrors) => {
+    resetErrors();
+    validateName(newErrors);
+    validatePassword(newErrors);
+    validateEmail(newErrors);
+    validatePassword2(newErrors);
+    ValidatTandC(newErrors);
+  };
+  //#endregion
+
+  //#region API Functions
 
   const apiCall = async (url, body) => {
     const options = {
@@ -112,14 +161,12 @@ const Form = ({ title, type }) => {
       password: form.password,
     };
 
-    const valid = await validate();
-
-    if (!valid) {
-      console.log("there were errors with the form");
-    }
+    validateAll(newErrors);
+    const valid = setErrors({ ...newErrors }, () => {
+      return !errors.active;
+    });
 
     if (valid) {
-      console.log("Making Api Call");
       const response = apiCall(url, user);
       window.localStorage.setItem("token", response.token);
     }
@@ -137,18 +184,19 @@ const Form = ({ title, type }) => {
 
     const url = "http://127.0.0.1:8000/v1/signup";
 
-    const valid = validate();
-
-    if (!valid) {
-      console.log("there were errors with the form");
-    }
-
+    validateAll(newErrors);
+    setErrors({ ...newErrors });
+    const valid = !newErrors.active;
+    console.log(newErrors);
     if (valid) {
       console.log("Making Api Call");
-      // const response = apiCall(url, user);
-      // window.localStorage.setItem("token", response.token);
+      const response = apiCall(url, user);
+      if (resetErrors.status === "2000") {
+        window.localStorage.setItem("token", response.token);
+      }
     }
   };
+  //#endregion
 
   return (
     <div className="Auth">
@@ -164,7 +212,12 @@ const Form = ({ title, type }) => {
               >
                 {errors.firstName}
               </p>
-              <label className="customInput" htmlFor="firstName">
+              <label
+                className={
+                  errors.firstName ? "customInput errorInput" : "customInput"
+                }
+                htmlFor="firstName"
+              >
                 <input
                   className="txtInput"
                   id="firstName"
@@ -184,7 +237,12 @@ const Form = ({ title, type }) => {
               >
                 {errors.lastName}
               </p>
-              <label className="customInput" htmlFor="lastName">
+              <label
+                className={
+                  errors.lastName ? "customInput errorInput" : "customInput"
+                }
+                htmlFor="lastName"
+              >
                 <input
                   className="txtInput"
                   id="lastName"
@@ -204,7 +262,12 @@ const Form = ({ title, type }) => {
           <p className={errors.userName ? "errorText" : "errorText invisible"}>
             {errors.userName}
           </p>
-          <label className="customInput" htmlFor="username">
+          <label
+            className={
+              errors.userName ? "customInput errorInput" : "customInput"
+            }
+            htmlFor="username"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -222,8 +285,8 @@ const Form = ({ title, type }) => {
 
             <input
               className="txtInput"
-              id="username"
-              name="username"
+              id="userName"
+              name="userName"
               onChange={(e) => onChange(e)}
               value={form.userName}
               placeholder="Username"
@@ -235,7 +298,12 @@ const Form = ({ title, type }) => {
           <p className={errors.password ? "errorText" : "errorText invisible"}>
             {errors.password}
           </p>
-          <label className="customInput" htmlFor="password">
+          <label
+            className={
+              errors.password ? "customInput errorInput" : "customInput"
+            }
+            htmlFor="password"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -267,7 +335,12 @@ const Form = ({ title, type }) => {
             >
               {errors.password2}
             </p>
-            <label className="customInput" htmlFor="password">
+            <label
+              className={
+                errors.password2 ? "customInput errorInput" : "customInput"
+              }
+              htmlFor="password"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -300,15 +373,19 @@ const Form = ({ title, type }) => {
           <div className="checkboxContainer">
             <div>
               <input
+                onClick={(e) => toggleCheckBox(e)}
                 className="checkbox"
                 type="checkbox"
-                name="rememberMe"
-                id="rememmberMe"
+                name="tandc"
+                id="tandc"
               />
               <label htmlFor="rememberMe">
                 I agree with <span>Privacy</span> and <span>Policy</span>
               </label>
             </div>
+            <p className={!form.tandc ? "errorText" : "errorText invisible"}>
+              {errors.tandc}
+            </p>
           </div>
         ) : (
           <div className="checkboxContainer">
