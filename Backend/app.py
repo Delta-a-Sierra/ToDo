@@ -1,23 +1,20 @@
-from flask import Flask
+from flask_cors import CORS
 
 from config import DEBUG, HOST, PORT
-from extensions import cors, db
+from models import app, db
 from resources import tasks, users
 
 
-def initialize_app(config="./config.py"):
+def initialize_app(app):
     """Initialises the app with imported extentions"""
-    todo_app = Flask(__name__)
-    todo_app.config.from_pyfile(config)
-    register_all_extensions(todo_app)
-    register_all_blueprints(todo_app)
-    todo_app.run(debug=DEBUG, host=HOST, port=PORT)
+    register_all_extensions(app)
+    register_all_blueprints(app)
+    return app
 
 
 def register_all_extensions(app):
     """Registers flask extensions"""
-    cors.init_app(app)
-    db.init_app(app)
+    CORS(app)
 
 
 def register_all_blueprints(app):
@@ -27,4 +24,6 @@ def register_all_blueprints(app):
 
 
 if __name__ == "__main__":
-    initialize_app()
+    app = initialize_app(app)
+    db.create_all()
+    app.run(debug=DEBUG, host=HOST, port=PORT)
