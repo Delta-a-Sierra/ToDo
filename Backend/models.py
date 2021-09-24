@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import Flask, g
+from flask_restful import abort
 from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -134,7 +135,10 @@ class Task(db.Model):
     def create_task(cls, title, description, due_date):
         owner_id = g.user.id
         if due_date:
-            due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
+            try:
+                due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
+            except ValueError:
+                abort(409, message="Please provide a date as dd/mm/yyyy")
         task = cls(
             title=title,
             description=description,
@@ -144,6 +148,22 @@ class Task(db.Model):
         db.session.add(task)
         db.session.commit()
         return True
+
+    def edit_task(self, title, description, due_date):
+        if due_date:
+            try:
+                self.due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
+            except ValueError:
+                abort(409, message="Please provide a date as dd/mm/yyyy")
+        if title:
+            self.title = title
+        if description:
+            self.description = description
+        db.session.commit()
+
+    def delete_task(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         return f"""Task(

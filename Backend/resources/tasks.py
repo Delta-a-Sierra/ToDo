@@ -1,9 +1,21 @@
-# from datetime import datetime
-
 import models
-from auth import token_auth
+from auth import (
+    basic_auth,
+    token_auth,
+)  # TODO: CHANGE FROM BASIC TO TOKEN AUTH
 from flask import Blueprint, abort, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
+
+
+def task_ownership(id):
+    """Attempts to retrieve task by id, then checks owner_id foreign key"""
+    task = models.Task.query.get(id)
+    if not task:
+        abort(404)
+    # elif not task.owner_id == g.user.id:
+    #     abort(401)
+    else:
+        return task
 
 
 class MyDateFormat(fields.Raw):
@@ -42,7 +54,7 @@ class TaskList(Resource):
         )
         super().__init__()
 
-    @token_auth.login_required
+    @basic_auth.login_required
     def get(self):
         task_list = models.Task.query.filter(
             models.Task.owner_id == g.user.id
@@ -55,7 +67,7 @@ class TaskList(Resource):
         }
         return response, 200
 
-    @token_auth.login_required
+    @basic_auth.login_required
     def post(self):
         args = self.reqparse.parse_args()
         models.Task.create_task(**args)
@@ -66,22 +78,41 @@ class TaskList(Resource):
 class Task(Resource):
     """task resource"""
 
-    # todo: test get task id with wrong foreign key
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            "title",
+            location=["form", "json"],
+        )
+        self.reqparse.add_argument(
+            "description",
+            location=["form", "json"],
+        )
+        self.reqparse.add_argument(
+            "due_date",
+            help="Please provide a date as dd/mm/yyyy",
+            location=["form", "json"],
+        )
+        super().__init__()
+
     def get(self, id):
-        task = models.Task.query.get(id)
-        if not task:
-            abort(404)
+        task = task_ownership(id)
         response = {
             "message": "Retrieved Task",
             "task": marshal(task, task_fields),
         }
         return response, 200
 
-    # def put(self, id):
-    #     pass
+    def put(self, id):
+        args = self.reqparse.parse_args()
+        task = task_ownership(id)
+        task.edit_task(**args)
+        return {"message": "Task updated"}, 200
 
-    # def delete(self, id):
-    #     pass
+    def delete(self, id):
+        task = task_ownership(id)
+        task.delete_task()
+        return {"message": "Task deleted"}, 200
 
 
 tasks_api = Blueprint("res_tasks", __name__)
