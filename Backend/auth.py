@@ -12,15 +12,16 @@ token_auth = HTTPTokenAuth()
 def verify_login(email, password):
     email = email.lower()
     user = User.query.filter_by(email=email).first()
-    if user:
-        try:
-            user.verify_password(password)
-        except VerifyMismatchError:
-            return False
-        else:
-            g.user = user
-            return True
-    return False
+    if not user:
+        return False
+    try:
+        user.verify_password(password)
+    except VerifyMismatchError:
+        return False
+    else:
+        g.user = user
+        return True
+
 
 
 @token_auth.verify_token
