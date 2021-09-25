@@ -67,8 +67,8 @@ class UserLogin(Resource):
         super().__init__()
 
     def post(self):
-        args = self.reqparse.parse_args()
-        if verify_login(**args):
+        kwargs = self.reqparse.parse_args()
+        if verify_login(**kwargs):
             token = g.user.generate_auth_token()
             response = {
                 "message": "Login Successful",

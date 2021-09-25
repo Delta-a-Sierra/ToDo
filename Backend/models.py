@@ -57,10 +57,18 @@ class User(db.Model):
         try:
             data = serializer.loads(token)
         except (SignatureExpired, BadSignature):
-            return None
+            return False
         else:
             user = User.query.filter_by(id=data["id"]).first()
             return user
+
+    @staticmethod
+    def verify_email(email):
+        email = email.lower()
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return user
+        return False
 
     def verify_password(self, password):
         return HASHER.verify(self.password, password)
@@ -99,7 +107,7 @@ class TaskGroup(db.Model):
         "User", backref=db.backref("task_groups", cascade="all, delete-orphan")
     )
 
-    icon_id = db.Column(db.ForeignKey("icon.id"))
+    icon_id = db.Column(db.ForeignKey("icon.id"), default=1)
     icon = db.relationship("Icon", backref=db.backref("task_group"))
 
     def __repr__(self):
