@@ -1,14 +1,14 @@
+from os import environ
 from secrets import token_urlsafe
 
-from environ import Env
+from dotenv import find_dotenv, load_dotenv
 
-env = Env()
-env.read_env()
+load_dotenv(find_dotenv())
 
-SQLALCHEMY_DATABASE_URI = env("db_uri")
+SQLALCHEMY_DATABASE_URI = environ.get("db_uri")
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SECRET_KEY = token_urlsafe(24)
 
-DEBUG = env("app_debug")
-HOST = env("app_host")
-PORT = env("app_port")
+DEBUG = environ.get("app_debug")
+HOST = environ.get("app_host")
+PORT = environ.get("app_port")
