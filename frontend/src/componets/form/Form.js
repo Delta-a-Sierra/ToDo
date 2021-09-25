@@ -1,6 +1,7 @@
 import "./style.css";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { AuthContext } from "../../util/contexts/AuthContext";
 
 const intialForm = {
   userName: "",
@@ -26,6 +27,8 @@ const Form = ({ title, type }) => {
   const [form, setForm] = useState({ ...intialForm });
   const [errors, setErrors] = useState({ ...intialErrors });
   const [rememberedUser, setRememberedUser] = useState("");
+
+  const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   // ------------------------- Form update functions -------------------------
 
@@ -162,6 +165,7 @@ const Form = ({ title, type }) => {
     if (response.status === 200 || response.status === 201) {
       response = await response.json();
       window.localStorage.setItem("token", response.token);
+      setAuthenticated(true);
     } else {
       response = await response.json();
     }
@@ -206,6 +210,10 @@ const Form = ({ title, type }) => {
     }
   };
   //#endregion
+
+  if (authenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="Auth">
