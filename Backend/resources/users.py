@@ -1,5 +1,6 @@
 import models
-from auth import auth, verify_login
+from auth import verify_login
+from extensions import auth
 from flask import Blueprint, abort, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
 

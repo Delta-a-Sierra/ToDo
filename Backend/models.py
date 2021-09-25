@@ -1,17 +1,13 @@
 from datetime import datetime
 
-from flask import Flask, g
+from flask import g
 from flask_restful import abort
-from flask_sqlalchemy import SQLAlchemy
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.exc import IntegrityError
 
 from config import HASHER, SECRET_KEY
-
-app = Flask(__name__)
-app.config.from_pyfile("config.py")
-db = SQLAlchemy(app)
+from extensions import db
 
 
 class User(db.Model):

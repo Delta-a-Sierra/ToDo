@@ -1,12 +1,14 @@
-from flask_cors import CORS
+from flask import Flask
 
 from config import DEBUG, HOST, PORT
-from models import app, db
+from extensions import cors, db
 from resources import icons, tasks, users
 
 
-def initialize_app(app):
+def initialize_app():
     """Initialises the app with imported extentions"""
+    app = Flask(__name__)
+    app.config.from_pyfile("config.py")
     register_all_extensions(app)
     register_all_blueprints(app)
     return app
@@ -14,7 +16,8 @@ def initialize_app(app):
 
 def register_all_extensions(app):
     """Registers flask extensions"""
-    CORS(app)
+    db.init_app(app)
+    cors.init_app(app)
 
 
 def register_all_blueprints(app):
@@ -26,6 +29,7 @@ def register_all_blueprints(app):
 
 # ! CHANGE TO TOKEN AUTH
 if __name__ == "__main__":
-    app = initialize_app(app)
-    db.create_all()
+    app = initialize_app()
+    with app.app_context():
+        db.create_all()
     app.run(debug=DEBUG, host=HOST, port=PORT)

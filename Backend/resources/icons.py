@@ -1,5 +1,5 @@
 import models
-from auth import auth
+from extensions import auth
 from flask import Blueprint, abort, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
 
@@ -30,7 +30,7 @@ class IconList(Resource):
     def get(self):
         icon_list = models.Icon.query.all()
         if not icon_list:
-            return "", 204
+            abort(204)
         response = {
             "message": "Retrieved all icons",
             "icons": marshal(icon_list, icon_fields),
