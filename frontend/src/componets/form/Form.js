@@ -9,7 +9,7 @@ const intialForm = {
   firstName: "",
   lastName: "",
   tandc: false,
-  rememmberMe: false,
+  rememberMe: false,
 };
 
 const intialErrors = {
@@ -24,8 +24,8 @@ const intialErrors = {
 
 const Form = ({ title, type }) => {
   const [form, setForm] = useState({ ...intialForm });
-
   const [errors, setErrors] = useState({ ...intialErrors });
+  const [rememberedUser, setRememberedUser] = useState("");
 
   // ------------------------- Form update functions -------------------------
 
@@ -40,16 +40,26 @@ const Form = ({ title, type }) => {
   };
   //#endregion
 
-  //#region Form Validation functions
+  useEffect(() => {
+    if (rememberedUser) {
+      window.localStorage.setItem("username", rememberedUser);
+    } else {
+      if (type === "login") {
+        const username = window.localStorage.getItem("username") || "";
+        setForm({ ...form, userName: username });
+      }
+    }
+  }, [rememberedUser]);
+
   let newErrors = { ...intialErrors };
 
+  //#region validation
   const resetErrors = () => {
     setErrors({ ...intialErrors });
   };
 
   const validateName = (newErrors) => {
     if (!form.firstName && type === "signup") {
-      console.log("Firstname error");
       newErrors.firstName = "Required";
       newErrors.active = true;
     }
@@ -151,21 +161,14 @@ const Form = ({ title, type }) => {
     let response = await fetch(url, options);
     if (response.status === 200 || response.status === 201) {
       response = await response.json();
-      console.log(response);
       window.localStorage.setItem("token", response.token);
-      if (form.rememmberMe) {
-        window.localStorage.setItem("username", form.userName);
-      }
     } else {
       response = await response.json();
-      console.error(response);
     }
   };
 
   const Login = async (e) => {
     e.preventDefault();
-    console.log(type);
-
     const url = "http://127.0.0.1:8000/v1/login";
     let user = {
       email: form.userName,
@@ -175,10 +178,11 @@ const Form = ({ title, type }) => {
     validateAll(newErrors);
     setErrors({ ...newErrors });
     const valid = !newErrors.active;
-    console.log(newErrors);
     if (valid) {
-      console.log("Making Api Call");
       apiCall(url, user);
+      if (form.rememberMe) {
+        setRememberedUser(form.userName);
+      }
     }
   };
 
@@ -197,9 +201,7 @@ const Form = ({ title, type }) => {
     validateAll(newErrors);
     setErrors({ ...newErrors });
     const valid = !newErrors.active;
-    console.log(newErrors);
     if (valid) {
-      console.log("Making Api Call");
       apiCall(url, user);
     }
   };
