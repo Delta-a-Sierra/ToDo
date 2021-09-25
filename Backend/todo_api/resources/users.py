@@ -1,8 +1,10 @@
-import models
-from auth import verify_login
-from extensions import auth
-from flask import Blueprint, abort, g
-from flask_restful import Api, Resource, fields, marshal, reqparse
+from flask import g
+from flask_restful import Resource, fields, marshal, reqparse
+
+from .. import models
+from ..auth import verify_login
+from ..extensions import auth
+from ..utils import json_abort
 
 user_fields = {
     "email": fields.String,
@@ -92,16 +94,9 @@ class UserList(Resource):
         g.user.verify_admin()
         user_list = models.User.query.all()
         if not user_list:
-            abort(204)
+            json_abort(204)
         response = {
             "message": "Retrieved all users",
             "users": marshal(user_list, user_fields),
         }
         return response, 200
-
-
-users_api = Blueprint("res_users", __name__)
-api = Api(users_api)
-api.add_resource(UserSignup, "/signup", endpoint="signup")
-api.add_resource(UserLogin, "/login", endpoint="login")
-api.add_resource(UserList, "/users", endpoint="users")

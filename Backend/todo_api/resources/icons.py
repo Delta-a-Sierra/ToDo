@@ -1,7 +1,9 @@
-import models
-from extensions import auth
-from flask import Blueprint, abort, g
-from flask_restful import Api, Resource, fields, marshal, reqparse
+from flask import g
+from flask_restful import Resource, fields, marshal, reqparse
+
+from .. import models
+from ..extensions import auth
+from ..utils import json_abort
 
 icon_fields = {
     "id": fields.Integer,
@@ -30,7 +32,7 @@ class IconList(Resource):
     def get(self):
         icon_list = models.Icon.query.all()
         if not icon_list:
-            abort(204)
+            json_abort(204)
         response = {
             "message": "Retrieved all icons",
             "icons": marshal(icon_list, icon_fields),
@@ -61,9 +63,3 @@ class Icon(Resource):
         icon = models.Icon.query.get_or_404(id)
         icon.delete_icon()
         return {"message": "Icon deleted"}, 200
-
-
-icons_api = Blueprint("res_icons", __name__)
-api = Api(icons_api)
-api.add_resource(IconList, "/icons", endpoint="icons")
-api.add_resource(Icon, "/icons/<int:id>", endpoint="icon")

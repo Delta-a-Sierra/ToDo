@@ -1,8 +1,8 @@
 from argon2.exceptions import VerifyMismatchError
 from flask import g
 
-from extensions import basic_auth, token_auth
-from models import User
+from .extensions import basic_auth, token_auth
+from .models import User
 
 
 @basic_auth.verify_password

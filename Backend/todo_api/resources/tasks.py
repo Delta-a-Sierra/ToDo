@@ -1,34 +1,17 @@
-import models
-from extensions import auth
-from flask import Blueprint, abort, g
-from flask_restful import Api, Resource, fields, marshal, reqparse
+from flask import g
+from flask_restful import Resource, fields, marshal, reqparse
 
-
-class MyDateFormat(fields.Raw):
-    """class for marshalling datetimes"""
-
-    def format(self, value):
-        return value.strftime("%a, %d %b %Y")
-
+from .. import models
+from ..extensions import auth
+from ..utils import CustomDateFormat, get_task
 
 task_fields = {
     "id": fields.Integer,
     "title": fields.String,
     "description": fields.String,
-    "due_date": MyDateFormat,
-    "created_at": MyDateFormat,
+    "due_date": CustomDateFormat,
+    "created_at": CustomDateFormat,
 }
-
-
-def task_ownership(id):
-    """Attempts to retrieve task by id, then checks owner_id foreign key"""
-    task = models.Task.query.get(id)
-    if not task:
-        abort(404)
-    elif not task.owner_id == g.user.id:
-        abort(401)
-    else:
-        return task
 
 
 class TaskList(Resource):
@@ -94,7 +77,7 @@ class Task(Resource):
 
     @auth.login_required
     def get(self, id):
-        task = task_ownership(id)
+        task = get_task(id)
         response = {
             "message": "Retrieved Task",
             "task": marshal(task, task_fields),
@@ -104,18 +87,12 @@ class Task(Resource):
     @auth.login_required
     def put(self, id):
         kwargs = self.reqparse.parse_args()
-        task = task_ownership(id)
+        task = get_task(id)
         task.edit_task(**kwargs)
         return {"message": "Task updated"}, 200
 
     @auth.login_required
     def delete(self, id):
-        task = task_ownership(id)
+        task = get_task(id)
         task.delete_task()
         return {"message": "Task deleted"}, 200
-
-
-tasks_api = Blueprint("res_tasks", __name__)
-api = Api(tasks_api)
-api.add_resource(TaskList, "/tasks", endpoint="tasks")
-api.add_resource(Task, "/tasks/<int:id>", endpoint="task")

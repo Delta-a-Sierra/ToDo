@@ -1,13 +1,13 @@
 from datetime import datetime
 
 from flask import g
-from flask_restful import abort
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.exc import IntegrityError
 
-from config import SECRET_KEY
-from extensions import HASHER, db
+from .config import SECRET_KEY
+from .extensions import HASHER, db
+from .utils import json_abort
 
 
 class User(db.Model):
@@ -76,7 +76,7 @@ class User(db.Model):
     def verify_admin(self):
         if self.is_admin:
             return True
-        abort(401, message="Unauthorized Access: Not Admin")
+        json_abort(401, message="Unauthorized Access: Not Admin")
 
 
 class Icon(db.Model):

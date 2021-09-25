@@ -7,6 +7,7 @@ load_dotenv(find_dotenv())
 
 SQLALCHEMY_DATABASE_URI = environ.get("db_uri")
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 SECRET_KEY = token_urlsafe(24)
 
 DEBUG = environ.get("app_debug")

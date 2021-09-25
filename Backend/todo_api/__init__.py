@@ -1,8 +1,9 @@
+"""Factory for initalizing app"""
 from flask import Flask
 
-from config import DEBUG, HOST, PORT
-from extensions import cors, db
-from resources import icons, tasks, users
+from .config import DEBUG, HOST, PORT
+from .extensions import cors, db
+from .resources import icons_api, tasks_api, users_api
 
 
 def initialize_app():
@@ -22,13 +23,12 @@ def register_all_extensions(app):
 
 def register_all_blueprints(app):
     """Registers flask blueprints from resources import"""
-    app.register_blueprint(users.users_api, url_prefix="/v1")
-    app.register_blueprint(tasks.tasks_api, url_prefix="/v1")
-    app.register_blueprint(icons.icons_api, url_prefix="/v1")
+    app.register_blueprint(users_api(), url_prefix="/v1")
+    app.register_blueprint(tasks_api(), url_prefix="/v1")
+    app.register_blueprint(icons_api(), url_prefix="/v1")
 
 
-# ! CHANGE TO TOKEN AUTH
-if __name__ == "__main__":
+def run():
     app = initialize_app()
     with app.app_context():
         db.create_all()
