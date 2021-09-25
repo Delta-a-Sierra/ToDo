@@ -6,8 +6,8 @@ from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.exc import IntegrityError
 
-from config import HASHER, SECRET_KEY
-from extensions import db
+from config import SECRET_KEY
+from extensions import HASHER, db
 
 
 class User(db.Model):

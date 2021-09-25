@@ -1,6 +1,5 @@
 from secrets import token_urlsafe
 
-from argon2 import PasswordHasher
 from environ import Env
 
 env = Env()
@@ -13,5 +12,3 @@ SECRET_KEY = token_urlsafe(24)
 DEBUG = env("app_debug")
 HOST = env("app_host")
 PORT = env("app_port")
-
-HASHER = PasswordHasher()
