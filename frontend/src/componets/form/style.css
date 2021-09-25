@@ -1,5 +1,5 @@
 .Auth {
-  margin-top: 6em;
+  margin-top: 4em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -16,7 +16,7 @@
 .Auth h1 {
   font-family: "Cera-Black", Arial, Helvetica, sans-serif;
   font-size: 4em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   color: var(--color-primary);
 }
 
@@ -96,7 +96,7 @@
 }
 
 .Auth button {
-  margin-top: 4em;
+  margin-top: 2em;
   font-family: "Cera-Bold", Arial, Helvetica, sans-serif;
   color: white;
   background-color: var(--color-primary);
@@ -117,7 +117,7 @@
 }
 
 .Auth .checkboxContainer {
-  margin-top: 2em;
+  margin-top: 1em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -145,6 +145,10 @@
   margin-right: 10%;
 }
 
+.Auth .checkboxContainer div p {
+  margin-left: 1em;
+}
+
 .Auth .checkboxContainer .checkbox {
   margin-right: 1em;
 }
@@ -155,5 +159,35 @@
 
 .Auth .checkboxContainer span {
   font-weight: bold;
+}
+
+.Auth .login-signup-txt {
+  display: none;
+}
+
+@media screen and (max-width: 485px) {
+  .Auth form {
+    width: 90%;
+    height: 100%;
+  }
+  .Auth .checkboxContainer {
+    width: 100%;
+  }
+  .Auth .errorText {
+    font-size: 1em;
+  }
+  .Auth .login-signup-txt {
+    font-family: "Gilroy-Light", Arial, Helvetica, sans-serif;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    display: block;
+    margin-bottom: 2em;
+    text-decoration: none;
+    color: var(--color-primary);
+  }
+  .Auth .login-signup-txt span {
+    font-weight: bold;
+  }
 }
 /*# sourceMappingURL=style.css.map */

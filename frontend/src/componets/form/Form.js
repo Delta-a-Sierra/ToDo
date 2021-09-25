@@ -1,5 +1,6 @@
 import "./style.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const intialForm = {
   userName: "",
@@ -49,11 +50,11 @@ const Form = ({ title, type }) => {
   const validateName = (newErrors) => {
     if (!form.firstName && type === "signup") {
       console.log("Firstname error");
-      newErrors.firstName = "A first name is required";
+      newErrors.firstName = "Required";
       newErrors.active = true;
     }
     if (!form.lastName && type === "signup") {
-      newErrors.lastName = "A last name is required";
+      newErrors.lastName = "Required";
       newErrors.active = true;
     }
   };
@@ -74,7 +75,7 @@ const Form = ({ title, type }) => {
     const regexContainsSpecial = "^(.*[!@#$%^&*_=+-]).*$";
 
     if (form.password.length < 6) {
-      newErrors.password = "Passwords needs to be atleast 6 letters long";
+      newErrors.password = "Passwords must be atleast 6 letters long";
       newErrors.active = true;
     }
 
@@ -84,25 +85,22 @@ const Form = ({ title, type }) => {
     }
 
     if (!form.password.match(regexContainsSpecial)) {
-      newErrors.password =
-        "Passwords needs to contain atleast 1 special character";
+      newErrors.password = "Passwords must contain 1 special character";
       newErrors.active = true;
     }
 
     if (!form.password.match(regexContainsNumber)) {
-      newErrors.password = "Passwords needs to contain atleast 1 number";
+      newErrors.password = "Passwords must contain 1 number";
       newErrors.active = true;
     }
 
     if (!form.password.match(regexContainsCaps)) {
-      newErrors.password =
-        "Passwords needs to contain atleast 1 captial letter";
+      newErrors.password = "Passwords must contain 1 captial letter";
       newErrors.active = true;
     }
 
     if (!form.password.match(regexContainsLower)) {
-      newErrors.password =
-        "Passwords needs to contain atleast 1 lowercase letter";
+      newErrors.password = "Passwords must contain 1 lowercase letter";
       newErrors.active = true;
     }
   };
@@ -128,11 +126,14 @@ const Form = ({ title, type }) => {
 
   const validateAll = (newErrors) => {
     resetErrors();
-    validateName(newErrors);
     validatePassword(newErrors);
     validateEmail(newErrors);
-    validatePassword2(newErrors);
-    ValidatTandC(newErrors);
+
+    if (type === "signup") {
+      validateName(newErrors);
+      validatePassword2(newErrors);
+      ValidatTandC(newErrors);
+    }
   };
   //#endregion
 
@@ -148,7 +149,17 @@ const Form = ({ title, type }) => {
       },
     };
     let response = await fetch(url, options);
-    return await response.json();
+    if (response.status === 200 || response.status === 201) {
+      response = await response.json();
+      console.log(response);
+      window.localStorage.setItem("token", response.token);
+      if (form.rememmberMe) {
+        window.localStorage.setItem("username", form.userName);
+      }
+    } else {
+      response = await response.json();
+      console.error(response);
+    }
   };
 
   const Login = async (e) => {
@@ -157,18 +168,17 @@ const Form = ({ title, type }) => {
 
     const url = "http://127.0.0.1:8000/v1/login";
     let user = {
-      email: form.username,
+      email: form.userName,
       password: form.password,
     };
 
     validateAll(newErrors);
-    const valid = setErrors({ ...newErrors }, () => {
-      return !errors.active;
-    });
-
+    setErrors({ ...newErrors });
+    const valid = !newErrors.active;
+    console.log(newErrors);
     if (valid) {
-      const response = apiCall(url, user);
-      window.localStorage.setItem("token", response.token);
+      console.log("Making Api Call");
+      apiCall(url, user);
     }
   };
 
@@ -190,10 +200,7 @@ const Form = ({ title, type }) => {
     console.log(newErrors);
     if (valid) {
       console.log("Making Api Call");
-      const response = apiCall(url, user);
-      if (resetErrors.status === "2000") {
-        window.localStorage.setItem("token", response.token);
-      }
+      apiCall(url, user);
     }
   };
   //#endregion
@@ -391,20 +398,29 @@ const Form = ({ title, type }) => {
           <div className="checkboxContainer">
             <div>
               <input
+                onClick={(e) => toggleCheckBox(e)}
                 className="checkbox"
                 type="checkbox"
                 name="rememberMe"
                 id="rememmberMe"
               />
               <label htmlFor="rememberMe">Remember Me</label>
+              <p>Forgot Password ? </p>
             </div>
-
-            <p>Forgot Password ? </p>
           </div>
         )}
 
         <button onClick={type === "signup" ? Signup : Login}>{title}</button>
       </form>
+      {type === "signup" ? (
+        <Link to="/login" className="login-signup-txt">
+          Already Have an Account? <span>Login</span>
+        </Link>
+      ) : (
+        <Link to="/Signup" className="login-signup-txt">
+          Create an Account? <span>Signup</span>
+        </Link>
+      )}
     </div>
   );
 };
