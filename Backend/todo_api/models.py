@@ -73,11 +73,6 @@ class User(db.Model):
         serializer = Serializer(SECRET_KEY, expires_in=604800)
         return serializer.dumps({"id": self.id})
 
-    def verify_admin(self):
-        if self.is_admin:
-            return True
-        json_abort(401, message="Unauthorized Access: Not Admin")
-
 
 class Icon(db.Model):
     id = db.Column(db.Integer, primary_key=True)

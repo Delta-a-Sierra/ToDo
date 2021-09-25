@@ -4,7 +4,7 @@ from flask_restful import Resource, fields, marshal, reqparse
 from .. import models
 from ..auth import verify_login
 from ..extensions import auth
-from ..utils import json_abort
+from ..utils import admin_only, json_abort
 
 user_fields = {
     "email": fields.String,
@@ -90,8 +90,8 @@ class UserLogin(Resource):
 
 class UserList(Resource):
     @auth.login_required
+    @admin_only
     def get(self):
-        g.user.verify_admin()
         user_list = models.User.query.all()
         if not user_list:
             json_abort(204)

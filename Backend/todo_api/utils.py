@@ -29,3 +29,14 @@ def get_task(id):
         json_abort(401, "Unauthorized Access")
     else:
         return task
+
+
+def admin_only(func):
+    """Decorator to enforce admin restrictions on resources"""
+
+    def check_admin(*args, **kwargs):
+        if g.user.is_admin:
+            return func(*args, **kwargs)
+        json_abort(401, message="Unauthorized Access: Not Admin")
+
+    return check_admin

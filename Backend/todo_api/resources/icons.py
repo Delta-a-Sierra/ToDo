@@ -3,7 +3,7 @@ from flask_restful import Resource, fields, marshal, reqparse
 
 from .. import models
 from ..extensions import auth
-from ..utils import json_abort
+from ..utils import admin_only, json_abort
 
 icon_fields = {
     "id": fields.Integer,
@@ -40,8 +40,8 @@ class IconList(Resource):
         return response, 200
 
     @auth.login_required
+    @admin_only
     def post(self):
-        g.user.verify_admin()
         kwargs = self.reqparse.parse_args()
         models.Icon.create_icon(**kwargs)
         response = {"message": "Icon created"}
@@ -58,8 +58,8 @@ class Icon(Resource):
         return response, 200
 
     @auth.login_required
+    @admin_only
     def delete(self, id):
-        g.user.verify_admin()
         icon = models.Icon.query.get_or_404(id)
         icon.delete_icon()
         return {"message": "Icon deleted"}, 200
