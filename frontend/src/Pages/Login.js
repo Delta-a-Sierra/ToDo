@@ -7,7 +7,12 @@ const Login = () => {
 
   return (
     <div className="login">
-      <AuthAside Text={Text} btnTxt="Sign Up" btnLink="/Signup" />
+      <AuthAside
+        className="AuthAside"
+        Text={Text}
+        btnTxt="Sign Up"
+        btnLink="/Signup"
+      />
 
       <Form title="Log In" type="login" />
     </div>

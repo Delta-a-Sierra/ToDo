@@ -1,9 +1,16 @@
+import Form from "../componets/form/Form";
+import AuthAside from "../componets/authAside/AuthAside";
+
 const Signup = () => {
-    return ( 
-        <div>
-            <h1>SignUp</h1>
-        </div>
-     );
-}
- 
+  const Text = "Enter your personal details and Work with us again";
+
+  return (
+    <div className="login">
+      <AuthAside Text={Text} btnTxt="Log in" btnLink="/login" />
+
+      <Form title="Sign up" type="signup" />
+    </div>
+  );
+};
+
 export default Signup;
