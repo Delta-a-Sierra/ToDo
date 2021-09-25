@@ -2,6 +2,7 @@ import "./style.css";
 import { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../../util/contexts/AuthContext";
+import { validateAll } from "../../util/js/AuthFormValidation";
 
 const intialForm = {
   userName: "",
@@ -61,95 +62,6 @@ const Form = ({ title, type }) => {
     setErrors({ ...intialErrors });
   };
 
-  const validateName = (newErrors) => {
-    if (!form.firstName && type === "signup") {
-      newErrors.firstName = "Required";
-      newErrors.active = true;
-    }
-    if (!form.lastName && type === "signup") {
-      newErrors.lastName = "Required";
-      newErrors.active = true;
-    }
-  };
-
-  const validateEmail = (newErrors) => {
-    const regexEmail = ".+\\@.+\\..+";
-
-    if (!form.userName.match(regexEmail)) {
-      newErrors.userName = "Please enter a valid Email";
-      newErrors.active = true;
-    }
-  };
-
-  const validatePassword = (newErrors) => {
-    const regexContainsCaps = "^(.*[A-Z]).*$";
-    const regexContainsLower = "^(.*[a-z]).*$";
-    const regexContainsNumber = "^(.*[0-9]).*$";
-    const regexContainsSpecial = "^(.*[!@#$%^&*_=+-]).*$";
-
-    if (form.password.length < 6) {
-      newErrors.password = "Passwords must be atleast 6 letters long";
-      newErrors.active = true;
-    }
-
-    if (form.password.length > 20) {
-      newErrors.password = "Passwords cannot be longer than 20 letters";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsSpecial)) {
-      newErrors.password = "Passwords must contain 1 special character";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsNumber)) {
-      newErrors.password = "Passwords must contain 1 number";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsCaps)) {
-      newErrors.password = "Passwords must contain 1 captial letter";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsLower)) {
-      newErrors.password = "Passwords must contain 1 lowercase letter";
-      newErrors.active = true;
-    }
-  };
-
-  const validatePassword2 = (newErrors) => {
-    if (form.password !== form.password2) {
-      newErrors.password2 = "Passwords do not match";
-      newErrors.active = true;
-    }
-
-    if (!form.password) {
-      newErrors.password2 = "Confirming password is required";
-      newErrors.active = true;
-    }
-  };
-
-  const ValidatTandC = (newErrors) => {
-    if (!form.tandc) {
-      newErrors.tandc = "Please Agree to terms and conditions";
-      newErrors.active = true;
-    }
-  };
-
-  const validateAll = (newErrors) => {
-    resetErrors();
-    validatePassword(newErrors);
-    validateEmail(newErrors);
-
-    if (type === "signup") {
-      validateName(newErrors);
-      validatePassword2(newErrors);
-      ValidatTandC(newErrors);
-    }
-  };
-  //#endregion
-
   //#region API Functions
 
   const apiCall = async (url, body) => {
@@ -179,8 +91,9 @@ const Form = ({ title, type }) => {
       password: form.password,
     };
 
-    validateAll(newErrors);
-    setErrors({ ...newErrors });
+    resetErrors();
+    let returnedErrors = validateAll(newErrors, form, type);
+    setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
       apiCall(url, user);
@@ -201,9 +114,9 @@ const Form = ({ title, type }) => {
     };
 
     const url = "http://127.0.0.1:8000/v1/signup";
-
-    validateAll(newErrors);
-    setErrors({ ...newErrors });
+    resetErrors();
+    let returnedErrors = validateAll(newErrors, form, type);
+    setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
       apiCall(url, user);
