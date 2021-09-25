@@ -25,8 +25,8 @@ def task_ownership(id):
     task = models.Task.query.get(id)
     if not task:
         abort(404)
-    # elif not task.owner_id == g.user.id:
-    #     abort(401)
+    elif not task.owner_id == g.user.id:
+        abort(401)
     else:
         return task
 
