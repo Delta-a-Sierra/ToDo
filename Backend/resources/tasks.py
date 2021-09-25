@@ -1,21 +1,7 @@
 import models
-from auth import (
-    basic_auth,
-    token_auth,
-)  # TODO: CHANGE FROM BASIC TO TOKEN AUTH
+from auth import auth
 from flask import Blueprint, abort, g
 from flask_restful import Api, Resource, fields, marshal, reqparse
-
-
-def task_ownership(id):
-    """Attempts to retrieve task by id, then checks owner_id foreign key"""
-    task = models.Task.query.get(id)
-    if not task:
-        abort(404)
-    # elif not task.owner_id == g.user.id:
-    #     abort(401)
-    else:
-        return task
 
 
 class MyDateFormat(fields.Raw):
@@ -32,6 +18,17 @@ task_fields = {
     "due_date": MyDateFormat,
     "created_at": MyDateFormat,
 }
+
+
+def task_ownership(id):
+    """Attempts to retrieve task by id, then checks owner_id foreign key"""
+    task = models.Task.query.get(id)
+    if not task:
+        abort(404)
+    # elif not task.owner_id == g.user.id:
+    #     abort(401)
+    else:
+        return task
 
 
 class TaskList(Resource):
@@ -54,7 +51,7 @@ class TaskList(Resource):
         )
         super().__init__()
 
-    @basic_auth.login_required
+    @auth.login_required
     def get(self):
         task_list = models.Task.query.filter(
             models.Task.owner_id == g.user.id
@@ -67,7 +64,7 @@ class TaskList(Resource):
         }
         return response, 200
 
-    @basic_auth.login_required
+    @auth.login_required
     def post(self):
         kwargs = self.reqparse.parse_args()
         models.Task.create_task(**kwargs)
@@ -95,7 +92,7 @@ class Task(Resource):
         )
         super().__init__()
 
-    @basic_auth.login_required
+    @auth.login_required
     def get(self, id):
         task = task_ownership(id)
         response = {
@@ -104,14 +101,14 @@ class Task(Resource):
         }
         return response, 200
 
-    @basic_auth.login_required
+    @auth.login_required
     def put(self, id):
         kwargs = self.reqparse.parse_args()
         task = task_ownership(id)
         task.edit_task(**kwargs)
         return {"message": "Task updated"}, 200
 
-    @basic_auth.login_required
+    @auth.login_required
     def delete(self, id):
         task = task_ownership(id)
         task.delete_task()

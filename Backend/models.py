@@ -77,16 +77,26 @@ class User(db.Model):
         serializer = Serializer(SECRET_KEY, expires_in=604800)
         return serializer.dumps({"id": self.id})
 
-    # def verify_admin(self):
-    #     if self.is_admin:
-    #         return True
-    #     return False
+    def verify_admin(self):
+        if self.is_admin:
+            return True
+        abort(401, message="Unauthorized Access: Not Admin")
 
 
 class Icon(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     svg = db.Column(db.Text, nullable=False)
+
+    @classmethod
+    def create_icon(cls, name, svg):
+        icon = cls(name=name, svg=svg)
+        db.session.add(icon)
+        db.session.commit()
+
+    def delete_icon(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         return f"""Icon(

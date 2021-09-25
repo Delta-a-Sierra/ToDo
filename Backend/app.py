@@ -2,7 +2,7 @@ from flask_cors import CORS
 
 from config import DEBUG, HOST, PORT
 from models import app, db
-from resources import tasks, users
+from resources import icons, tasks, users
 
 
 def initialize_app(app):
@@ -21,8 +21,10 @@ def register_all_blueprints(app):
     """Registers flask blueprints from resources import"""
     app.register_blueprint(users.users_api, url_prefix="/v1")
     app.register_blueprint(tasks.tasks_api, url_prefix="/v1")
+    app.register_blueprint(icons.icons_api, url_prefix="/v1")
 
 
+# ! CHANGE TO TOKEN AUTH
 if __name__ == "__main__":
     app = initialize_app(app)
     db.create_all()

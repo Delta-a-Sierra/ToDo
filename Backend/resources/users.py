@@ -1,7 +1,13 @@
-from auth import verify_login
-from flask import Blueprint, g
-from flask_restful import Api, Resource, reqparse
-from models import User
+import models
+from auth import auth, verify_login
+from flask import Blueprint, abort, g
+from flask_restful import Api, Resource, fields, marshal, reqparse
+
+user_fields = {
+    "email": fields.String,
+    "first_name": fields.String,
+    "last_name": fields.String,
+}
 
 
 class UserSignup(Resource):
@@ -35,7 +41,7 @@ class UserSignup(Resource):
 
     def post(self):
         args = self.reqparse.parse_args()
-        result = User.create_user(**args)
+        result = models.User.create_user(**args)
         if result == False:
             message = {"message": "Email already exists"}
             return message, 409
@@ -79,7 +85,22 @@ class UserLogin(Resource):
         return message, 401
 
 
+class UserList(Resource):
+    @auth.login_required
+    def get(self):
+        g.user.verify_admin()
+        user_list = models.User.query.all()
+        if not user_list:
+            abort(204)
+        response = {
+            "message": "Retrieved all users",
+            "users": marshal(user_list, user_fields),
+        }
+        return response, 200
+
+
 users_api = Blueprint("res_users", __name__)
 api = Api(users_api)
 api.add_resource(UserSignup, "/signup", endpoint="signup")
 api.add_resource(UserLogin, "/login", endpoint="login")
+api.add_resource(UserList, "/users", endpoint="users")
