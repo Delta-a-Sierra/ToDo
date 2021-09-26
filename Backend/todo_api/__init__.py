@@ -3,7 +3,13 @@ from flask import Flask
 
 from .config import DEBUG, HOST, PORT
 from .extensions import cors, db
-from .resources import icons_api, tasks_api, users_api
+from .resources import (
+    icons_api,
+    task_group_api,
+    tasks_api,
+    users_api,
+    views_api,
+)
 
 
 def initialize_app():
@@ -23,9 +29,11 @@ def register_all_extensions(app):
 
 def register_all_blueprints(app):
     """Registers flask blueprints from resources import"""
+    app.register_blueprint(views_api(), url_prefix="/v1")
     app.register_blueprint(users_api(), url_prefix="/v1")
     app.register_blueprint(tasks_api(), url_prefix="/v1")
     app.register_blueprint(icons_api(), url_prefix="/v1")
+    app.register_blueprint(task_group_api(), url_prefix="/v1")
 
 
 def run():

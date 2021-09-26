@@ -1,15 +1,9 @@
 from flask import g
-from flask_restful import Resource, fields, marshal, reqparse
+from flask_restful import Resource, marshal, reqparse
 
 from .. import models
 from ..extensions import auth
-from ..utils import admin_only, json_abort
-
-icon_fields = {
-    "id": fields.Integer,
-    "name": fields.String,
-    "svg": fields.String,
-}
+from ..utils import admin_only, get_icon, icon_fields, json_abort
 
 
 class IconList(Resource):
@@ -49,8 +43,22 @@ class IconList(Resource):
 
 
 class Icon(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            "name",
+            help="No icon name provided",
+            location=["form", "json"],
+        )
+        self.reqparse.add_argument(
+            "svg",
+            help="No icon svg text provided.",
+            location=["json"],
+        )
+        super().__init__()
+
     def get(self, id):
-        icon = models.Icon.query.get_or_404(id)
+        icon = get_icon(id)
         response = {
             "message": "Retrieved icon",
             "icon": marshal(icon, icon_fields),
@@ -59,7 +67,15 @@ class Icon(Resource):
 
     @auth.login_required
     @admin_only
+    def put(self, id):
+        icon = get_icon(id)
+        kwargs = self.reqparse.parse_args()
+        icon.edit_icon(**kwargs)
+        return {"message": "Icon updated"}
+
+    @auth.login_required
+    @admin_only
     def delete(self, id):
-        icon = models.Icon.query.get_or_404(id)
+        icon = get_icon(id)
         icon.delete_icon()
         return {"message": "Icon deleted"}, 200
