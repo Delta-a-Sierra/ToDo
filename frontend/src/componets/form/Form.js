@@ -1,7 +1,7 @@
 import "./style.css";
 import { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { AuthContext } from "../../util/contexts/AuthContext";
+import { AuthContext, Login, Signup } from "../../util/contexts/AuthContext";
 import { validateAll } from "../../util/js/AuthFormValidation";
 
 const intialForm = {
@@ -57,69 +57,33 @@ const Form = ({ title, type }) => {
 
   let newErrors = { ...intialErrors };
 
-  //#region validation
   const resetErrors = () => {
     setErrors({ ...intialErrors });
   };
 
-  //#region API Functions
-
-  const apiCall = async (url, body) => {
-    const options = {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(body),
-      headers: {
-        "content-type": "application/json",
-      },
-    };
-    let response = await fetch(url, options);
-    if (response.status === 200 || response.status === 201) {
-      response = await response.json();
-      window.localStorage.setItem("token", response.token);
-      setAuthenticated(true);
-    } else {
-      response = await response.json();
-    }
-  };
-
-  const Login = async (e) => {
-    e.preventDefault();
-    const url = "http://127.0.0.1:8000/v1/login";
-    let user = {
-      email: form.userName,
-      password: form.password,
-    };
-
+  const formLogin = (event) => {
+    event.preventDefault();
     resetErrors();
     let returnedErrors = validateAll(newErrors, form, type);
     setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      apiCall(url, user);
+      setAuthenticated(Login(form));
       if (form.rememberMe) {
+        console.log("Remeber Me");
         setRememberedUser(form.userName);
       }
     }
   };
 
-  const Signup = async (e) => {
-    e.preventDefault();
-
-    let user = {
-      first_name: form.firstName,
-      last_name: form.lastName,
-      email: form.userName,
-      password: form.password,
-    };
-
-    const url = "http://127.0.0.1:8000/v1/signup";
+  const formSignup = (event) => {
+    event.preventDefault();
     resetErrors();
     let returnedErrors = validateAll(newErrors, form, type);
     setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      apiCall(url, user);
+      setAuthenticated(Signup(form));
     }
   };
   //#endregion
@@ -333,7 +297,9 @@ const Form = ({ title, type }) => {
           </div>
         )}
 
-        <button onClick={type === "signup" ? Signup : Login}>{title}</button>
+        <button onClick={type === "signup" ? formSignup : formLogin}>
+          {title}
+        </button>
       </form>
       {type === "signup" ? (
         <Link to="/login" className="login-signup-txt">

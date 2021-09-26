@@ -7,7 +7,6 @@ const Home = () => {
 
   const logOut = () => {
     window.localStorage.removeItem("token");
-    console.log("removing token");
     setAuthenticated(false);
   };
 
