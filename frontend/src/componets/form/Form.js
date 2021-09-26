@@ -2,7 +2,7 @@ import "./style.css";
 import { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext, Login, Signup } from "../../util/contexts/AuthContext";
-import { validateAll } from "../../util/js/AuthFormValidation";
+import { validateAll } from "./AuthFormValidation";
 
 const intialForm = {
   userName: "",
