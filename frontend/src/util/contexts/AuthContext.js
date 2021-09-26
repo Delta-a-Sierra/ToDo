@@ -22,18 +22,14 @@ export const AuthProvider = (props) => {
         let response = await fetch(url, options);
 
         if (response.status === 200) {
-          console.log("token valid");
           setAuthenticated(true);
         } else {
-          console.log("token invalid");
           window.localStorage.removeItem("token");
           setAuthenticated(false);
         }
       };
 
       verifyToken();
-
-      console.log(authenticated);
     }
   }, []);
 
@@ -65,15 +61,13 @@ export const Login = async (form) => {
 
   let response = apiCall(url, user);
   response = await response;
-  console.log(response.status);
   if (response.status === 200) {
     response = await response.json();
     window.localStorage.setItem("token", response.token);
     return true;
   }
   response = await response.json();
-  //   alert(response.message);
-  console.log("returning login false");
+  alert(response.message);
   return false;
 };
 

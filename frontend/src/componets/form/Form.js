@@ -45,16 +45,11 @@ const Form = ({ title, type }) => {
   //#endregion
 
   useEffect(() => {
-    if (rememberedUser) {
-      console.log(`remembered user: ${rememberedUser}`);
-      window.localStorage.setItem("username", rememberedUser);
-    } else {
-      if (type === "login") {
-        const username = window.localStorage.getItem("username") || "";
-        setForm({ ...form, userName: username });
-      }
+    if (type === "login") {
+      const username = window.localStorage.getItem("username") || "";
+      setForm({ ...form, userName: username });
     }
-  }, [rememberedUser]);
+  }, []);
 
   let newErrors = { ...intialErrors };
 
@@ -72,8 +67,7 @@ const Form = ({ title, type }) => {
       const newAuthen = await Login(form);
       setAuthenticated(newAuthen);
       if (form.rememberMe) {
-        console.log("Remeber Me");
-        setRememberedUser(form.userName);
+        window.localStorage.setItem("username", form.userName);
       }
     }
   };
@@ -85,7 +79,7 @@ const Form = ({ title, type }) => {
     setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      const newAuthen = await Login(form);
+      const newAuthen = await Signup(form);
       setAuthenticated(newAuthen);
     }
   };
