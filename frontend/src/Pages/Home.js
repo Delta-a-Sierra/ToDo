@@ -10,15 +10,16 @@ const Home = () => {
     setAuthenticated(false);
   };
 
-  if (authenticated) {
-    return (
-      <div>
-        <h1> you are authenticated</h1>
-        <button onClick={logOut}>Logout</button>
-      </div>
-    );
+  if (!authenticated) {
+    return <Redirect to="/login" />;
   }
-  return <Redirect to="/login" />;
+
+  return (
+    <div>
+      <h1> you are authenticated</h1>
+      <button onClick={logOut}>Logout</button>
+    </div>
+  );
 };
 
 export default Home;

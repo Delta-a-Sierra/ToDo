@@ -46,6 +46,7 @@ const Form = ({ title, type }) => {
 
   useEffect(() => {
     if (rememberedUser) {
+      console.log(`remembered user: ${rememberedUser}`);
       window.localStorage.setItem("username", rememberedUser);
     } else {
       if (type === "login") {
@@ -61,14 +62,15 @@ const Form = ({ title, type }) => {
     setErrors({ ...intialErrors });
   };
 
-  const formLogin = (event) => {
+  const formLogin = async (event) => {
     event.preventDefault();
     resetErrors();
     let returnedErrors = validateAll(newErrors, form, type);
     setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      setAuthenticated(Login(form));
+      const newAuthen = await Login(form);
+      setAuthenticated(newAuthen);
       if (form.rememberMe) {
         console.log("Remeber Me");
         setRememberedUser(form.userName);
@@ -76,14 +78,15 @@ const Form = ({ title, type }) => {
     }
   };
 
-  const formSignup = (event) => {
+  const formSignup = async (event) => {
     event.preventDefault();
     resetErrors();
     let returnedErrors = validateAll(newErrors, form, type);
     setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      setAuthenticated(Signup(form));
+      const newAuthen = await Login(form);
+      setAuthenticated(newAuthen);
     }
   };
   //#endregion
