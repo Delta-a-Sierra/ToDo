@@ -1,16 +1,9 @@
 from flask import g
-from flask_restful import Resource, fields, marshal, reqparse
+from flask_restful import Resource, marshal, reqparse
 
 from .. import models
-from ..auth import verify_login
 from ..extensions import auth
-from ..utils import admin_only, json_abort
-
-user_fields = {
-    "email": fields.String,
-    "first_name": fields.String,
-    "last_name": fields.String,
-}
+from ..utils import admin_only, json_abort, user_fields, verify_login
 
 
 class UserSignup(Resource):

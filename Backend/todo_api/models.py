@@ -1,13 +1,13 @@
 from datetime import datetime
 
 from flask import g
+from flask_restful import inputs
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy.exc import IntegrityError
 
 from .config import SECRET_KEY
 from .extensions import HASHER, db
-from .utils import json_abort
 
 
 class User(db.Model):
@@ -18,16 +18,6 @@ class User(db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
-
-    def __repr__(self):
-        return f"""User(
-            id={self.id}
-            email={self.email}
-            password={self.password}
-            first_name={self.first_name}
-            last_name={self.last_name}
-            created_at={self.created_at}
-            is_admin={self.is_admin})"""
 
     @classmethod
     def create_user(cls, email, password, first_name, last_name):
@@ -85,23 +75,22 @@ class Icon(db.Model):
         db.session.add(icon)
         db.session.commit()
 
+    def edit_icon(self, **kwargs):
+        for key, value in kwargs.items():
+            self.__setattr__(key, value)
+        db.session.commit()
+
     def delete_icon(self):
         db.session.delete(self)
         db.session.commit()
-
-    def __repr__(self):
-        return f"""Icon(
-            id={self.id}
-            name={self.name}
-            svg={self.svg})"""
 
 
 class TaskGroup(db.Model):
     __tablename__ = "task_groups"
 
     id = db.Column(db.Integer, primary_key=True)
-    group_name = db.Column(db.String(100), nullable=False)
-    group_description = db.Column(db.Text, nullable=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
 
     owner_id = db.Column(db.ForeignKey("user.id"))
     owner = db.relationship(
@@ -111,13 +100,27 @@ class TaskGroup(db.Model):
     icon_id = db.Column(db.ForeignKey("icon.id"), default=1)
     icon = db.relationship("Icon", backref=db.backref("task_group"))
 
-    def __repr__(self):
-        return f"""TaskGroup(
-            id={self.id}
-            group_name={self.group_name}
-            group_description={self.group_description}
-            owner_id={self.owner_id}
-            icon_id={self.icon.id})"""
+    @classmethod
+    def create_task_group(cls, name, description, icon_id=1):
+        owner_id = g.user.id
+        task_group = cls(
+            name=name,
+            description=description,
+            icon_id=icon_id,
+            owner_id=owner_id,
+        )
+        db.session.add(task_group)
+        db.session.commit()
+
+    def edit_task_group(self, **kwargs):
+        for key, value in kwargs.items():
+            self.__setattr__(key, value)
+        db.session.commit()
+
+    def delete_task_group(self):
+        db.session.query(Task).filter(Task.task_g_id == self.id).delete()
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Task(db.Model):
@@ -125,9 +128,10 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
     due_date = db.Column(db.Date, nullable=True)
+    is_completed = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
-    task_g_id = db.Column(db.ForeignKey("task_groups.id"))
+    task_g_id = db.Column(db.ForeignKey("task_groups.id"), default=None)
     task_g = db.relationship(
         "TaskGroup", backref=db.backref("tasks", cascade="all, delete-orphan")
     )
@@ -138,7 +142,7 @@ class Task(db.Model):
     )
 
     @classmethod
-    def create_task(cls, title, description, due_date):
+    def create_task(cls, title, description, due_date, task_g_id=None):
         owner_id = g.user.id
         if due_date:
             due_date = datetime.strptime(due_date, "%d/%m/%Y").date()
@@ -147,6 +151,7 @@ class Task(db.Model):
             description=description,
             due_date=due_date,
             owner_id=owner_id,
+            task_g_id=task_g_id,
         )
         db.session.add(task)
         db.session.commit()
@@ -158,6 +163,8 @@ class Task(db.Model):
                 self.due_date = datetime.strptime(
                     kwargs.get(key), "%d/%m/%Y"
                 ).date()
+            elif key == "is_completed" and value:
+                self.is_completed = inputs.boolean(value)
             elif value:
                 self.__setattr__(key, value)
         db.session.commit()
@@ -165,12 +172,3 @@ class Task(db.Model):
     def delete_task(self):
         db.session.delete(self)
         db.session.commit()
-
-    def __repr__(self):
-        return f"""Task(
-            id={self.id}
-            title={self.title}
-            description={self.description}
-            due_date={self.due_date}
-            created_at={self.created_at}
-            owner_id={self.owner_id})"""

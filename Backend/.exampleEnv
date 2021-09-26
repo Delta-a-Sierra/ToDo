@@ -1,4 +1,0 @@
-app_debug=True or False
-app_host=
-app_port=
-db_uri=

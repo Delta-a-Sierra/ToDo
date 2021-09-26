@@ -1,100 +1,91 @@
 from flask import g
-from flask_restful import Resource, inputs, marshal, reqparse
+from flask_restful import Resource, marshal, reqparse
 
 from .. import models
 from ..extensions import auth
-from ..utils import get_task, task_fields
+from ..utils import get_task_group, task_group_fields, task_group_list_fields
 
 
-class TaskList(Resource):
+class TaskGroupList(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
-            "title",
+            "name",
             required=True,
-            help="No title provided",
+            help="No group title provided",
             location=["form", "json"],
         )
         self.reqparse.add_argument(
             "description",
+            help="No description provided",
             location=["form", "json"],
         )
         self.reqparse.add_argument(
-            "due_date",
-            help="Please provide a date as dd/mm/yyyy",
-            location=["form", "json"],
-        )
-        self.reqparse.add_argument(
-            "task_g_id",
-            help="Selected task group by foreign key",
+            "icon_id",
+            help="Selected icon by foreign key, default is 1",
             location=["form", "json"],
         )
         super().__init__()
 
     @auth.login_required
     def get(self):
-        task_list = models.Task.query.filter(
-            models.Task.owner_id == g.user.id
+        task_groups = models.TaskGroup.query.filter(
+            models.TaskGroup.owner_id == g.user.id
         ).all()
-        if not task_list:
+        if not task_groups:
             return "", 204
         response = {
-            "message": "Retrieved all user tasks",
-            "tasks": marshal(task_list, task_fields),
+            "message": "Retrieved all user task groups",
+            "task_groups": marshal(task_groups, task_group_list_fields),
         }
         return response, 200
 
     @auth.login_required
     def post(self):
         kwargs = self.reqparse.parse_args()
-        models.Task.create_task(**kwargs)
-        response = {"message": "Task created"}
+        models.TaskGroup.create_task_group(**kwargs)
+        response = {"message": "Task group created"}
         return response, 201
 
 
-class Task(Resource):
-    """task resource"""
-
+class TaskGroup(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument(
-            "title",
+            "name",
+            help="No group title provided",
             location=["form", "json"],
         )
         self.reqparse.add_argument(
             "description",
+            help="No description provided",
             location=["form", "json"],
         )
         self.reqparse.add_argument(
-            "due_date",
-            help="Please provide a date as dd/mm/yyyy",
-            location=["form", "json"],
-        )
-        self.reqparse.add_argument(
-            "is_completed",
-            help="Whether the task is completed",
+            "icon_id",
+            help="Selected icon by foreign key, default is 1",
             location=["form", "json"],
         )
         super().__init__()
 
     @auth.login_required
     def get(self, id):
-        task = get_task(id)
+        task_group = get_task_group(id)
         response = {
-            "message": "Retrieved Task",
-            "task": marshal(task, task_fields),
+            "message": "Retrieved task group",
+            "task groups": marshal(task_group, task_group_fields),
         }
         return response, 200
 
     @auth.login_required
     def put(self, id):
+        task_group = get_task_group(id)
         kwargs = self.reqparse.parse_args()
-        task = get_task(id)
-        task.edit_task(**kwargs)
-        return {"message": "Task updated"}, 200
+        task_group.edit_task_group(**kwargs)
+        return {"message": "Task group updated"}, 200
 
     @auth.login_required
     def delete(self, id):
-        task = get_task(id)
-        task.delete_task()
-        return {"message": "Task deleted"}, 200
+        task_group = get_task_group(id)
+        task_group.delete_task_group()
+        return {"message": "Task group deleted"}, 200
