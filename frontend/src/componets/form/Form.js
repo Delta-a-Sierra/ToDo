@@ -1,6 +1,8 @@
 import "./style.css";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { AuthContext, Login, Signup } from "../../util/contexts/AuthContext";
+import { validateAll } from "./AuthFormValidation";
 
 const intialForm = {
   userName: "",
@@ -27,6 +29,8 @@ const Form = ({ title, type }) => {
   const [errors, setErrors] = useState({ ...intialErrors });
   const [rememberedUser, setRememberedUser] = useState("");
 
+  const [authenticated, setAuthenticated] = useContext(AuthContext);
+
   // ------------------------- Form update functions -------------------------
 
   //#region Form Update Function
@@ -41,171 +45,49 @@ const Form = ({ title, type }) => {
   //#endregion
 
   useEffect(() => {
-    if (rememberedUser) {
-      window.localStorage.setItem("username", rememberedUser);
-    } else {
-      if (type === "login") {
-        const username = window.localStorage.getItem("username") || "";
-        setForm({ ...form, userName: username });
-      }
+    if (type === "login") {
+      const username = window.localStorage.getItem("username") || "";
+      setForm({ ...form, userName: username });
     }
-  }, [rememberedUser]);
+  }, []);
 
   let newErrors = { ...intialErrors };
 
-  //#region validation
   const resetErrors = () => {
     setErrors({ ...intialErrors });
   };
 
-  const validateName = (newErrors) => {
-    if (!form.firstName && type === "signup") {
-      newErrors.firstName = "Required";
-      newErrors.active = true;
-    }
-    if (!form.lastName && type === "signup") {
-      newErrors.lastName = "Required";
-      newErrors.active = true;
-    }
-  };
-
-  const validateEmail = (newErrors) => {
-    const regexEmail = ".+\\@.+\\..+";
-
-    if (!form.userName.match(regexEmail)) {
-      newErrors.userName = "Please enter a valid Email";
-      newErrors.active = true;
-    }
-  };
-
-  const validatePassword = (newErrors) => {
-    const regexContainsCaps = "^(.*[A-Z]).*$";
-    const regexContainsLower = "^(.*[a-z]).*$";
-    const regexContainsNumber = "^(.*[0-9]).*$";
-    const regexContainsSpecial = "^(.*[!@#$%^&*_=+-]).*$";
-
-    if (form.password.length < 6) {
-      newErrors.password = "Passwords must be atleast 6 letters long";
-      newErrors.active = true;
-    }
-
-    if (form.password.length > 20) {
-      newErrors.password = "Passwords cannot be longer than 20 letters";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsSpecial)) {
-      newErrors.password = "Passwords must contain 1 special character";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsNumber)) {
-      newErrors.password = "Passwords must contain 1 number";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsCaps)) {
-      newErrors.password = "Passwords must contain 1 captial letter";
-      newErrors.active = true;
-    }
-
-    if (!form.password.match(regexContainsLower)) {
-      newErrors.password = "Passwords must contain 1 lowercase letter";
-      newErrors.active = true;
-    }
-  };
-
-  const validatePassword2 = (newErrors) => {
-    if (form.password !== form.password2) {
-      newErrors.password2 = "Passwords do not match";
-      newErrors.active = true;
-    }
-
-    if (!form.password) {
-      newErrors.password2 = "Confirming password is required";
-      newErrors.active = true;
-    }
-  };
-
-  const ValidatTandC = (newErrors) => {
-    if (!form.tandc) {
-      newErrors.tandc = "Please Agree to terms and conditions";
-      newErrors.active = true;
-    }
-  };
-
-  const validateAll = (newErrors) => {
+  const formLogin = async (event) => {
+    event.preventDefault();
     resetErrors();
-    validatePassword(newErrors);
-    validateEmail(newErrors);
-
-    if (type === "signup") {
-      validateName(newErrors);
-      validatePassword2(newErrors);
-      ValidatTandC(newErrors);
-    }
-  };
-  //#endregion
-
-  //#region API Functions
-
-  const apiCall = async (url, body) => {
-    const options = {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(body),
-      headers: {
-        "content-type": "application/json",
-      },
-    };
-    let response = await fetch(url, options);
-    if (response.status === 200 || response.status === 201) {
-      response = await response.json();
-      window.localStorage.setItem("token", response.token);
-    } else {
-      response = await response.json();
-    }
-  };
-
-  const Login = async (e) => {
-    e.preventDefault();
-    const url = "http://127.0.0.1:8000/v1/login";
-    let user = {
-      email: form.userName,
-      password: form.password,
-    };
-
-    validateAll(newErrors);
-    setErrors({ ...newErrors });
+    let returnedErrors = validateAll(newErrors, form, type);
+    setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      apiCall(url, user);
+      const newAuthen = await Login(form);
+      setAuthenticated(newAuthen);
       if (form.rememberMe) {
-        setRememberedUser(form.userName);
+        window.localStorage.setItem("username", form.userName);
       }
     }
   };
 
-  const Signup = async (e) => {
-    e.preventDefault();
-
-    let user = {
-      first_name: form.firstName,
-      last_name: form.lastName,
-      email: form.userName,
-      password: form.password,
-    };
-
-    const url = "http://127.0.0.1:8000/v1/signup";
-
-    validateAll(newErrors);
-    setErrors({ ...newErrors });
+  const formSignup = async (event) => {
+    event.preventDefault();
+    resetErrors();
+    let returnedErrors = validateAll(newErrors, form, type);
+    setErrors({ ...returnedErrors });
     const valid = !newErrors.active;
     if (valid) {
-      apiCall(url, user);
+      const newAuthen = await Signup(form);
+      setAuthenticated(newAuthen);
     }
   };
   //#endregion
+
+  if (authenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="Auth">
@@ -412,7 +294,9 @@ const Form = ({ title, type }) => {
           </div>
         )}
 
-        <button onClick={type === "signup" ? Signup : Login}>{title}</button>
+        <button onClick={type === "signup" ? formSignup : formLogin}>
+          {title}
+        </button>
       </form>
       {type === "signup" ? (
         <Link to="/login" className="login-signup-txt">
