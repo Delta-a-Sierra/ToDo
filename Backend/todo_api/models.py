@@ -91,6 +91,7 @@ class TaskGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
+    is_fav = db.Column(db.Boolean, default=False)
 
     owner_id = db.Column(db.ForeignKey("user.id"))
     owner = db.relationship(
@@ -101,11 +102,12 @@ class TaskGroup(db.Model):
     icon = db.relationship("Icon", backref=db.backref("task_group"))
 
     @classmethod
-    def create_task_group(cls, name, description, icon_id=1):
+    def create_task_group(cls, name, description, is_fav, icon_id):
         owner_id = g.user.id
         task_group = cls(
             name=name,
             description=description,
+            is_fav=inputs.boolean(is_fav),
             icon_id=icon_id,
             owner_id=owner_id,
         )
@@ -114,7 +116,10 @@ class TaskGroup(db.Model):
 
     def edit_task_group(self, **kwargs):
         for key, value in kwargs.items():
-            self.__setattr__(key, value)
+            if key == "is_fav" and value:
+                self.is_fav = inputs.boolean(value)
+            else:
+                self.__setattr__(key, value)
         db.session.commit()
 
     def delete_task_group(self):

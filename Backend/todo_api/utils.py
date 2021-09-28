@@ -116,6 +116,7 @@ task_group_list_fields = {
     "id": fields.Integer,
     "name": fields.String,
     "description": fields.String,
+    "is_fav": fields.Boolean,
     "icon_id": fields.Integer,
     "tasks": CustomCount,
 }
@@ -124,6 +125,7 @@ task_group_fields = {
     "id": fields.Integer,
     "name": fields.String,
     "description": fields.String,
+    "is_fav": fields.Boolean,
     "icon_id": fields.Integer,
     "tasks": fields.Nested(task_fields),
 }

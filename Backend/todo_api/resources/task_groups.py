@@ -21,6 +21,11 @@ class TaskGroupList(Resource):
             location=["form", "json"],
         )
         self.reqparse.add_argument(
+            "is_fav",
+            help="Boolean indicating grou is favourite",
+            location=["form", "json"],
+        )
+        self.reqparse.add_argument(
             "icon_id",
             help="Selected icon by foreign key, default is 1",
             location=["form", "json"],
@@ -59,6 +64,11 @@ class TaskGroup(Resource):
         self.reqparse.add_argument(
             "description",
             help="No description provided",
+            location=["form", "json"],
+        )
+        self.reqparse.add_argument(
+            "is_fav",
+            help="Boolean indicating grou is favourite",
             location=["form", "json"],
         )
         self.reqparse.add_argument(
