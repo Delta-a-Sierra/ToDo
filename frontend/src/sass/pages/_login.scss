@@ -1,0 +1,20 @@
+.Login {
+  &__content {
+    padding: 0.5em;
+    @include flex-col;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: $primaryColor2;
+    @include Title-Large($color: white);
+  }
+
+  &__logo {
+    width: 1em;
+    align-self: flex-start;
+  }
+
+  &__title {
+    margin-bottom: 1em;
+  }
+}

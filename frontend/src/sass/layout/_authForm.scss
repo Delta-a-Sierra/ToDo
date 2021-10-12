@@ -1,0 +1,78 @@
+.AuthForm {
+  @include flex-col;
+  align-items: center;
+  width: 100%;
+  gap: 0.5em;
+
+  &__label {
+    display: flex;
+    position: relative;
+    align-items: center;
+    background-color: $primaryColor2;
+    border: 2px solid $offWhite;
+    border-radius: 2em;
+    padding: 0.2em;
+    width: 100%;
+    height: 1em;
+
+    &--error {
+      border: 2px solid $error;
+    }
+  }
+
+  &__input {
+    @include Body-light($color: white);
+    background-color: $invisible;
+    border: none;
+    width: 80%;
+    margin-left: 1em;
+
+    &::placeholder {
+      @include Body-light($color: $offWhite);
+    }
+  }
+
+  &__input-icon {
+    margin-left: 0.2em;
+    fill: $offWhite;
+    width: 0.5em;
+  }
+
+  &__error-txt {
+    position: absolute;
+    top: -1em;
+    left: 1em;
+    background-color: $primaryColor2;
+    padding: 0.2em 0.5em;
+    @include Body-small-light($color: $error);
+    letter-spacing: 0.1em;
+  }
+
+  &__checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  &__checkbox-text {
+    @include Body-small-light($color: $offWhite);
+  }
+
+  &__button {
+    @include Body-Bold($color: white);
+    padding: 0.5em 1em;
+    border-radius: 2em;
+    background-image: linear-gradient(to right, $accent1, $accent2);
+    border: 2px solid $accent1;
+    transform: transition ease-in-out 350ms;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .AuthForm {
+  }
+}

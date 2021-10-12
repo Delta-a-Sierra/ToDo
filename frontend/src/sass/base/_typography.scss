@@ -1,0 +1,47 @@
+@mixin Title-Large($color) {
+  font-family: "Cera-Black", "Courier New", "Courier", "monospace";
+  font-size: 3em;
+  color: $color;
+}
+
+@mixin Title-Medium($color) {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 2em;
+  color: $color;
+}
+
+@mixin Title-Small($color) {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1em;
+  color: $color;
+}
+
+@mixin Body-Regular($color) {
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: $color;
+}
+
+@mixin Body-Bold($color) {
+  font-family: "Gilroy-Bold", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: $color;
+}
+
+@mixin Body-light($color) {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: $color;
+}
+
+@mixin Body-small($color) {
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: $color;
+}
+
+@mixin Body-small-light($color) {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: $color;
+}
