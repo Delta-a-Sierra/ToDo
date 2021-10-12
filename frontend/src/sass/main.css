@@ -737,9 +737,14 @@ a {
   background-color: #27496d;
   padding: 0.2em 0.5em;
   font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
-  font-size: 16px;
+  font-size: 12px;
   color: #eb4343;
   letter-spacing: 0.1em;
+}
+
+.AuthForm__error-txt--invisible {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .AuthForm__checkbox-container {

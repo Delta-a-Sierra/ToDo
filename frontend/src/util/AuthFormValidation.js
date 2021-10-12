@@ -13,8 +13,8 @@ const validateName = (newErrors, form) => {
 const validateEmail = (newErrors, form) => {
   const regexEmail = ".+\\@.+\\..+";
 
-  if (!form.userName.match(regexEmail)) {
-    newErrors.userName = "Please enter a valid Email";
+  if (!form.email.match(regexEmail)) {
+    newErrors.email = "Enter a valid email";
     newErrors.active = true;
   }
   return newErrors;
@@ -27,32 +27,32 @@ const validatePassword = (newErrors, form) => {
   const regexContainsSpecial = "^(.*[!@#$%^&*_=+-]).*$";
 
   if (form.password.length < 6) {
-    newErrors.password = "Passwords must be atleast 6 letters long";
+    newErrors.password = " must be atleast 6 letters";
     newErrors.active = true;
   }
 
   if (form.password.length > 20) {
-    newErrors.password = "Passwords cannot be longer than 20 letters";
+    newErrors.password = "cannot be longer than 20 letters";
     newErrors.active = true;
   }
 
   if (!form.password.match(regexContainsSpecial)) {
-    newErrors.password = "Passwords must contain 1 special character";
+    newErrors.password = "must contain a special character";
     newErrors.active = true;
   }
 
   if (!form.password.match(regexContainsNumber)) {
-    newErrors.password = "Passwords must contain 1 number";
+    newErrors.password = "must contain a number";
     newErrors.active = true;
   }
 
   if (!form.password.match(regexContainsCaps)) {
-    newErrors.password = "Passwords must contain 1 captial letter";
+    newErrors.password = "must contain a captial letter";
     newErrors.active = true;
   }
 
   if (!form.password.match(regexContainsLower)) {
-    newErrors.password = "Passwords must contain 1 lowercase letter";
+    newErrors.password = "must contain a lowercase letter";
     newErrors.active = true;
   }
   return newErrors;
@@ -79,7 +79,7 @@ const ValidatTandC = (newErrors, form) => {
   return newErrors;
 };
 
-export const validateAll = (newErrors, form, type) => {
+export const ValidateAll = (newErrors, form, type) => {
   newErrors = validatePassword(newErrors, form);
   newErrors = validateEmail(newErrors, form);
   if (type === "signup") {

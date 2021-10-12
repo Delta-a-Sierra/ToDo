@@ -51,3 +51,9 @@
   font-size: 16px;
   color: $color;
 }
+
+@mixin Body-tiny-light($color) {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 12px;
+  color: $color;
+}

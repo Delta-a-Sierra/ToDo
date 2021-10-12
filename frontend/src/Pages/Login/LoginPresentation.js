@@ -1,10 +1,25 @@
-import "../sass/main.css";
-import { useState } from "react";
-import { LargeButton, AuthAside } from "../componets";
+import { LargeButton, AuthAside } from "../../componets";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-const Login = () => {
-  const [FormError] = useState(false);
+const LoginPresentation = ({
+  FormErrors,
+  HandleValidation,
+  rememberedUser,
+}) => {
+  const [Form, setForm] = useState({
+    email: rememberedUser,
+    password: "",
+    rememberMe: false,
+  });
+
+  const onChange = (e) => {
+    setForm({ ...Form, [e.target.name]: e.target.value });
+  };
+
+  const HandleRememberMe = (e) => {
+    setForm({ ...Form, rememberMe: e.target.checked });
+  };
 
   return (
     <div className="Login">
@@ -29,14 +44,27 @@ const Login = () => {
           </svg>
         </div>
         <h1 className="Login__title">Log In</h1>
-        <form className="AuthForm">
+        <form
+          title="form"
+          className="AuthForm"
+          onSubmit={(e) => HandleValidation(e, Form)}
+        >
           <label
-            htmlFor="name"
+            title="label-email"
+            htmlFor="email"
             className={`AuthForm__label ${
-              FormError && "AuthForm__label--error"
+              FormErrors.email !== "" && "AuthForm__label--error"
             }`}
           >
-            {FormError && <h4 className="AuthForm__error-txt ">Error text</h4>}
+            <h4
+              data-testid={`errorText-email`}
+              className={`AuthForm__error-txt ${
+                FormErrors.email === "" && "AuthForm__error-txt--invisible"
+              } `}
+            >
+              {FormErrors.email}
+            </h4>
+
             <svg
               className="AuthForm__input-icon"
               xmlns="http://www.w3.org/2000/svg"
@@ -56,16 +84,27 @@ const Login = () => {
               className="AuthForm__input"
               type="email"
               placeholder="enter email"
-              name="username"
+              name="email"
+              value={Form.email}
+              onChange={onChange}
             />
           </label>
           <label
+            title="label-password"
             htmlFor="password"
             className={`AuthForm__label ${
-              FormError && "AuthForm__label--error"
+              FormErrors.password !== "" && "AuthForm__label--error"
             }`}
           >
-            {FormError && <h4 className="AuthForm__error-txt ">Error text</h4>}
+            <h4
+              data-testid={`errorText-password`}
+              className={`AuthForm__error-txt ${
+                FormErrors.password === "" && "AuthForm__error-txt--invisible"
+              } `}
+            >
+              {FormErrors.password}
+            </h4>
+
             <svg
               className="AuthForm__input-icon"
               xmlns="http://www.w3.org/2000/svg"
@@ -86,13 +125,18 @@ const Login = () => {
               type="password"
               placeholder="enter password"
               name="password"
+              value={Form.password}
+              onChange={onChange}
             />
           </label>
           <label className="AuthForm__checkbox-container" htmlFor="">
-            <input type="checkbox" />
+            <input onClick={HandleRememberMe} type="checkbox" />
             <h3 className="AuthForm__checkbox-text">remember username?</h3>
           </label>
-          <LargeButton text="Log in" />
+          <LargeButton
+            onClick={(e) => HandleValidation(e, Form)}
+            text="Log in"
+          />
         </form>
         <Link to="/signup">
           <p className="Login__type-swap">
@@ -105,4 +149,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPresentation;

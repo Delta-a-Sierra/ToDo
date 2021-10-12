@@ -44,8 +44,13 @@
     left: 1em;
     background-color: $primaryColor2;
     padding: 0.2em 0.5em;
-    @include Body-small-light($color: $error);
+    @include Body-tiny-light($color: $error);
     letter-spacing: 0.1em;
+
+    &--invisible {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 
   &__checkbox-container {
