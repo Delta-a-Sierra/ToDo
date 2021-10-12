@@ -11,17 +11,30 @@ const intialErrors = {
 const Login = () => {
   const [FormErrors, setFormErrors] = useState({ ...intialErrors });
   const [rememberedUser, setRememberedUser] = useState("");
+  const [Form, setForm] = useState({
+    email: rememberedUser,
+    password: "",
+    rememberMe: false,
+  });
 
   useEffect(() => {
     const email = window.localStorage.getItem("email");
     if (email) {
-      setRememberedUser(email);
+      setForm({ ...Form, email: email });
     }
   }, []);
 
   useEffect(() => {
     console.log(FormErrors);
   }, [FormErrors]);
+
+  const onChange = (e) => {
+    setForm({ ...Form, [e.target.name]: e.target.value });
+  };
+
+  const HandleRememberMe = (e) => {
+    setForm({ ...Form, rememberMe: e.target.checked });
+  };
 
   const HandleValidation = (e, form) => {
     e.preventDefault();
@@ -39,6 +52,9 @@ const Login = () => {
       HandleValidation={HandleValidation}
       FormErrors={FormErrors}
       rememberedUser={rememberedUser}
+      onChange={onChange}
+      HandleRememberMe={HandleRememberMe}
+      Form={Form}
     />
   );
 };

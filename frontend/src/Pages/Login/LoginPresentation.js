@@ -1,26 +1,15 @@
 import { LargeButton, AuthAside } from "../../componets";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { PasswordInput, EmailInput, Checkbox } from "../../componets";
 
 const LoginPresentation = ({
   FormErrors,
   HandleValidation,
-  rememberedUser,
+  Form,
+  HandleRememberMe,
+  onChange,
 }) => {
-  const [Form, setForm] = useState({
-    email: rememberedUser,
-    password: "",
-    rememberMe: false,
-  });
-
-  const onChange = (e) => {
-    setForm({ ...Form, [e.target.name]: e.target.value });
-  };
-
-  const HandleRememberMe = (e) => {
-    setForm({ ...Form, rememberMe: e.target.checked });
-  };
-
   return (
     <div className="Login">
       <AuthAside />
@@ -49,90 +38,26 @@ const LoginPresentation = ({
           className="AuthForm"
           onSubmit={(e) => HandleValidation(e, Form)}
         >
-          <label
-            title="label-email"
-            htmlFor="email"
-            className={`AuthForm__label ${
-              FormErrors.email !== "" && "AuthForm__label--error"
-            }`}
-          >
-            <h4
-              data-testid={`errorText-email`}
-              className={`AuthForm__error-txt ${
-                FormErrors.email === "" && "AuthForm__error-txt--invisible"
-              } `}
-            >
-              {FormErrors.email}
-            </h4>
+          <EmailInput
+            FormErrors={FormErrors}
+            onChange={onChange}
+            Form={Form}
+            name="email"
+            placeholder="enter email"
+          />
+          <PasswordInput
+            FormErrors={FormErrors}
+            onChange={onChange}
+            Form={Form}
+            name="password"
+            placeholder="enter password"
+          />
 
-            <svg
-              className="AuthForm__input-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="24"
-              viewBox="0 0 30 24"
-            >
-              <path
-                id="Icon_material-mail-outline"
-                data-name="Icon material-mail-outline"
-                d="M30,6H6A3,3,0,0,0,3.015,9L3,27a3.009,3.009,0,0,0,3,3H30a3.009,3.009,0,0,0,3-3V9A3.009,3.009,0,0,0,30,6Zm0,21H6V12l12,7.5L30,12ZM18,16.5,6,9H30Z"
-                transform="translate(-3 -6)"
-                opacity="0.51"
-              />
-            </svg>
-            <input
-              className="AuthForm__input"
-              type="email"
-              placeholder="enter email"
-              name="email"
-              value={Form.email}
-              onChange={onChange}
-            />
-          </label>
-          <label
-            title="label-password"
-            htmlFor="password"
-            className={`AuthForm__label ${
-              FormErrors.password !== "" && "AuthForm__label--error"
-            }`}
-          >
-            <h4
-              data-testid={`errorText-password`}
-              className={`AuthForm__error-txt ${
-                FormErrors.password === "" && "AuthForm__error-txt--invisible"
-              } `}
-            >
-              {FormErrors.password}
-            </h4>
-
-            <svg
-              className="AuthForm__input-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="36"
-              viewBox="0 0 36 36"
-            >
-              <path
-                id="Icon_awesome-key"
-                data-name="Icon awesome-key"
-                d="M36,12.375A12.382,12.382,0,0,1,21.317,24.534l-1.688,1.9A1.687,1.687,0,0,1,18.367,27H15.75v2.813A1.687,1.687,0,0,1,14.063,31.5H11.25v2.813A1.687,1.687,0,0,1,9.563,36H1.688A1.687,1.687,0,0,1,0,34.313V28.824a1.688,1.688,0,0,1,.494-1.193L11.871,16.254A12.376,12.376,0,1,1,36,12.375ZM23.625,9A3.375,3.375,0,1,0,27,5.625,3.375,3.375,0,0,0,23.625,9Z"
-                opacity="0.51"
-              />
-            </svg>
-
-            <input
-              className="AuthForm__input"
-              type="password"
-              placeholder="enter password"
-              name="password"
-              value={Form.password}
-              onChange={onChange}
-            />
-          </label>
-          <label className="AuthForm__checkbox-container" htmlFor="">
-            <input onClick={HandleRememberMe} type="checkbox" />
-            <h3 className="AuthForm__checkbox-text">remember username?</h3>
-          </label>
+          <Checkbox
+            name="rememberMe"
+            onClick={HandleRememberMe}
+            text="remember username?"
+          />
           <LargeButton
             onClick={(e) => HandleValidation(e, Form)}
             text="Log in"

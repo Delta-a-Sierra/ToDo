@@ -655,6 +655,99 @@ a {
           transform: scale(1.1);
 }
 
+.Input__label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #27496d;
+  border: 2px solid #b1b1b1;
+  border-radius: 2em;
+  padding: 0.2em;
+  width: 100%;
+  height: 1em;
+}
+
+.Input__label--error {
+  border: 2px solid #eb4343;
+}
+
+.Input__input {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  width: 80%;
+  margin-left: 1em;
+}
+
+.Input__input::-webkit-input-placeholder {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: #b1b1b1;
+}
+
+.Input__input:-ms-input-placeholder {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: #b1b1b1;
+}
+
+.Input__input::-ms-input-placeholder {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: #b1b1b1;
+}
+
+.Input__input::placeholder {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: #b1b1b1;
+}
+
+.Input__input-icon {
+  margin-left: 0.2em;
+  fill: #b1b1b1;
+  width: 0.5em;
+}
+
+.Input__error-txt {
+  position: absolute;
+  top: -1em;
+  left: 1em;
+  background-color: #27496d;
+  padding: 0.2em 0.5em;
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 12px;
+  color: #eb4343;
+  letter-spacing: 0.1em;
+}
+
+.Input__error-txt--invisible {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.Checkbox__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.2em;
+}
+
+.Checkbox__text {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #b1b1b1;
+}
+
 .AuthForm {
   display: -webkit-box;
   display: -ms-flexbox;
