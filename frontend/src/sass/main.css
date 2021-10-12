@@ -772,6 +772,76 @@ template {
           transform: scale(1.1);
 }
 
+@media screen and (min-width: 1024px) {
+  .AuthForm {
+    width: 60%;
+  }
+}
+
+.AuthAside {
+  width: 25vw;
+  height: 100vh;
+  background-color: #142850;
+  display: none;
+  padding: 1em;
+}
+
+.AuthAside__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.8em;
+}
+
+.AuthAside__logo {
+  width: 3em;
+  margin-bottom: 4em;
+}
+
+.AuthAside__title, .AuthAside__body {
+  text-align: center;
+}
+
+.AuthAside__title {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 2em;
+  color: white;
+}
+
+.AuthAside__body {
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  color: white;
+  margin-bottom: 2em;
+}
+
+@media screen and (min-width: 1024px) {
+  .AuthAside {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+
+.Login {
+  width: 100vw;
+  height: 100vh;
+}
+
 .Login__content {
   padding: 0.5em;
   display: -webkit-box;
@@ -784,8 +854,7 @@ template {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   background-color: #27496d;
   font-family: "Cera-Black", "Courier New", "Courier", "monospace";
   font-size: 3em;
@@ -800,5 +869,26 @@ template {
 
 .Login__title {
   margin-bottom: 1em;
+}
+
+@media screen and (min-width: 1024px) {
+  .Login {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .Login__content {
+    padding: 1.5em 0.5em;
+  }
+  .Login__logo {
+    display: none;
+  }
+  .Login__content {
+    width: 75vw;
+  }
 }
 /*# sourceMappingURL=main.css.map */

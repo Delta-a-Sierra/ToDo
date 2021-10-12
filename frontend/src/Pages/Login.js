@@ -1,12 +1,13 @@
 import "../sass/main.css";
 import { useState } from "react";
-import { LargeButton } from "../componets";
+import { LargeButton, AuthAside } from "../componets";
 
 const Login = () => {
   const [FormError] = useState(false);
 
   return (
     <div className="Login">
+      <AuthAside />
       <div className="Login__content">
         <div>
           <svg
