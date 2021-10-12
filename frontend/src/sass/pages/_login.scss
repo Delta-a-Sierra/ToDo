@@ -6,6 +6,7 @@
     @include flex-col;
     align-items: center;
     width: 100%;
+    height: 100%;
     background-color: $primaryColor2;
     @include Title-Large($color: white);
   }
@@ -17,6 +18,15 @@
 
   &__title {
     margin-bottom: 1em;
+  }
+
+  &__type-swap {
+    margin-top: 4em;
+    @include Body-small($color: $offWhite);
+
+    &--bold {
+      @include Body-small-bold($color: $offWhite);
+    }
   }
 }
 
@@ -35,6 +45,10 @@
 
     &__content {
       width: 75vw;
+    }
+
+    &__type-swap {
+      display: none;
     }
   }
 }

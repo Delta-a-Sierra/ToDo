@@ -633,6 +633,10 @@ template {
   display: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 .LargeButton {
   font-family: "Gilroy-Bold", "Courier New", "Courier", "monospace";
   font-size: 18px;
@@ -855,6 +859,7 @@ template {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
+  height: 100%;
   background-color: #27496d;
   font-family: "Cera-Black", "Courier New", "Courier", "monospace";
   font-size: 3em;
@@ -869,6 +874,19 @@ template {
 
 .Login__title {
   margin-bottom: 1em;
+}
+
+.Login__type-swap {
+  margin-top: 4em;
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #b1b1b1;
+}
+
+.Login__type-swap--bold {
+  font-family: "Gilroy-Bold", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #b1b1b1;
 }
 
 @media screen and (min-width: 1024px) {
@@ -889,6 +907,9 @@ template {
   }
   .Login__content {
     width: 75vw;
+  }
+  .Login__type-swap {
+    display: none;
   }
 }
 /*# sourceMappingURL=main.css.map */

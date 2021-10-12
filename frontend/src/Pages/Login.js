@@ -1,6 +1,7 @@
 import "../sass/main.css";
 import { useState } from "react";
 import { LargeButton, AuthAside } from "../componets";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [FormError] = useState(false);
@@ -93,6 +94,12 @@ const Login = () => {
           </label>
           <LargeButton text="Log in" />
         </form>
+        <Link to="/signup">
+          <p className="Login__type-swap">
+            No Account?{" "}
+            <span className="Login__type-swap--bold">Create one</span>
+          </p>
+        </Link>
       </div>
     </div>
   );

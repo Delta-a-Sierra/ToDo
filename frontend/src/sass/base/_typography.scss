@@ -45,3 +45,9 @@
   font-size: 16px;
   color: $color;
 }
+
+@mixin Body-small-bold($color) {
+  font-family: "Gilroy-Bold", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: $color;
+}
