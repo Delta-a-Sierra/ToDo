@@ -17,7 +17,7 @@ const EmailInput = ({
       }`}
     >
       <svg
-        className="AuthForm__input-icon"
+        className="Input__input-icon"
         xmlns="http://www.w3.org/2000/svg"
         width="30"
         height="24"
