@@ -31,14 +31,11 @@ const EmailInput = ({
           opacity="0.51"
         />
       </svg>
-      <h4
-        data-testid={`errorText-${name}`}
-        className={`Input__error-txt ${
-          FormErrors[name] === "" && "Input__error-txt--invisible"
-        } `}
-      >
-        {FormErrors[name]}
-      </h4>
+      {FormErrors[name] !== "" && (
+        <h4 data-testid={`errorText-${name}`} className="Input__error-txt">
+          {FormErrors[name]}
+        </h4>
+      )}
 
       <input
         className="Input__input"

@@ -96,10 +96,10 @@ const SignupPresentation = ({
             text="Sign Up"
           />
         </form>
-        <Link to="/signup">
+        <Link to="/login">
           <p className="Login__type-swap">
-            No Account?{" "}
-            <span className="Login__type-swap--bold">Create one</span>
+            Already have an Account?
+            <span className="Login__type-swap--bold"> Log In</span>
           </p>
         </Link>
       </div>
