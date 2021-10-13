@@ -5,7 +5,6 @@ import { ValidateAll } from "../../util/AuthFormValidation";
 import { Redirect } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
-import env from "react-dotenv";
 
 const intialErrors = {
   email: "",
@@ -60,7 +59,7 @@ const Signup = () => {
     try {
       const response = await axios({
         method: "post",
-        url: `${env.API_URL}/signup`,
+        url: `${process.env.REACT_APP_API_URL}/signup`,
         data: {
           first_name: Form.firstName,
           last_name: Form.lastName,

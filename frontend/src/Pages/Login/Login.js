@@ -5,7 +5,6 @@ import { ValidateAll } from "../../util/AuthFormValidation";
 import { Redirect } from "react-router";
 import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
-import env from "react-dotenv";
 
 const intialErrors = {
   email: "",
@@ -14,8 +13,9 @@ const intialErrors = {
 
 const Login = () => {
   const [authenticated, setAuthenticated] = useContext(AuthContext);
+
   const [FormErrors, setFormErrors] = useState({ ...intialErrors });
-  const [rememberedUser, setRememberedUser] = useState("");
+  const [rememberedUser] = useState("");
   const [Form, setForm] = useState({
     email: rememberedUser,
     password: "",
@@ -65,7 +65,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: "post",
-        url: `${env.API_URL}/login`,
+        url: `${process.env.REACT_APP_API_URL}/login`,
         data: { email: Form.email, password: Form.password },
       });
       if (response.status === 200) {
@@ -85,7 +85,6 @@ const Login = () => {
     <LoginPresentation
       HandleValidation={HandleValidation}
       FormErrors={FormErrors}
-      rememberedUser={rememberedUser}
       onChange={onChange}
       HandleRememberMe={HandleRememberMe}
       Form={Form}
