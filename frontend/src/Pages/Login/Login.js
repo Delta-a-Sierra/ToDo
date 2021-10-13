@@ -1,7 +1,11 @@
 import "../../sass/main.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import LoginPresentation from "./LoginPresentation";
 import { ValidateAll } from "../../util/AuthFormValidation";
+import { Redirect } from "react-router";
+import { AuthContext } from "../../contexts/AuthContext";
+import axios from "axios";
+import env from "react-dotenv";
 
 const intialErrors = {
   email: "",
@@ -9,6 +13,7 @@ const intialErrors = {
 };
 
 const Login = () => {
+  const [authenticated, setAuthenticated] = useContext(AuthContext);
   const [FormErrors, setFormErrors] = useState({ ...intialErrors });
   const [rememberedUser, setRememberedUser] = useState("");
   const [Form, setForm] = useState({
@@ -16,6 +21,7 @@ const Login = () => {
     password: "",
     rememberMe: false,
   });
+  const [LoginResponse, setLoginResponse] = useState("");
 
   useEffect(() => {
     const email = window.localStorage.getItem("email");
@@ -25,8 +31,12 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    console.log(FormErrors);
-  }, [FormErrors]);
+    setTimeout(() => {
+      setLoginResponse("");
+    }, 3000);
+  }, [LoginResponse]);
+
+  useEffect(() => {}, [FormErrors]);
 
   const onChange = (e) => {
     setForm({ ...Form, [e.target.name]: e.target.value });
@@ -45,7 +55,31 @@ const Login = () => {
     if (!errors.active && form.rememberMe) {
       window.localStorage.setItem("email", form.email);
     }
+
+    if (!errors.active) {
+      LoginCall();
+    }
   };
+
+  const LoginCall = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${env.API_URL}/login`,
+        data: { email: Form.email, password: Form.password },
+      });
+      if (response.status === 200) {
+        window.localStorage.setItem("token", response.data.token);
+        setAuthenticated(true);
+      }
+    } catch (e) {
+      setLoginResponse(e.response.data.message);
+    }
+  };
+
+  if (authenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <LoginPresentation
@@ -55,6 +89,7 @@ const Login = () => {
       onChange={onChange}
       HandleRememberMe={HandleRememberMe}
       Form={Form}
+      LoginResponse={LoginResponse}
     />
   );
 };

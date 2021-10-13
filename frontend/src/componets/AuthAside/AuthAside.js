@@ -1,7 +1,7 @@
 import "../../sass/main.css";
 import { LargeButton } from "../";
 
-const AuthAside = () => {
+const AuthAside = ({ title, text, link, btnTxt }) => {
   return (
     <aside className="AuthAside">
       <svg
@@ -21,11 +21,9 @@ const AuthAside = () => {
         />
       </svg>
       <div className="AuthAside__content">
-        <h1 className="AuthAside__title">Hello Friend</h1>
-        <p className="AuthAside__body">
-          New here? signup and start your journey with us
-        </p>
-        <LargeButton link="signup" text="Sign Up" />
+        <h1 className="AuthAside__title">{title}</h1>
+        <p className="AuthAside__body">{text}</p>
+        <LargeButton link={link} text={btnTxt} />
       </div>
     </aside>
   );

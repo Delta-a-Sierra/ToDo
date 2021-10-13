@@ -1,0 +1,11 @@
+.Home {
+  width: 100vw;
+  height: 100vh;
+  @include flex-col;
+  background-color: $primaryColor2;
+
+  &__content {
+    height: 90%;
+    width: 100%;
+  }
+}

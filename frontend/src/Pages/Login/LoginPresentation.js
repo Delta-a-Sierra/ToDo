@@ -9,10 +9,16 @@ const LoginPresentation = ({
   Form,
   HandleRememberMe,
   onChange,
+  LoginResponse,
 }) => {
   return (
     <div className="Login">
-      <AuthAside />
+      <AuthAside
+        title="Hello Friend"
+        text="New here? signup and start your journey with us"
+        link="/signup"
+        btnTxt="Sign Up"
+      />
       <div className="Login__content">
         <div>
           <svg
@@ -52,7 +58,9 @@ const LoginPresentation = ({
             name="password"
             placeholder="enter password"
           />
-
+          {LoginResponse && (
+            <p className="AuthForm__response-txt">{LoginResponse}</p>
+          )}
           <Checkbox
             name="rememberMe"
             onClick={HandleRememberMe}

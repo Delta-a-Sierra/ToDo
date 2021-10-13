@@ -1,0 +1,45 @@
+.Loading-screen {
+  width: 100vw;
+  height: 100vh;
+  background-color: $primaryColor1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__svg {
+    width: 70%;
+    height: 70%;
+  }
+
+  #Spinner-2 {
+    transform-origin: center;
+    animation: spinner 3s ease-in-out infinite;
+  }
+}
+
+@keyframes spinner {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes logo {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .Loading-screen {
+    &__svg {
+      width: 30%;
+      height: 30%;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+.Mobile-Nav {
+  position: relative;
+  bottom: 0;
+  width: 100vw;
+  height: 10vh;
+  background-color: $primaryColor1;
+  padding: 1em;
+
+  &__icon-container {
+    padding: 0.5em 0.8em;
+    border-bottom: 2px solid $primaryColor1;
+
+    &--active {
+      border-bottom: 2px solid $accent2;
+    }
+  }
+
+  &__icons {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1em;
+  }
+
+  &__icon {
+    width: 1.6em;
+    height: 1.6em;
+    fill: white;
+  }
+
+  .popout {
+    position: absolute;
+    bottom: 10vh;
+    left: 0;
+    width: 100%;
+    height: 90vh;
+    background-color: white;
+    @include flex-col;
+    padding: 2em 1em;
+
+    &__title {
+      text-align: center;
+      @include Title-Medium($color: $primaryColor1);
+    }
+  }
+}

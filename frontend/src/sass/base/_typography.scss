@@ -19,6 +19,7 @@
 @mixin Body-Regular($color) {
   font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
   font-size: 18px;
+  line-height: 1.5em;
   color: $color;
 }
 
