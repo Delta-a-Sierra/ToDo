@@ -11,12 +11,13 @@
 @import "components/largeButton";
 @import "components/input";
 @import "components/checkbox";
+@import "components/popoutItem";
 
 //LAYOUT
 @import "layout/authForm";
 @import "layout/authAside";
 @import "layout/loadingScreen";
-@import "layout/mobileNav";
+@import "layout/nav";
 
 //PAGES
 @import "pages/login";

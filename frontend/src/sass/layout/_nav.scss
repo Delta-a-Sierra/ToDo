@@ -1,8 +1,8 @@
-.Mobile-Nav {
+.Nav {
   position: relative;
   bottom: 0;
-  width: 100vw;
-  height: 10vh;
+  width: 100%;
+  height: 10%;
   background-color: $primaryColor1;
   padding: 1em;
 
@@ -23,7 +23,7 @@
     justify-content: space-around;
     gap: 1em;
   }
-
+  &__logo,
   &__icon {
     width: 1.6em;
     height: 1.6em;
@@ -38,11 +38,51 @@
     height: 90vh;
     background-color: white;
     @include flex-col;
-    padding: 2em 1em;
+    padding: 2em 0;
 
     &__title {
       text-align: center;
       @include Title-Medium($color: $primaryColor1);
+      margin-bottom: 1em;
+    }
+
+    &__list {
+      @include flex-col;
+      gap: 0.5em;
+    }
+  }
+}
+
+@media screen and(min-width: $desktopBreakpoint) {
+  .Nav {
+    padding: 2em 0;
+    width: 5%;
+    height: 100%;
+    @include flex-col;
+    gap: 4em;
+    align-items: center;
+
+    &__icons {
+      @include flex-col;
+      gap: 0.5em;
+      justify-content: flex-start;
+
+      &--last {
+        margin-top: auto;
+      }
+    }
+
+    &__logo {
+      width: 3em;
+      height: 3em;
+    }
+
+    .popout {
+      position: absolute;
+      left: 5vw;
+      top: 0;
+      width: 10vw;
+      height: 100vh;
     }
   }
 }

@@ -73,7 +73,11 @@ const Login = () => {
         setAuthenticated(true);
       }
     } catch (e) {
-      setLoginResponse(e.response.data.message);
+      try {
+        setLoginResponse(e.response.data.message);
+      } catch {
+        setLoginResponse("server unavailable");
+      }
     }
   };
 

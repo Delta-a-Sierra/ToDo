@@ -9,3 +9,15 @@
     width: 100%;
   }
 }
+
+@media screen and(min-width: $desktopBreakpoint) {
+  .Home {
+    flex-direction: row;
+
+    &__content {
+      height: 100%;
+      width: 95%;
+      order: 2;
+    }
+  }
+}

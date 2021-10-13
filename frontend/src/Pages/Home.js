@@ -1,7 +1,7 @@
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext, AuthProvider } from "../contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import { LoadingScreen, MobileNav } from "../componets";
+import { LoadingScreen, Nav } from "../componets";
 
 const Home = () => {
   const [authenticated] = useContext(AuthContext);
@@ -12,6 +12,10 @@ const Home = () => {
       setLoading(false);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    console.log("authenticated changed");
+  }, [authenticated]);
 
   if (!authenticated) {
     return <Redirect to="/login" />;
@@ -24,8 +28,7 @@ const Home = () => {
   return (
     <div className="Home">
       <div className="Home__content"></div>
-      <h1> you are authenticated</h1>
-      <MobileNav />
+      <Nav />
     </div>
   );
 };

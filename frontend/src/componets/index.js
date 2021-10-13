@@ -10,4 +10,5 @@ export { default as PasswordInput } from "./Input/PasswordInput";
 export { default as EmailInput } from "./Input/EmailInput";
 
 // ------------ Navs ------------------
-export { default as MobileNav } from "./MobileNav/MobileNav";
+export { default as Nav } from "./nav/Nav";
+export { default as PopoutItem } from "./PopoutItem/PopoutItem";

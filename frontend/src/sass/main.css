@@ -748,6 +748,25 @@ a {
   color: #b1b1b1;
 }
 
+.Popout-item__container {
+  width: 100%;
+}
+
+.Popout-item__item {
+  width: 100%;
+  display: inline-block;
+  padding: 0.5em 0;
+  margin: 0 auto;
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1em;
+  color: #142850;
+  text-align: center;
+}
+
+.Popout-item__item:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 .AuthForm {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -929,25 +948,25 @@ a {
   }
 }
 
-.Mobile-Nav {
+.Nav {
   position: relative;
   bottom: 0;
-  width: 100vw;
-  height: 10vh;
+  width: 100%;
+  height: 10%;
   background-color: #142850;
   padding: 1em;
 }
 
-.Mobile-Nav__icon-container {
+.Nav__icon-container {
   padding: 0.5em 0.8em;
   border-bottom: 2px solid #142850;
 }
 
-.Mobile-Nav__icon-container--active {
+.Nav__icon-container--active {
   border-bottom: 2px solid #00a8cc;
 }
 
-.Mobile-Nav__icons {
+.Nav__icons {
   width: 100%;
   height: 100%;
   display: -webkit-box;
@@ -961,13 +980,13 @@ a {
   gap: 1em;
 }
 
-.Mobile-Nav__icon {
+.Nav__logo, .Nav__icon {
   width: 1.6em;
   height: 1.6em;
   fill: white;
 }
 
-.Mobile-Nav .popout {
+.Nav .popout {
   position: absolute;
   bottom: 10vh;
   left: 0;
@@ -981,14 +1000,72 @@ a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 2em 1em;
+  padding: 2em 0;
 }
 
-.Mobile-Nav .popout__title {
+.Nav .popout__title {
   text-align: center;
   font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
   font-size: 2em;
   color: #142850;
+  margin-bottom: 1em;
+}
+
+.Nav .popout__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 0.5em;
+}
+
+@media screen and (min-width: 1024px) {
+  .Nav {
+    padding: 2em 0;
+    width: 5%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 4em;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .Nav__icons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 0.5em;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
+  .Nav__icons--last {
+    margin-top: auto;
+  }
+  .Nav__logo {
+    width: 3em;
+    height: 3em;
+  }
+  .Nav .popout {
+    position: absolute;
+    left: 5vw;
+    top: 0;
+    width: 10vw;
+    height: 100vh;
+  }
 }
 
 .Login {
@@ -1079,5 +1156,21 @@ a {
 .Home__content {
   height: 90%;
   width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .Home {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .Home__content {
+    height: 100%;
+    width: 95%;
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+  }
 }
 /*# sourceMappingURL=main.css.map */
