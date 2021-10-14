@@ -957,6 +957,10 @@ a {
   padding: 1em;
 }
 
+.Nav__logo {
+  display: none;
+}
+
 .Nav__icon-container {
   padding: 0.5em 0.8em;
   border-bottom: 2px solid #142850;
@@ -1009,6 +1013,7 @@ a {
   font-size: 2em;
   color: #142850;
   margin-bottom: 1em;
+  padding: 0 0.8em;
 }
 
 .Nav .popout__list {
@@ -1056,6 +1061,7 @@ a {
     margin-top: auto;
   }
   .Nav__logo {
+    display: block;
     width: 3em;
     height: 3em;
   }
@@ -1063,7 +1069,7 @@ a {
     position: absolute;
     left: 5vw;
     top: 0;
-    width: 10vw;
+    width: 12vw;
     height: 100vh;
   }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import NavPresentation from "./NavPresentation";
 import { AuthContext } from "../../contexts/AuthContext";
+import { types as GroupType, GroupContext } from "../../contexts/GroupContext";
 
 const list = [
   { name: "just a group 1", id: 1 },
@@ -12,19 +13,24 @@ const Nav = () => {
   const [PopUpActive, setPopUpActive] = useState(false);
   const [PopOutTitle, setPopoutTitle] = useState(false);
   const [List, setList] = useState([...list]);
+  const [GroupState, GroupDispatcher] = useContext(GroupContext);
   const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
     switch (PopOutTitle) {
       case "Groups":
-        setList([...List]);
+        setList([...GroupState.groups]);
         break;
       case "Favourites":
-        console.log("faves");
-        setList([...List]);
+        const faves = GroupState.groups.filter((group) => {
+          if (group.is_fav) {
+            return group;
+          }
+        });
+        setList([...faves]);
         break;
       default:
-        setList([...List]);
+        setList([...GroupState.groups]);
         break;
     }
   }, [PopOutTitle]);

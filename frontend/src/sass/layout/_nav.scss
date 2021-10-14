@@ -6,6 +6,10 @@
   background-color: $primaryColor1;
   padding: 1em;
 
+  &__logo {
+    display: none;
+  }
+
   &__icon-container {
     padding: 0.5em 0.8em;
     border-bottom: 2px solid $primaryColor1;
@@ -44,6 +48,7 @@
       text-align: center;
       @include Title-Medium($color: $primaryColor1);
       margin-bottom: 1em;
+      padding: 0 0.8em;
     }
 
     &__list {
@@ -73,6 +78,7 @@
     }
 
     &__logo {
+      display: block;
       width: 3em;
       height: 3em;
     }
@@ -81,7 +87,7 @@
       position: absolute;
       left: 5vw;
       top: 0;
-      width: 10vw;
+      width: 12vw;
       height: 100vh;
     }
   }
