@@ -5,6 +5,7 @@ import { createContext, useState, useReducer } from "react";
 export const types = {
   ADD_GROUP: "ADD_GROUP",
   CHANGE_GROUP: "CHANGE_GROUP",
+  DELETE_GROUP: "DELETE_GROUP",
 };
 
 const reducer = (state, action) => {
@@ -21,6 +22,13 @@ const reducer = (state, action) => {
         return group;
       });
       return { groups: [...changedGroup] };
+    case types.DELETE_GROUP:
+      const remaingGroups = state.groups.filter((group) => {
+        if (group.id !== action.payload.id) {
+          return group;
+        }
+      });
+      return { groups: [...remaingGroups] };
 
     default:
       break;
