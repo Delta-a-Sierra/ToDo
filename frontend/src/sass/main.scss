@@ -12,12 +12,15 @@
 @import "components/input";
 @import "components/checkbox";
 @import "components/popoutItem";
+@import "components/groupDropdown";
 
 //LAYOUT
 @import "layout/authForm";
 @import "layout/authAside";
 @import "layout/loadingScreen";
 @import "layout/nav";
+@import "layout/gettingStarted";
+@import "layout/newTask";
 
 //PAGES
 @import "pages/login";

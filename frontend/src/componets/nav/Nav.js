@@ -3,41 +3,36 @@ import NavPresentation from "./NavPresentation";
 import { AuthContext } from "../../contexts/AuthContext";
 import { types as GroupType, GroupContext } from "../../contexts/GroupContext";
 
-const list = [
-  { name: "just a group 1", id: 1 },
-  { name: "just a group 2", id: 1 },
-  { name: "just a group 3", id: 1 },
-];
-
 const Nav = () => {
   const [PopUpActive, setPopUpActive] = useState(false);
   const [PopOutTitle, setPopoutTitle] = useState(false);
-  const [List, setList] = useState([...list]);
+  const [List, setList] = useState([]);
   const [GroupState, GroupDispatcher] = useContext(GroupContext);
   const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
+    console.log("rerender");
     switch (PopOutTitle) {
       case "Groups":
         setList([...GroupState.groups]);
         break;
       case "Favourites":
-        const faves = GroupState.groups.filter((group) => {
-          if (group.is_fav) {
-            return group;
-          }
-        });
-        setList([...faves]);
+        setList([...GetFaves(GroupState.groups)]);
         break;
       default:
         setList([...GroupState.groups]);
         break;
     }
-  }, [PopOutTitle]);
+  }, [PopOutTitle, GroupState]);
 
-  const TogglePopup = (title, listItems) => {
+  const TogglePopup = (title) => {
+    if (title !== PopOutTitle) {
+      setPopUpActive(false);
+      setPopoutTitle(title);
+      setPopUpActive(true);
+      return;
+    }
     setPopUpActive((prev) => !prev);
-    setPopoutTitle(title);
   };
 
   const Logout = (e) => {
@@ -54,6 +49,15 @@ const Nav = () => {
       Logout={Logout}
     />
   );
+};
+
+const GetFaves = (groups) => {
+  const faves = groups.filter((group) => {
+    if (group.is_fav) {
+      return group;
+    }
+  });
+  return faves;
 };
 
 export default Nav;

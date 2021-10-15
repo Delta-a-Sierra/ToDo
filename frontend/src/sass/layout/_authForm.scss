@@ -1,14 +1,14 @@
 .AuthForm {
   @include flex-col;
   align-items: center;
-  width: 100%;
-  gap: 0.5em;
+  width: 90%;
+  gap: 1.5em;
 
   &__row {
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 0.2em;
+    gap: 0.5em;
   }
 
   &__response-txt {
@@ -18,7 +18,7 @@
 
 @media screen and (min-width: $desktopBreakpoint) {
   .AuthForm {
-    width: 60%;
+    width: 45%;
 
     &__row {
       gap: 0.5em;

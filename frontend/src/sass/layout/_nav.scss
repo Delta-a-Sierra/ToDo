@@ -42,11 +42,13 @@
     height: 90vh;
     background-color: white;
     @include flex-col;
-    padding: 2em 0;
+    padding-top: 4em;
+    padding-bottom: 2em;
 
     &__title {
       text-align: center;
       @include Title-Medium($color: $primaryColor1);
+      min-width: 15vw;
       margin-bottom: 1em;
       padding: 0 0.8em;
     }
@@ -87,8 +89,10 @@
       position: absolute;
       left: 5vw;
       top: 0;
-      width: 12vw;
+      min-width: fit-content;
       height: 100vh;
+      padding: 4em 1em;
+      padding-bottom: 2em;
     }
   }
 }

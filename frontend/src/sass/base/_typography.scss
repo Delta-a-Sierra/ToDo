@@ -10,9 +10,22 @@
   color: $color;
 }
 
+@mixin Title-Regular($color) {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1.5em;
+  color: $color;
+}
+
 @mixin Title-Small($color) {
   font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
   font-size: 1em;
+  color: $color;
+}
+
+@mixin Body-Large-Light($color) {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 24px;
+  line-height: 1.5em;
   color: $color;
 }
 

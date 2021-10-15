@@ -1,0 +1,38 @@
+.Getting-started {
+  height: 90%;
+  width: 100%;
+  @include flex-col;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+
+  &__container {
+    @include flex-col;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__title {
+    text-align: center;
+    @include Title-Large($color: white);
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+  }
+
+  &__body {
+    text-align: center;
+    @include Body-Large-Light($color: $offWhite);
+    margin-bottom: 2em;
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .Getting-started {
+    flex-direction: row;
+    gap: 4em;
+
+    &__body {
+      width: 60%;
+    }
+  }
+}

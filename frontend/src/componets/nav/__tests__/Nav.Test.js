@@ -3,13 +3,16 @@ import { BrowserRouter } from "react-router-dom";
 import Nav from "../Nav";
 import NavPresentation from "../NavPresentation";
 import { AuthProvider } from "../../../contexts/AuthContext";
+import { GroupProvider } from "../../../contexts/GroupContext";
 
 describe("Nav", () => {
   const MockNav = () => {
     return (
       <BrowserRouter>
         <AuthProvider>
-          <Nav />
+          <GroupProvider>
+            <Nav />
+          </GroupProvider>
         </AuthProvider>
       </BrowserRouter>
     );
@@ -57,12 +60,14 @@ describe("Nav", () => {
       return (
         <BrowserRouter>
           <AuthProvider>
-            <NavPresentation
-              PopUpActive={true}
-              TogglePopup={mockToggle}
-              list={mockList}
-              PopOutTitle="test"
-            />
+            <GroupProvider>
+              <NavPresentation
+                PopUpActive={true}
+                TogglePopup={mockToggle}
+                list={mockList}
+                PopOutTitle="test"
+              />
+            </GroupProvider>
           </AuthProvider>
         </BrowserRouter>
       );

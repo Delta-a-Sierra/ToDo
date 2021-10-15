@@ -7,15 +7,15 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
+          <Route exact path="/Login">
+            <Login />
+          </Route>
+          <Route exact path="/signup">
+            <Signup />
+          </Route>
           <GroupProvider>
             <Route exact path="/">
               <Home />
-            </Route>
-            <Route exact path="/Login">
-              <Login />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
             </Route>
           </GroupProvider>
         </Switch>

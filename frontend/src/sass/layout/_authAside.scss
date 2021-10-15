@@ -35,5 +35,14 @@
   .AuthAside {
     @include flex-col;
     align-items: center;
+    padding-top: 10em;
+
+    &__logo {
+      margin-bottom: 2em;
+    }
+
+    &__body {
+      width: 60%;
+    }
   }
 }

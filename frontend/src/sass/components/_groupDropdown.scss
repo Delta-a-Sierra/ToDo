@@ -1,0 +1,42 @@
+.Dropdown {
+  width: 100%;
+  &__input {
+    background-color: $invisible;
+    border: none;
+    @include Body-light($color: white);
+    padding: 0.2em 1em;
+
+    &--active {
+      text-align: center;
+      padding: 0.5em 2em;
+    }
+
+    &::placeholder {
+      @include Body-light($color: $offWhite);
+    }
+  }
+
+  .Input__label {
+    &--active {
+      border-radius: 0.5em;
+      padding-bottom: 1em;
+    }
+  }
+
+  &__container {
+    border-top: 2px solid $accent1;
+    padding-top: 1em;
+    text-align: center;
+  }
+
+  &__item {
+    list-style: none;
+    @include Body-small-light($color: white);
+    padding: 0.4em 0;
+    width: 100%;
+
+    &:hover {
+      background-color: $primaryColor0;
+    }
+  }
+}

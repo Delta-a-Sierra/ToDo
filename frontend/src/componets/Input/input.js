@@ -1,6 +1,14 @@
 import "../../sass/main.css";
 
-const Input = ({ FormErrors, onChange, Form, name, type, placeholder }) => {
+const Input = ({
+  labeled,
+  FormErrors,
+  onChange,
+  Form,
+  name,
+  type,
+  placeholder,
+}) => {
   return (
     <label
       title={`label-${name}`}
