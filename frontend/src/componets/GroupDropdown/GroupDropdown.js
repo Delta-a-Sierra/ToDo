@@ -9,12 +9,25 @@ const GroupDropdown = ({
   name,
   items,
   SetGroup,
+  resetGroup,
 }) => {
   const [DropdownActive, setDropdownActive] = useState(false);
   const [CreateNew, setCreateNew] = useState(false);
 
   const ToggleDropdown = () => {
     setDropdownActive((prev) => !DropdownActive);
+  };
+
+  const ToggleCreateNew = () => {
+    if (DropdownActive) {
+      setDropdownActive(false);
+    }
+    setCreateNew((prev) => !prev);
+  };
+
+  const CancelNewGroup = () => {
+    ToggleCreateNew();
+    resetGroup();
   };
 
   return (
@@ -28,6 +41,8 @@ const GroupDropdown = ({
       DropdownActive={DropdownActive}
       CreateNew={CreateNew}
       ToggleDropdown={ToggleDropdown}
+      ToggleCreateNew={ToggleCreateNew}
+      CancelNewGroup={CancelNewGroup}
     />
   );
 };

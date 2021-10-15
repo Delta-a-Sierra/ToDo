@@ -25,6 +25,10 @@ const NewTasks = ({ toggleNewTask }) => {
     setForm({ ...Form, Group: group.name, groupID: group.id });
   };
 
+  const resetGroup = () => {
+    setForm({ ...Form, Group: "" });
+  };
+
   const [GroupState, GroupDispatcher] = useContext(GroupContext);
 
   return (
@@ -57,6 +61,7 @@ const NewTasks = ({ toggleNewTask }) => {
           Form={Form}
           items={GroupState.groups}
           SetGroup={SetGroup}
+          resetGroup={resetGroup}
         />
         <LabledInput
           FormErrors={FormErrors}

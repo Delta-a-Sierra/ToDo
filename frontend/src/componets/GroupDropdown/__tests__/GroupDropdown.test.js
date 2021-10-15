@@ -46,38 +46,45 @@ describe("GroupsDropdown", () => {
 
   it("test dropwdown is active on mouseEnter", () => {
     render(<MockGroupDropdown />);
-    const dropdownParent = screen.getByTestId("dropdown-parent");
-    fireEvent.mouseEnter(dropdownParent);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
     expect(screen.queryByTestId("dropdown-container")).toBeInTheDocument();
   });
 
   it("test dropwdown is inactive on mouseLeave", () => {
     render(<MockGroupDropdown />);
-    const dropdownParent = screen.getByTestId("dropdown-parent");
-    const dropdownDropdown = screen.getByTestId("dropdown-dropdown");
-    fireEvent.mouseEnter(dropdownParent);
-    fireEvent.mouseLeave(dropdownDropdown);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
+    fireEvent.mouseLeave(dropdown);
     expect(screen.queryByTestId("dropdown-container")).not.toBeInTheDocument();
   });
 
   it("test dropwdown contains all items provided to it", () => {
     render(<MockGroupDropdown />);
-    const dropdownParent = screen.getByTestId("dropdown-parent");
-    fireEvent.mouseEnter(dropdownParent);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
     items.forEach((group) => {
       expect(screen.getByText(group.name)).toBeInTheDocument();
     });
   });
 
-  //   it("test selecting a group will display it in the input", () => {
-  //     render(<MockGroupDropdown />);
-  //     const inputElement = screen.getByPlaceholderText(/select a group/i);
-  //     const dropdownParent = screen.getByTestId("dropdown-parent");
-  //     fireEvent.mouseEnter(dropdownParent);
-  //     items.forEach((group) => {
-  //       const listItem = screen.getByText(group.name);
-  //       fireEvent.click(listItem);
-  //       expect(inputElement.value).toBe(group.name);
-  //     });
-  //   });
+  it("tests Create New group button display input for new group", () => {
+    render(<MockGroupDropdown />);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
+    const CreateNewOption = screen.getByText(/Create New Group/i);
+    fireEvent.click(CreateNewOption);
+    expect(screen.getByPlaceholderText("name new group")).toBeInTheDocument();
+  });
+
+  it("tests expects dropdown to be inactive when new group is active", () => {
+    render(<MockGroupDropdown />);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
+    const CreateNewOption = screen.getByText(/Create New Group/i);
+    fireEvent.click(CreateNewOption);
+    expect(screen.getByTestId("dropdown-parent")).not.toHaveClass(
+      "Input__label--active"
+    );
+  });
 });

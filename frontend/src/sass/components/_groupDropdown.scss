@@ -24,6 +24,17 @@
     }
   }
 
+  &__cancel-input {
+    width: 100%;
+    display: flex;
+    gap: 0.5em;
+    padding-right: 1em;
+  }
+
+  &__cancel-button {
+    @include Body-small-light($color: $accent2);
+  }
+
   &__container {
     border-top: 2px solid $accent1;
     padding-top: 1em;

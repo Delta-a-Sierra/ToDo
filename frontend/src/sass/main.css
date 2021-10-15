@@ -849,6 +849,21 @@ a {
   padding-bottom: 1em;
 }
 
+.Dropdown__cancel-input {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5em;
+  padding-right: 1em;
+}
+
+.Dropdown__cancel-button {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #00a8cc;
+}
+
 .Dropdown__container {
   border-top: 2px solid #0c7b93;
   padding-top: 1em;

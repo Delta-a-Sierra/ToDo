@@ -14,13 +14,25 @@ describe("New Task", () => {
   it("test selecting a group will display it in the input", () => {
     render(<MockNewTask />);
     const inputElement = screen.getByPlaceholderText(/select a group/i);
-    const dropdownParent = screen.getByTestId("dropdown-parent");
-    fireEvent.mouseEnter(dropdownParent);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
     const listItems = screen.getAllByTestId("dropdown-item");
     listItems.forEach((item) => {
       fireEvent.click(item);
       const itemValue = getNodeText(item);
       expect(inputElement.value).toBe(itemValue);
     });
+  });
+
+  it("tests that new group cancel button hides new group and displays dropdown", () => {
+    render(<MockNewTask />);
+    const dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
+    const CreateNewOption = screen.getByText(/Create New Group/i);
+    fireEvent.click(CreateNewOption);
+    expect(screen.queryByTestId("dropdown-dropdown")).not.toBeInTheDocument();
+    const cancelButton = screen.getByRole("button", { name: "cancel" });
+    fireEvent.click(cancelButton);
+    expect(screen.getByTestId("dropdown-dropdown")).toBeInTheDocument();
   });
 });
