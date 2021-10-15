@@ -27,11 +27,14 @@
   }
 }
 
-@media screen and (min-wdith: $desktopBreakpoint) {
+@media screen and(min-width: $desktopBreakpoint) {
   .New-Task {
+    width: 30vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
     &__form {
-      width: 10%;
-      background-color: red;
+      width: 80%;
     }
   }
 }

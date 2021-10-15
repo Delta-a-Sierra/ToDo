@@ -1,6 +1,7 @@
 .Dropdown {
   width: 100%;
   &__input {
+    width: 100%;
     background-color: $invisible;
     border: none;
     @include Body-light($color: white);

@@ -806,6 +806,7 @@ a {
 }
 
 .Dropdown__input {
+  width: 100%;
   background-color: rgba(0, 0, 0, 0);
   border: none;
   font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
@@ -1302,10 +1303,15 @@ a {
   gap: 1em;
 }
 
-@media screen and (min-wdith: 1024px) {
+@media screen and (min-width: 1024px) {
+  .New-Task {
+    width: 30vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
+  }
   .New-Task__form {
-    width: 10%;
-    background-color: red;
+    width: 80%;
   }
 }
 
