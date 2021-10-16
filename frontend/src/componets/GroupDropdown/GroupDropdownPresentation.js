@@ -10,6 +10,7 @@ const GroupDropDownPresentation = ({
   items,
   ToggleCreateNew,
   CancelNewGroup,
+  CreateNewGroup,
 }) => {
   return (
     <div className="Dropdown">
@@ -41,12 +42,20 @@ const GroupDropDownPresentation = ({
               onChange={onChange}
               name={name}
             />
-            <button
-              className="Dropdown__cancel-button"
-              onClick={CancelNewGroup}
-            >
-              cancel
-            </button>
+            <div className="Dropdown__cancel-buttons">
+              <button
+                className="Dropdown__cancel-button"
+                onClick={CreateNewGroup}
+              >
+                Confirm
+              </button>
+              <button
+                className="Dropdown__cancel-button Dropdown__cancel-button--danger"
+                onClick={CancelNewGroup}
+              >
+                cancel
+              </button>
+            </div>
           </div>
         ) : (
           <div className="Dropdown" onMouseLeave={ToggleDropdown}>

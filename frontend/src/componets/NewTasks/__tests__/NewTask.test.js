@@ -16,7 +16,7 @@ describe("New Task", () => {
     const inputElement = screen.getByPlaceholderText(/select a group/i);
     const dropdown = screen.getByTestId("dropdown-dropdown");
     fireEvent.mouseEnter(dropdown);
-    const listItems = screen.getAllByTestId("dropdown-item");
+    const listItems = screen.queryAllByTestId("dropdown-item");
     listItems.forEach((item) => {
       fireEvent.click(item);
       const itemValue = getNodeText(item);

@@ -711,7 +711,7 @@ a {
   color: white;
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  width: 80%;
+  width: 100%;
   min-height: -webkit-fit-content;
   min-height: -moz-fit-content;
   min-height: fit-content;
@@ -806,13 +806,14 @@ a {
 }
 
 .Dropdown__input {
+  position: relative;
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
   border: none;
   font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
   font-size: 18px;
   color: white;
-  padding: 0.2em 1em;
+  margin-left: 1em;
 }
 
 .Dropdown__input--active {
@@ -855,13 +856,35 @@ a {
   display: -ms-flexbox;
   display: flex;
   gap: 0.5em;
-  padding-right: 1em;
+  padding-right: 0.5em;
+}
+
+.Dropdown__cancel-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5em;
+  position: absolute;
+  top: -2em;
+  right: 0.5em;
 }
 
 .Dropdown__cancel-button {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #0c7b93;
+  padding: 0.2em 0.5em;
   font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
   font-size: 16px;
-  color: #00a8cc;
+  color: white;
+  border-radius: 1em;
+  border: 2px solid #0c7b93;
+}
+
+.Dropdown__cancel-button--danger {
+  background-color: rgba(0, 0, 0, 0);
+  color: #142850;
+  border: 2px solid #142850;
 }
 
 .Dropdown__container {

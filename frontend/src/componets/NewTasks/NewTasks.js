@@ -12,10 +12,6 @@ const NewTasks = ({ toggleNewTask }) => {
     "Due Date": "",
   });
 
-  useEffect(() => {
-    console.log(Form);
-  }, [Form]);
-
   const onChange = (e) => {
     setForm({ ...Form, [e.target.name]: e.target.value });
   };
@@ -31,45 +27,36 @@ const NewTasks = ({ toggleNewTask }) => {
 
   const [GroupState, GroupDispatcher] = useContext(GroupContext);
 
+  const commonProps = {
+    FormErrors: FormErrors,
+    onChange: onChange,
+    type: "text",
+    Form: Form,
+  };
+
   return (
     <div className="New-Task">
       <h1 className="New-Task__title">New Task</h1>
       <form className="New-Task__form">
-        <LabledInput
-          FormErrors={FormErrors}
-          onChange={onClick}
-          placeholder="Enter Title"
-          name="Title"
-          type="text"
-          Form={Form}
-        />
+        <LabledInput {...commonProps} placeholder="Enter Title" name="Title" />
 
         <LabeledTextArea
-          FormErrors={FormErrors}
-          onChange={onClick}
+          {...commonProps}
           placeholder="Enter Description"
           name="Description"
-          type="text"
-          Form={Form}
         />
         <GroupDropdown
-          FormErrors={FormErrors}
-          onChange={onChange}
+          {...commonProps}
           placeholder="Select Group"
           name="Group"
-          type="text"
-          Form={Form}
           items={GroupState.groups}
           SetGroup={SetGroup}
           resetGroup={resetGroup}
         />
         <LabledInput
-          FormErrors={FormErrors}
-          onChange={onClick}
+          {...commonProps}
           placeholder="dd/mm/yyyy"
           name="Due Date"
-          type="text"
-          Form={Form}
         />
 
         <div className="New-Task__buttons">

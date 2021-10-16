@@ -41,7 +41,7 @@
     @include Body-light($color: white);
     background-color: $invisible;
     border: none;
-    width: 80%;
+    width: 100%;
     min-height: fit-content;
     margin-left: 1em;
     &::placeholder {

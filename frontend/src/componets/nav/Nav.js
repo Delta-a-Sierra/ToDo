@@ -11,6 +11,11 @@ const Nav = () => {
   const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
+    // console.log("Nav ");
+    // console.log(GroupState);
+  }, []);
+
+  useEffect(() => {
     console.log("rerender");
     switch (PopOutTitle) {
       case "Groups":

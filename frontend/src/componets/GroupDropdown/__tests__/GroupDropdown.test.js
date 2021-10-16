@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import GroupDropdown from "../GroupDropdown";
+import { GroupProvider } from "../../../contexts/GroupContext";
 
 describe("GroupsDropdown", () => {
   const FormErrors = {
@@ -27,15 +28,17 @@ describe("GroupsDropdown", () => {
 
   const MockGroupDropdown = () => {
     return (
-      <GroupDropdown
-        FormErrors={FormErrors}
-        onChange={onClick}
-        placeholder="Select Group"
-        name="Group"
-        type="text"
-        Form={Form}
-        items={items}
-      />
+      <GroupProvider>
+        <GroupDropdown
+          FormErrors={FormErrors}
+          onChange={onClick}
+          placeholder="Select Group"
+          name="Group"
+          type="text"
+          Form={Form}
+          items={items}
+        />
+      </GroupProvider>
     );
   };
 
@@ -86,5 +89,20 @@ describe("GroupsDropdown", () => {
     expect(screen.getByTestId("dropdown-parent")).not.toHaveClass(
       "Input__label--active"
     );
+  });
+
+  it("test that confirming new group creates a new group", async () => {
+    render(<MockGroupDropdown />);
+    let dropdown = screen.getByTestId("dropdown-dropdown");
+    fireEvent.mouseEnter(dropdown);
+    const CreateNewOption = screen.getByText(/Create New Group/i);
+    fireEvent.click(CreateNewOption);
+    const newGroupInput = screen.getByPlaceholderText(/name new group/i);
+    fireEvent.change(newGroupInput, { target: { name: "a new group" } });
+    const confrimGroupBtn = screen.getByRole("button", { name: "Confirm" });
+    const newGroupName = screen.getByPlaceholderText(/name new group/i).value;
+    fireEvent.click(confrimGroupBtn);
+    dropdown = await screen.findByTestId("dropdown-dropdown");
+    expect(dropdown.value).toBe(newGroupName);
   });
 });
