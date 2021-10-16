@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../sass/main.css";
 import GroupDropDownPresentation from "./GroupDropdownPresentation";
 import axios from "axios";
+import { GroupContext, types as GroupTypes } from "../../contexts/GroupContext";
 
 const GroupDropdown = ({
   FormErrors,
@@ -14,6 +15,7 @@ const GroupDropdown = ({
 }) => {
   const [DropdownActive, setDropdownActive] = useState(false);
   const [CreateNew, setCreateNew] = useState(false);
+  const [GroupState, GroupDispatcher] = useContext(GroupContext);
 
   const ToggleDropdown = () => {
     setDropdownActive((prev) => !DropdownActive);
@@ -23,22 +25,24 @@ const GroupDropdown = ({
     if (DropdownActive) {
       setDropdownActive(false);
     }
+    // resetGroup();
     setCreateNew((prev) => !prev);
   };
 
   const CancelNewGroup = () => {
     ToggleCreateNew();
-    resetGroup();
   };
 
   const CreateNewGroup = async (e) => {
     e.preventDefault();
     const response = await NewGroupApiCall(Form.Group);
-    console.log(response);
+    if (response) {
+      const group = await FindGroup(Form.Group);
+      GroupDispatcher({ type: GroupTypes.ADD_GROUP, payload: group });
+      SetGroup(group.name, group.id);
+    }
     if (!response) {
       console.log("unable to create group");
-      setCreateNew(false);
-      return;
     }
     setCreateNew(false);
   };
@@ -84,5 +88,40 @@ const NewGroupApiCall = async (group) => {
       console.log("server unavailable");
     }
     return false;
+  }
+};
+
+const FindGroup = async (groupName) => {
+  const groups = await GetGroupsApiCall();
+  const group = groups.find((group) => {
+    if (group.name === groupName) {
+      return group;
+    }
+  });
+
+  return group;
+};
+
+const GetGroupsApiCall = async () => {
+  const token = window.localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}/taskgroups`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      const groups = await response.data.task_groups;
+      return [...groups];
+    }
+  } catch (e) {
+    try {
+      console.log(e.response.data.message);
+    } catch {
+      console.log("server unavailable");
+    }
+    return [];
   }
 };

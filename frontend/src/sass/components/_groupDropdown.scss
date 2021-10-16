@@ -6,11 +6,11 @@
     background-color: $invisible;
     border: none;
     @include Body-light($color: white);
-
     margin-left: 1em;
 
     &--active {
       text-align: center;
+      margin-left: 0;
       padding: 0.5em 2em;
     }
 

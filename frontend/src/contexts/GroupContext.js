@@ -52,43 +52,41 @@ const mockGroup = {
 export const GroupContext = createContext();
 export const GroupProvider = (props) => {
   const [GroupState, GroupDispatcher] = useReducer(reducer, { groups: [] });
-  const [Groups, SetGroups] = useState([]);
 
   useEffect(() => {
-    GetGroupsApiCall();
+    const GetGroups = async () => {
+      const groups = (await GetGroupsApiCall()) || [];
+      GroupDispatcher({ type: types.UPDATE_GROUP, payload: [...groups] });
+    };
+    GetGroups();
   }, []);
-
-  useEffect(() => {
-    GroupDispatcher({ type: types.UPDATE_GROUP, payload: [...Groups] });
-  }, [Groups]);
-
-  const GetGroupsApiCall = async () => {
-    const token = window.localStorage.getItem("token");
-    try {
-      const response = await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}/taskgroups`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        const groups = await response.data.task_groups;
-        SetGroups([...groups]);
-      }
-    } catch (e) {
-      try {
-        console.log(e.response.data.message);
-      } catch {
-        console.log("server unavailable");
-      }
-      return [];
-    }
-  };
 
   return (
     <GroupContext.Provider value={[GroupState, GroupDispatcher]}>
       {props.children}
     </GroupContext.Provider>
   );
+};
+
+const GetGroupsApiCall = async () => {
+  const token = window.localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}/taskgroups`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      return response.data.task_groups;
+    }
+  } catch (e) {
+    try {
+      console.log(e.response.data.message);
+    } catch {
+      console.log("server unavailable");
+    }
+    return [];
+  }
 };

@@ -749,7 +749,7 @@ a {
   height: 1em;
 }
 
-.Input__error-txt {
+.Input__label-error-txt, .Input__error-txt {
   position: absolute;
   top: -1em;
   left: 1em;
@@ -761,9 +761,16 @@ a {
   letter-spacing: 0.1em;
 }
 
-.Input__error-txt--invisible {
+.Input__label-error-txt--invisible, .Input__error-txt--invisible {
   opacity: 0;
   visibility: hidden;
+}
+
+.Input__label-error-txt {
+  background-color: rgba(0, 0, 0, 0);
+  top: -2em;
+  left: unset;
+  right: 1em;
 }
 
 .Checkbox__container {
@@ -818,6 +825,7 @@ a {
 
 .Dropdown__input--active {
   text-align: center;
+  margin-left: 0;
   padding: 0.5em 2em;
 }
 

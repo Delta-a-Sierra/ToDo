@@ -55,7 +55,7 @@
     width: 1em;
     height: 1em;
   }
-
+  &__label-error-txt,
   &__error-txt {
     position: absolute;
     top: -1em;
@@ -69,5 +69,11 @@
       opacity: 0;
       visibility: hidden;
     }
+  }
+  &__label-error-txt {
+    background-color: $invisible;
+    top: -2em;
+    left: unset;
+    right: 1em;
   }
 }

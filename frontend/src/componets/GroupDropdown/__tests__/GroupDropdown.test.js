@@ -95,7 +95,7 @@ describe("GroupsDropdown", () => {
     render(<MockGroupDropdown />);
     let dropdown = screen.getByTestId("dropdown-dropdown");
     fireEvent.mouseEnter(dropdown);
-    const CreateNewOption = screen.getByText(/Create New Group/i);
+    const CreateNewOption = await screen.findByText(/Create New Group/i);
     fireEvent.click(CreateNewOption);
     const newGroupInput = screen.getByPlaceholderText(/name new group/i);
     fireEvent.change(newGroupInput, { target: { name: "a new group" } });

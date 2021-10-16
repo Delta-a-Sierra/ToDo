@@ -20,8 +20,8 @@ const LabeledInput = ({
       >
         <h4
           data-testid={`errorText-${name}`}
-          className={`Input__error-txt ${
-            FormErrors[name] === "" && "Input__error-txt--invisible"
+          className={`Input__label-error-txt ${
+            FormErrors[name] === "" && "Input__label-error-txt--invisible"
           } `}
         >
           {FormErrors[name]}
