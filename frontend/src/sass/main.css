@@ -1420,8 +1420,9 @@ a {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   width: 100vw;
-  background-color: #142850;
+  background-color: #27496d;
   padding: 1em;
+  border-bottom: 2px solid #142850;
 }
 
 .Group-Nav__row {
