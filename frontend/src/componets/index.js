@@ -16,3 +16,6 @@ export { default as EmailInput } from "./Input/EmailInput";
 export { default as Nav } from "./nav/Nav";
 export { default as PopoutItem } from "./PopoutItem/PopoutItem";
 export { default as NewTasks } from "./NewTasks/NewTasks";
+export { default as GroupNav } from "./GroupNav/GroupNav";
+
+export { default as GroupFilter } from "./GroupFilter/GroupFilter";

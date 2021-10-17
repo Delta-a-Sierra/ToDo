@@ -1,0 +1,40 @@
+.Group-Filter {
+  &__header {
+    position: relative;
+  }
+
+  &__title {
+    @include Title-Small($color: white);
+    letter-spacing: 0.15em;
+
+    span {
+      @include Body-small-light($color: white);
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 6vh;
+    right: 1em;
+    background-color: white;
+
+    &__content {
+      padding: 0.5em;
+    }
+
+    &__item {
+      padding: 0.2em 0.5em;
+      @include Body-small-bold($color: $primaryColor1);
+      text-align: center;
+      width: 100%;
+
+      &:hover {
+        background-color: $offWhite;
+      }
+
+      &--active {
+        color: $accent1;
+      }
+    }
+  }
+}

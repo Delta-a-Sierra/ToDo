@@ -1,10 +1,11 @@
 import "../../sass/main.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { LabledInput, LabeledTextArea, LargeButton, GroupDropdown } from "..";
 import { GroupContext } from "../../contexts/GroupContext";
 import axios from "axios";
 
 const NewTasks = ({ toggleNewTask }) => {
+  const [Validated, setValidated] = useState(false);
   const [Form, setForm] = useState({});
   const [FormErrors, setFormErrors] = useState({
     Title: "",
@@ -25,11 +26,47 @@ const NewTasks = ({ toggleNewTask }) => {
     setForm({ ...Form, Group: "" });
   };
 
+  const setGroupError = (errorText) => {
+    setFormErrors({ ...FormErrors, Group: errorText });
+  };
+
+  const TestIfValid = () => {
+    let isValid = true;
+    for (const input in FormErrors) {
+      if (isValid) {
+        if (FormErrors[input] !== "") {
+          isValid = false;
+        }
+      }
+    }
+    setValidated(isValid);
+  };
+
+  const ValidateForm = () => {
+    const titleError = ValidateTitle(Form.Title);
+    const dueDateError = ValidateDate(Form["Due Date"]);
+    const groupError = ValidateGroup(Form.Group);
+    setFormErrors({
+      ...FormErrors,
+      Title: titleError,
+      "Due Date": dueDateError,
+      Group: groupError,
+    });
+    TestIfValid();
+  };
+
+  const ResetGroupErrors = () => {
+    setFormErrors({ ...FormErrors, Group: "" });
+  };
+
   const CreateTask = async (e) => {
     e.preventDefault();
-    const response = await NewTaskApiCall(Form);
-    if (response) {
-      toggleNewTask();
+    ValidateForm();
+    if (Validated) {
+      const response = await NewTaskApiCall(Form);
+      if (response) {
+        toggleNewTask();
+      }
     }
   };
 
@@ -60,6 +97,8 @@ const NewTasks = ({ toggleNewTask }) => {
           items={GroupState.groups}
           SetGroup={SetGroup}
           resetGroup={resetGroup}
+          ResetGroupErrors={ResetGroupErrors}
+          setGroupError={setGroupError}
         />
         <LabledInput
           {...commonProps}
@@ -115,6 +154,25 @@ const NewTaskApiCall = async (form) => {
 const ValidateTitle = (title) => {
   if (!title) {
     return "Required";
+  }
+  return "";
+};
+
+const ValidateDate = (date) => {
+  if (!date) {
+    return "";
+  }
+  const dateRegex =
+    "^([0]?[1-9]|[1|2][0-9]|[3][0|1])[/]([0][1-9]|[1][0-2])[/]([0-9]{4}|[0-9]{2})$";
+  if (!date.match(dateRegex)) {
+    return "Invalid Date";
+  }
+  return "";
+};
+
+const ValidateGroup = (group) => {
+  if (!group) {
+    return "No group selected";
   }
   return "";
 };

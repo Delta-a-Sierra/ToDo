@@ -1,0 +1,20 @@
+.Group-Nav {
+  box-sizing: border-box;
+  width: 100vw;
+  background-color: $primaryColor1;
+  padding: 1em;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    @include Title-Regular($color: white);
+  }
+
+  &__highlight {
+    @include Body-Regular($color: $offWhite);
+  }
+}

@@ -810,10 +810,10 @@ a {
 
 .Dropdown {
   width: 100%;
+  position: relative;
 }
 
 .Dropdown__input {
-  position: relative;
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -899,6 +899,9 @@ a {
   border-top: 2px solid #0c7b93;
   padding-top: 1em;
   text-align: center;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 10em;
 }
 
 .Dropdown__item {
@@ -912,6 +915,51 @@ a {
 
 .Dropdown__item:hover {
   background-color: #0a163052;
+}
+
+.Group-Filter__header {
+  position: relative;
+}
+
+.Group-Filter__title {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1em;
+  color: white;
+  letter-spacing: 0.15em;
+}
+
+.Group-Filter__title span {
+  font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: white;
+}
+
+.Group-Filter .dropdown {
+  position: absolute;
+  top: 6vh;
+  right: 1em;
+  background-color: white;
+}
+
+.Group-Filter .dropdown__content {
+  padding: 0.5em;
+}
+
+.Group-Filter .dropdown__item {
+  padding: 0.2em 0.5em;
+  font-family: "Gilroy-Bold", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #142850;
+  text-align: center;
+  width: 100%;
+}
+
+.Group-Filter .dropdown__item:hover {
+  background-color: #b1b1b1;
+}
+
+.Group-Filter .dropdown__item--active {
+  color: #0c7b93;
 }
 
 .AuthForm {
@@ -1158,8 +1206,15 @@ a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding-top: 4em;
+  padding-top: 2em;
   padding-bottom: 2em;
+}
+
+.Nav .popout__close {
+  margin-left: auto;
+  margin-right: 1em;
+  width: 1.2em;
+  fill: #142850;
 }
 
 .Nav .popout__title {
@@ -1359,6 +1414,39 @@ a {
   .New-Task__form {
     width: 80%;
   }
+}
+
+.Group-Nav {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100vw;
+  background-color: #142850;
+  padding: 1em;
+}
+
+.Group-Nav__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.Group-Nav__title {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1.5em;
+  color: white;
+}
+
+.Group-Nav__highlight {
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 18px;
+  line-height: 1.5em;
+  color: #b1b1b1;
 }
 
 .Login {

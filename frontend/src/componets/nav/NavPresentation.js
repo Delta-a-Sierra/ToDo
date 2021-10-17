@@ -7,6 +7,7 @@ const NavPresentation = ({
   TogglePopup,
   PopOutTitle,
   Logout,
+  ClosePopup,
 }) => {
   return (
     <nav className="Nav">
@@ -114,6 +115,22 @@ const NavPresentation = ({
       </div>
       {PopUpActive && (
         <div data-testid="nav-popout" className="popout">
+          <svg
+            className="popout__close"
+            onClick={ClosePopup}
+            xmlns="http://www.w3.org/2000/svg"
+            width="27.387"
+            height="27.387"
+            viewBox="0 0 27.387 27.387"
+          >
+            <path
+              id="Icon_metro-cross"
+              data-name="Icon metro-cross"
+              d="M29.708,23.93h0L21.4,15.622l8.308-8.308h0a.858.858,0,0,0,0-1.21L25.783,2.178a.858.858,0,0,0-1.21,0h0l-8.308,8.308L7.956,2.178h0a.858.858,0,0,0-1.21,0L2.821,6.1a.858.858,0,0,0,0,1.21h0l8.308,8.308L2.821,23.93h0a.858.858,0,0,0,0,1.21l3.925,3.925a.858.858,0,0,0,1.21,0h0l8.308-8.308,8.308,8.308h0a.858.858,0,0,0,1.21,0l3.925-3.925a.858.858,0,0,0,0-1.21Z"
+              transform="translate(-2.571 -1.928)"
+            />
+          </svg>
+
           <h1 className="popout__title">{PopOutTitle}</h1>
           <ul className="popout__list">
             {PopOutTitle === "Account" ? (

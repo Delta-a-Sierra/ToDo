@@ -1,14 +1,14 @@
 import { AuthContext, AuthProvider } from "../contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import { LoadingScreen, Nav, NewTasks } from "../componets";
+import { LoadingScreen, Nav, NewTasks, GroupNav } from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
 
 const Home = () => {
   const [authenticated] = useContext(AuthContext);
   const [Loading, setLoading] = useState(true);
-  const [NoTasks, setNoTasks] = useState(true);
+  const [NoTasks, setNoTasks] = useState(false);
   const [Tasks, settasks] = useState([]);
   const [NewTask, setNewTask] = useState(false);
 
@@ -16,7 +16,7 @@ const Home = () => {
     const GetTasks = async () => {
       setTimeout(async () => {
         const response = await fetchTasks();
-        settasks(response);
+        // settasks(response);
         setLoading(false);
       }, 2500);
     };
@@ -55,7 +55,9 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <div className="Home__content"></div>
+      <div className="Home__content">
+        <GroupNav title="All Tasks" dueCount={2} />
+      </div>
       <Nav />
     </div>
   );

@@ -90,19 +90,4 @@ describe("GroupsDropdown", () => {
       "Input__label--active"
     );
   });
-
-  it("test that confirming new group creates a new group", async () => {
-    render(<MockGroupDropdown />);
-    let dropdown = screen.getByTestId("dropdown-dropdown");
-    fireEvent.mouseEnter(dropdown);
-    const CreateNewOption = await screen.findByText(/Create New Group/i);
-    fireEvent.click(CreateNewOption);
-    const newGroupInput = screen.getByPlaceholderText(/name new group/i);
-    fireEvent.change(newGroupInput, { target: { name: "a new group" } });
-    const confrimGroupBtn = screen.getByRole("button", { name: "Confirm" });
-    const newGroupName = screen.getByPlaceholderText(/name new group/i).value;
-    fireEvent.click(confrimGroupBtn);
-    dropdown = await screen.findByTestId("dropdown-dropdown");
-    expect(dropdown.value).toBe(newGroupName);
-  });
 });

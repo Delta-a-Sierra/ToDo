@@ -11,11 +11,6 @@ const Nav = () => {
   const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {
-    // console.log("Nav ");
-    // console.log(GroupState);
-  }, []);
-
-  useEffect(() => {
     console.log("rerender");
     switch (PopOutTitle) {
       case "Groups":
@@ -40,6 +35,10 @@ const Nav = () => {
     setPopUpActive((prev) => !prev);
   };
 
+  const ClosePopup = () => {
+    setPopUpActive(false);
+  };
+
   const Logout = (e) => {
     window.localStorage.removeItem("token");
     setAuthenticated(false);
@@ -52,6 +51,7 @@ const Nav = () => {
       PopOutTitle={PopOutTitle}
       list={List}
       Logout={Logout}
+      ClosePopup={ClosePopup}
     />
   );
 };

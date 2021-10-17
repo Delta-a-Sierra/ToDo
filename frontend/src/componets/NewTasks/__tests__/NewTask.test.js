@@ -1,4 +1,10 @@
-import { render, screen, fireEvent, getNodeText } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  getNodeText,
+  getByTestId,
+} from "@testing-library/react";
 import { NewTasks } from "../..";
 import { GroupProvider } from "../../../contexts/GroupContext";
 
@@ -34,5 +40,56 @@ describe("New Task", () => {
     const cancelButton = screen.getByRole("button", { name: "cancel" });
     fireEvent.click(cancelButton);
     expect(screen.getByTestId("dropdown-dropdown")).toBeInTheDocument();
+  });
+
+  it("test validation for username field when entry is added", () => {
+    render(<MockNewTask />);
+    fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
+    expect(screen.queryByText("Required")).toBeInTheDocument();
+  });
+
+  it("test validation for due date field when invalid date is input", () => {
+    render(<MockNewTask />);
+    fireEvent.change(screen.getByPlaceholderText("dd/mm/yyyy"), {
+      target: { value: "32/1/2021" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
+    expect(screen.queryByText("Invalid Date")).toBeInTheDocument();
+  });
+
+  it("tests that validtion works for if a task group wasn't selected", () => {
+    render(<MockNewTask />);
+    fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
+    expect(screen.queryByText("No group selected")).toBeInTheDocument();
+  });
+
+  describe("Group dropdown", () => {
+    it("test that confirming new group creates a new group", async () => {
+      render(<MockNewTask />);
+      fireEvent.mouseEnter(screen.getByTestId("dropdown-dropdown"));
+      const CreateNewOption = await screen.findByText(/Create New Group/i);
+      fireEvent.click(CreateNewOption);
+      let newGroupInput = screen.getByPlaceholderText(/name new group/i);
+      fireEvent.change(newGroupInput, { target: { value: "name" } });
+      expect(screen.getByPlaceholderText(/name new group/i).value).toBe("name");
+      const confrimGroupBtn = screen.getByTestId("newGroup-button-confirm");
+      fireEvent.click(confrimGroupBtn);
+      const dropwdown = await screen.findByTestId("dropdown-dropdown");
+      expect(dropwdown.value).toBe("name");
+    });
+
+    it("test ensures you can't create group with an empty string", async () => {
+      render(<MockNewTask />);
+      let dropdown = screen.getByTestId("dropdown-dropdown");
+      fireEvent.mouseEnter(dropdown);
+      const CreateNewOption = await screen.findByText(/Create New Group/i);
+      fireEvent.click(CreateNewOption);
+      const newGroupInput = screen.getByPlaceholderText(/name new group/i);
+      fireEvent.change(newGroupInput, { target: { value: "" } });
+      const confrimGroupBtn = screen.getByTestId("newGroup-button-confirm");
+      fireEvent.click(confrimGroupBtn);
+      const errortext = await screen.findByText("Name cannot be empty");
+      expect(errortext).toBeInTheDocument();
+    });
   });
 });

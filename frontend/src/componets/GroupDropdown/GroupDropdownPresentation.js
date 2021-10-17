@@ -44,6 +44,7 @@ const GroupDropDownPresentation = ({
             />
             <div className="Dropdown__cancel-buttons">
               <button
+                data-testid="newGroup-button-confirm"
                 className="Dropdown__cancel-button"
                 onClick={CreateNewGroup}
               >
@@ -51,6 +52,7 @@ const GroupDropDownPresentation = ({
               </button>
               <button
                 className="Dropdown__cancel-button Dropdown__cancel-button--danger"
+                data-testid="newGroup-button-cancel"
                 onClick={CancelNewGroup}
               >
                 cancel
