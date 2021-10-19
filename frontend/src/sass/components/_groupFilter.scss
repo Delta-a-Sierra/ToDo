@@ -38,3 +38,9 @@
     }
   }
 }
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .Group-Filter {
+    display: none;
+  }
+}

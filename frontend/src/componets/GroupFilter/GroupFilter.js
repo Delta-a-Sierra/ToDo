@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-const GroupFilter = () => {
+const GroupFilter = ({
+  allFiterActive,
+  completeFilterActive,
+  uncompleteFilterActive,
+  FilterTasks,
+}) => {
   const [choice, setChoice] = useState("All");
   const [dropDownActive, setDropdownActive] = useState(false);
 
@@ -12,7 +17,9 @@ const GroupFilter = () => {
     setDropdownActive(false);
   };
 
-  const SelectOption = () => {
+  const SelectOption = (e, type) => {
+    setChoice(e.target.innerHTML);
+    FilterTasks(type);
     CloseDropdown();
   };
 
@@ -27,15 +34,27 @@ const GroupFilter = () => {
         <div className="dropdown" onMouseLeave={CloseDropdown}>
           <ul className="dropdown__content">
             <li
-              onClick={SelectOption}
-              className="dropdown__item dropdown__item--active"
+              onClick={(e) => SelectOption(e, "all")}
+              className={`dropdown__item ${
+                allFiterActive && "dropdown__item--active"
+              }`}
             >
               All
             </li>
-            <li onClick={SelectOption} className="dropdown__item">
+            <li
+              onClick={(e) => SelectOption(e, "complete")}
+              className={`dropdown__item ${
+                completeFilterActive && "dropdown__item--active"
+              }`}
+            >
               Completed
             </li>
-            <li onClick={SelectOption} className="dropdown__item">
+            <li
+              onClick={(e) => SelectOption(e, "uncomplete")}
+              className={`dropdown__item ${
+                uncompleteFilterActive && "dropdown__item--active"
+              }`}
+            >
               Uncompleted
             </li>
           </ul>

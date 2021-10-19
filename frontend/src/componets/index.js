@@ -19,3 +19,4 @@ export { default as NewTasks } from "./NewTasks/NewTasks";
 export { default as GroupNav } from "./GroupNav/GroupNav";
 
 export { default as GroupFilter } from "./GroupFilter/GroupFilter";
+export { default as FilterButton } from "./FilterButton/FilterButton";

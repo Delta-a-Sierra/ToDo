@@ -1,0 +1,18 @@
+.Filter-button {
+  @include Title-Small($color: $offWhite);
+  padding: 0.5em 1em;
+  letter-spacing: 0.15em;
+  border: 3px solid $offWhite;
+  border-radius: 2em;
+  transition: transform ease-in-out 250ms;
+
+  &--active {
+    border: 3px solid $accent1;
+    background-color: $accent1;
+    color: white;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
