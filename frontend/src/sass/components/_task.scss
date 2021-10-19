@@ -1,0 +1,56 @@
+.Task {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+
+  &__title-container {
+    white-space: nowrap;
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__title {
+    position: relative;
+    @include Body-Regular($color: white);
+
+    &--complete {
+      color: $offWhite;
+      &::before {
+        position: absolute;
+        border-bottom: 2px solid $offWhite;
+        content: "";
+        width: 99%;
+        height: 55%;
+      }
+    }
+  }
+
+  &__dueDate {
+    padding: 0.5em;
+    background-color: $accent1;
+    border-radius: 2em;
+    @include Body-tiny-bold($color: white);
+
+    &--complete {
+      color: white;
+
+      background-color: $offWhite;
+    }
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .Task {
+    &__title {
+      margin-left: 1em;
+      @include Body-Large-Light($color: white);
+    }
+
+    &__dueDate {
+      padding: 0.5em 1em;
+      @include Body-small-bold($color: white);
+      letter-spacing: 0.15em;
+    }
+  }
+}

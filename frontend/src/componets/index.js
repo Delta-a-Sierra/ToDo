@@ -18,5 +18,11 @@ export { default as PopoutItem } from "./PopoutItem/PopoutItem";
 export { default as NewTasks } from "./NewTasks/NewTasks";
 export { default as GroupNav } from "./GroupNav/GroupNav";
 
+// ------------ Filters ------------------
 export { default as GroupFilter } from "./GroupFilter/GroupFilter";
 export { default as FilterButton } from "./FilterButton/FilterButton";
+
+// ------------ Tasks ------------------
+export { default as Task } from "./Task/Task";
+export { default as TaskDateGroup } from "./TaskDateGroup/TaskDateGroup";
+export { default as NewTaskBtn } from "./NewTaskBtn/newTaskBtn";

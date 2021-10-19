@@ -1,33 +1,47 @@
 import { AuthContext, AuthProvider } from "../contexts/AuthContext";
+import { TaskContext, TaskReducerTypes } from "../contexts/TaskContext";
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import { LoadingScreen, Nav, NewTasks, GroupNav } from "../componets";
+import {
+  LoadingScreen,
+  Nav,
+  NewTasks,
+  GroupNav,
+  TaskDateGroup,
+  NewTaskBtn,
+} from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
 
 const Home = () => {
   const [authenticated] = useContext(AuthContext);
   const [Loading, setLoading] = useState(true);
-  const [NoTasks, setNoTasks] = useState(false);
-  const [Tasks, settasks] = useState([]);
+  const [NoTasks, setNoTasks] = useState(true);
   const [NewTask, setNewTask] = useState(false);
+  const [TaskState, TaskDispatcher] = useContext(TaskContext);
 
   useEffect(() => {
     const GetTasks = async () => {
       setTimeout(async () => {
         const response = await fetchTasks();
-        // settasks(response);
+        if (response.length >= 1) {
+          TaskDispatcher({
+            type: TaskReducerTypes.ADD_TASKS,
+            payload: [...response],
+          });
+        }
         setLoading(false);
       }, 2500);
     };
+
     GetTasks();
   }, []);
 
   useEffect(() => {
-    if (Tasks.length >= 1) {
+    if (TaskState.tasks.length >= 1) {
       setNoTasks(false);
     }
-  }, [Tasks]);
+  }, [TaskState.tasks]);
 
   const toggleNewTask = () => {
     setNewTask((prev) => !prev);
@@ -57,6 +71,11 @@ const Home = () => {
     <div className="Home">
       <div className="Home__content">
         <GroupNav title="All Tasks" dueCount={2} />
+        <div className="tasks_Cotainer">
+          <TaskDateGroup title="Due Today" tasks={TaskState.tasks} />
+          {NewTask && <NewTasks toggleNewTask={toggleNewTask} />}
+          <NewTaskBtn onClick={toggleNewTask} />
+        </div>
       </div>
       <Nav />
     </div>

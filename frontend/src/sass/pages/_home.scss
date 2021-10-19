@@ -8,6 +8,10 @@
     height: 90%;
     width: 100%;
   }
+
+  .tasks_Cotainer {
+    margin: 2em;
+  }
 }
 
 @media screen and(min-width: $desktopBreakpoint) {
@@ -18,6 +22,10 @@
       height: 100%;
       width: 95%;
       order: 2;
+    }
+
+    .tasks_Cotainer {
+      padding: 2em 5em;
     }
   }
 }

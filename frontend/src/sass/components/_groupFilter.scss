@@ -6,9 +6,12 @@
   &__title {
     @include Title-Small($color: white);
     letter-spacing: 0.15em;
+    padding: 0.5em;
+    background-color: $primaryColor0;
+    border-radius: 0.5em;
 
     span {
-      @include Body-small-light($color: white);
+      @include Body-small-light($color: $offWhite);
     }
   }
 
@@ -17,6 +20,8 @@
     top: 6vh;
     right: 1em;
     background-color: white;
+    border-radius: 0.5em 0 0.5em 0.5em;
+    box-shadow: 10px 10px 15px $shadow;
 
     &__content {
       padding: 0.5em;
@@ -24,7 +29,7 @@
 
     &__item {
       padding: 0.2em 0.5em;
-      @include Body-small-bold($color: $primaryColor1);
+      @include Body-small-bold($color: $primaryColor2);
       text-align: center;
       width: 100%;
 
@@ -33,7 +38,7 @@
       }
 
       &--active {
-        color: $accent1;
+        color: $accent2;
       }
     }
   }

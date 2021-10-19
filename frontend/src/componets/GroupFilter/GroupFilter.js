@@ -6,7 +6,6 @@ const GroupFilter = ({
   uncompleteFilterActive,
   FilterTasks,
 }) => {
-  const [choice, setChoice] = useState("All");
   const [dropDownActive, setDropdownActive] = useState(false);
 
   const ToggleDropdown = () => {
@@ -18,7 +17,6 @@ const GroupFilter = ({
   };
 
   const SelectOption = (e, type) => {
-    setChoice(e.target.innerHTML);
     FilterTasks(type);
     CloseDropdown();
   };
@@ -27,7 +25,7 @@ const GroupFilter = ({
     <div className="Group-Filter">
       <div className="Group-Filter__header">
         <h4 className="Group-Filter__title" onClick={ToggleDropdown}>
-          Sort by: <span className="Group-Filter__choice">{choice}</span>
+          Sort by:
         </h4>
       </div>
       {dropDownActive && (

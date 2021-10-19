@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Login, Home, Signup } from "./Pages";
 import { GroupProvider } from "./contexts/GroupContext";
+import { TaskProvider } from "./contexts/TaskContext";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
           </Route>
           <GroupProvider>
             <Route exact path="/">
-              <Home />
+              <TaskProvider>
+                <Home />
+              </TaskProvider>
             </Route>
           </GroupProvider>
         </Switch>

@@ -11,7 +11,7 @@
   }
 
   &__title {
-    @include Title-Regular($color: white);
+    @include Title-Medium($color: white);
   }
 
   &__highlight {
@@ -32,10 +32,11 @@
     padding-top: 2em;
 
     &__title {
-      @include Title-Medium($color: white);
+      @include Title-Large($color: white);
     }
 
     &__highlight {
+      @include Body-Large-Light($color: $offWhite);
       align-self: flex-end;
     }
 
