@@ -682,6 +682,11 @@ a {
   width: 100%;
 }
 
+.Input__label--border {
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #27496d;
+}
+
 .Input__label--error {
   border: 2px solid #eb4343;
 }
@@ -699,6 +704,11 @@ a {
   border-radius: 0.5em;
   padding: 1em 0.5em;
   width: 100%;
+}
+
+.Input__textarea-label--border {
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #27496d;
 }
 
 .Input__textarea-label--error {
@@ -740,6 +750,10 @@ a {
   font-family: "Gilroy-Light", "Courier New", "Courier", "monospace";
   font-size: 18px;
   color: #b1b1b1;
+}
+
+.Input__textarea--border, .Input__input--border {
+  color: #142850;
 }
 
 .Input__input-icon {
@@ -1640,6 +1654,68 @@ a {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 1em;
+}
+
+.Task-details {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  background-color: white;
+  padding: 3em 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Task-details__title {
+  text-align: center;
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 2em;
+  color: #142850;
+  margin-bottom: 1.5em;
+}
+
+.Task-details__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 90%;
+  gap: 1em;
+}
+
+.Task-details__field {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 2em;
+  color: #142850;
+  text-align: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .Task-details {
+    width: 30vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
+  }
+  .Task-details__form {
+    width: 80%;
+  }
 }
 
 .Login {

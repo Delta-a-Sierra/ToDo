@@ -1,13 +1,13 @@
 import "../../sass/main.css";
 
 const LabeledTextArea = ({
-  labeled,
   FormErrors,
   onChange,
   Form,
   name,
   type,
   placeholder,
+  readOnly,
 }) => {
   return (
     <div className="Input">
@@ -16,8 +16,8 @@ const LabeledTextArea = ({
         title={`label-${name}`}
         htmlFor={name}
         className={`Input__textarea-label ${
-          FormErrors[name] !== "" && "Input__textarea-label--error"
-        }`}
+          readOnly && "Input__textarea-label--border"
+        } ${FormErrors[name] !== "" && "Input__textarea-label--error"}`}
       >
         <h4
           data-testid={`errorText-${name}`}
@@ -27,15 +27,28 @@ const LabeledTextArea = ({
         >
           {FormErrors[name]}
         </h4>
-
-        <textarea
-          className="Input__textarea"
-          type={type}
-          placeholder={placeholder}
-          name={name}
-          value={Form[name]}
-          onChange={onChange}
-        />
+        {readOnly ? (
+          <textarea
+            className={`Input__textarea ${
+              readOnly && "Input__textarea--border"
+            }`}
+            type={type}
+            placeholder={placeholder}
+            name={name}
+            value={Form[name]}
+            onChange={onChange}
+            readOnly
+          />
+        ) : (
+          <textarea
+            className="Input__textarea Input__textarea"
+            type={type}
+            placeholder={placeholder}
+            name={name}
+            value={Form[name]}
+            onChange={onChange}
+          />
+        )}
       </label>
     </div>
   );

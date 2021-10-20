@@ -7,6 +7,7 @@ const LabeledInput = ({
   name,
   type,
   placeholder,
+  readOnly,
 }) => {
   return (
     <div className="Input">
@@ -14,7 +15,7 @@ const LabeledInput = ({
       <label
         title={`label-${name}`}
         htmlFor={name}
-        className={`Input__label ${
+        className={`Input__label ${readOnly && "Input__label--border"} ${
           FormErrors[name] !== "" && "Input__label--error"
         }`}
       >
@@ -26,15 +27,26 @@ const LabeledInput = ({
         >
           {FormErrors[name]}
         </h4>
-
-        <input
-          className="Input__input"
-          type={type}
-          placeholder={placeholder}
-          name={name}
-          value={Form[name]}
-          onChange={onChange}
-        />
+        {readOnly ? (
+          <input
+            className={`Input__input ${readOnly && "Input__input--border"} `}
+            type={type}
+            placeholder={placeholder}
+            name={name}
+            value={Form[name]}
+            onChange={onChange}
+            readOnly
+          />
+        ) : (
+          <input
+            className="Input__input"
+            type={type}
+            placeholder={placeholder}
+            name={name}
+            value={Form[name]}
+            onChange={onChange}
+          />
+        )}
       </label>
     </div>
   );

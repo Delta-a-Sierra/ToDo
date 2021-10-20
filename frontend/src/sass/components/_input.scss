@@ -16,6 +16,11 @@
     padding: 0.5em;
     width: 100%;
 
+    &--border {
+      background-color: $invisible;
+      border: 2px solid $primaryColor2;
+    }
+
     &--error {
       border: 2px solid $error;
     }
@@ -30,6 +35,11 @@
     border-radius: 0.5em;
     padding: 1em 0.5em;
     width: 100%;
+
+    &--border {
+      background-color: $invisible;
+      border: 2px solid $primaryColor2;
+    }
 
     &--error {
       border: 2px solid $error;
@@ -46,6 +56,10 @@
     margin-left: 1em;
     &::placeholder {
       @include Body-light($color: $offWhite);
+    }
+
+    &--border {
+      color: $primaryColor1;
     }
   }
 

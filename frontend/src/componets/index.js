@@ -26,3 +26,4 @@ export { default as FilterButton } from "./FilterButton/FilterButton";
 export { default as Task } from "./Task/Task";
 export { default as TaskDateGroup } from "./TaskDateGroup/TaskDateGroup";
 export { default as NewTaskBtn } from "./NewTaskBtn/newTaskBtn";
+export { default as TaskDetails } from "./TaskDetails/TaskDetails";

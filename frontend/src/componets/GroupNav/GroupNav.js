@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GroupFilter } from "../";
 import { LargeButton, FilterButton } from "../";
+import { TaskContext } from "../../contexts/TaskContext";
 
 const GroupNav = ({ title, dueCount }) => {
   const [allFiterActive, setAllFilterActive] = useState(true);
   const [completeFilterActive, setCompleteFilterActive] = useState(false);
   const [uncompleteFilterActive, setUncompleteFilterActive] = useState(false);
+  const [TaskSate] = useContext(TaskContext);
 
   const filterProps = {
     allFiterActive: allFiterActive,
@@ -47,7 +49,7 @@ const GroupNav = ({ title, dueCount }) => {
         <GroupFilter {...filterProps} FilterTasks={FilterTasks} />
       </div>
       <p className="Group-Nav__highlight">
-        You have {dueCount} tasks due today
+        You have {TaskSate.due_count} tasks due today
       </p>
       <div className="Group-Nav__buttons">
         <FilterButton

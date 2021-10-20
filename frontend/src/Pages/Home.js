@@ -9,6 +9,7 @@ import {
   GroupNav,
   TaskDateGroup,
   NewTaskBtn,
+  TaskDetails,
 } from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
@@ -18,6 +19,8 @@ const Home = () => {
   const [Loading, setLoading] = useState(true);
   const [NoTasks, setNoTasks] = useState(true);
   const [NewTask, setNewTask] = useState(false);
+  const [TaskDetailsActive, setTaskDetailsActive] = useState(false);
+  const [selectedTask, setSelectedTask] = useState({});
   const [TaskState, TaskDispatcher] = useContext(TaskContext);
 
   useEffect(() => {
@@ -47,6 +50,16 @@ const Home = () => {
     setNewTask((prev) => !prev);
   };
 
+  const CloseDetails = () => {
+    setTaskDetailsActive(false);
+  };
+
+  const SelectTask = (task) => {
+    console.log(task);
+    setSelectedTask({ ...task });
+    setTaskDetailsActive((prev) => !prev);
+  };
+
   if (!authenticated) {
     return <Redirect to="/login" />;
   }
@@ -72,9 +85,19 @@ const Home = () => {
       <div className="Home__content">
         <GroupNav title="All Tasks" dueCount={2} />
         <div className="tasks_Cotainer">
-          <TaskDateGroup title="Due Today" tasks={TaskState.tasks} />
+          <TaskDateGroup
+            title="Due Today"
+            SelectTask={SelectTask}
+            tasks={TaskState.tasks}
+          />
           {NewTask && <NewTasks toggleNewTask={toggleNewTask} />}
           <NewTaskBtn onClick={toggleNewTask} />
+          {TaskDetailsActive && (
+            <TaskDetails
+              selectedTask={selectedTask}
+              CloseDetails={CloseDetails}
+            />
+          )}
         </div>
       </div>
       <Nav />
