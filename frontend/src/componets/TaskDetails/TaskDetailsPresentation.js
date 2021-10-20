@@ -14,6 +14,7 @@ const TaskDetailsPresentation = ({
   selectedTask,
   editMode,
   ToggleEdit,
+  UpdateTask,
 }) => {
   let commonProps = {
     onChange: onChange,
@@ -27,10 +28,6 @@ const TaskDetailsPresentation = ({
       commonProps = { ...commonProps, readOnly: true, theme: "white" };
     }
   }, [editMode]);
-
-  useEffect(() => {
-    console.log(selectedTask);
-  }, [selectedTask]);
 
   const { Title, Description, Group } = Form;
   const due_date = Form["Due Date"];
@@ -69,7 +66,7 @@ const TaskDetailsPresentation = ({
             placeholder="DD / MM / YYYY"
           />
           <div className="New-Task__buttons">
-            <LargeButton text="Confirm" />
+            <LargeButton onClick={UpdateTask} text="Confirm" />
             <LargeButton onClick={ToggleEdit} text="Cancel" />
           </div>
         </form>

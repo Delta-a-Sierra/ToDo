@@ -24,8 +24,14 @@ const GroupDropdown = ({
   };
 
   const setGroupAndClose = (name) => {
-    SetGroup(name);
+    const group = findExisitngGroup(name);
+    SetGroup(name, group.id);
     ToggleDropdown();
+  };
+
+  const findExisitngGroup = (name) => {
+    const group = items.find((group) => group.name === name);
+    return group;
   };
 
   const ToggleCreateNew = () => {

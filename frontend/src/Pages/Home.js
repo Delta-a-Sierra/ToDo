@@ -55,7 +55,6 @@ const Home = () => {
   };
 
   const SelectTask = (task) => {
-    console.log(task);
     setSelectedTask({ ...task });
     setTaskDetailsActive((prev) => !prev);
   };
