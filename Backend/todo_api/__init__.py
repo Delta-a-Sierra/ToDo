@@ -3,13 +3,7 @@ from flask import Flask
 
 from .config import DEBUG, HOST, PORT
 from .extensions import cors, db
-from .resources import (
-    icons_api,
-    task_group_api,
-    tasks_api,
-    users_api,
-    views_api,
-)
+from .resources import icons_api, task_group_api, tasks_api, users_api, views_api
 
 
 def initialize_app():

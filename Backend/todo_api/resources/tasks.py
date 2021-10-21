@@ -1,5 +1,5 @@
 from flask import g
-from flask_restful import Resource, inputs, marshal, reqparse
+from flask_restful import Resource, marshal, reqparse
 
 from .. import models
 from ..extensions import auth
