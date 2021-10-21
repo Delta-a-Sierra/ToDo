@@ -109,6 +109,7 @@ task_fields = {
     "due_date": CustomDate,
     "created_at": CustomDate,
     "is_completed": fields.Boolean,
+    "task_g_id": fields.Integer,
 }
 
 
