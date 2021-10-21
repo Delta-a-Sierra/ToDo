@@ -13,5 +13,11 @@ COPY . .
 RUN npm run build
 
 
+RUN echo $REACT_APP_API_URL
+
+ENV REACT_APP_API_URL=http://127.0.0.1:8080/v1
+
+EXPOSE 3000
+
 # start app
 CMD ["npm", "start"]
