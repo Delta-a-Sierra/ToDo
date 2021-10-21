@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import TaskDetailsPresentation from "./TaskDetailsPresentation";
 import { GroupContext } from "../../contexts/GroupContext";
 import { TaskReducerTypes, TaskContext } from "../../contexts/TaskContext";
-import moment from "moment";
 import axios from "axios";
 
 const TaskDetails = ({ CloseDetails, selectedTask }) => {
@@ -17,6 +16,8 @@ const TaskDetails = ({ CloseDetails, selectedTask }) => {
     "Created At": selectedTask.created_at,
     "Due Date": selectedTask.due_date,
     is_completed: selectedTask.is_completed,
+    Group: FindGroup(selectedTask.task_g_id, GroupState.groups).name,
+    groupID: selectedTask.task_g_id,
   });
   const [FormErrors, setFormErrors] = useState({
     Title: "",
@@ -128,4 +129,8 @@ const fetchTasks = async () => {
   } catch (err) {
     return err;
   }
+};
+
+const FindGroup = (id, groups) => {
+  return groups.find((group) => group.id == id);
 };
