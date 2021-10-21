@@ -15,6 +15,8 @@ const TaskDetailsPresentation = ({
   editMode,
   ToggleEdit,
   UpdateTask,
+  DeleteTask,
+  ToggleComplete,
 }) => {
   let commonProps = {
     onChange: onChange,
@@ -77,6 +79,8 @@ const TaskDetailsPresentation = ({
   return (
     <div className="Task-details">
       <h1 className="Task-details__title">Task Details</h1>
+      <button onClick={DeleteTask}>Delete</button>
+      <button onClick={ToggleComplete}>Mark Complete</button>
       <form className="Task-details__form">
         <LabledInput
           {...commonProps}

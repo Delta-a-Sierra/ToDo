@@ -2,9 +2,11 @@ import "../../sass/main.css";
 import { useContext, useState } from "react";
 import { LabledInput, LabeledTextArea, LargeButton, GroupDropdown } from "..";
 import { GroupContext } from "../../contexts/GroupContext";
+import { TaskReducerTypes, TaskContext } from "../../contexts/TaskContext";
 import axios from "axios";
 
 const NewTasks = ({ toggleNewTask }) => {
+  const [TaskState, TaskDispatcher] = useContext(TaskContext);
   const [Validated, setValidated] = useState(false);
   const [Form, setForm] = useState({});
   const [FormErrors, setFormErrors] = useState({
@@ -64,9 +66,11 @@ const NewTasks = ({ toggleNewTask }) => {
     ValidateForm();
     if (Validated) {
       const response = await NewTaskApiCall(Form);
-      if (response) {
-        toggleNewTask();
-      }
+
+      toggleNewTask();
+      TaskDispatcher({
+        type: TaskReducerTypes.UPDATE_TASK,
+      });
     }
   };
 

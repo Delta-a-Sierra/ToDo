@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import moment from "moment";
 import axios from "axios";
 
@@ -10,19 +10,31 @@ export const TaskReducerTypes = {
   UPDATE_TASK: "UPDATE_TASK",
   REFRESH_TASKS: "REFRESH_TASKS",
   DELETE_TASK: "DELETE_TASK",
+  REMOVE_TASK: "REMOVE_TASK",
+  TOGGLE_COMPLETE: "TOGGLE_COMPLETE",
 };
 
 const Reducer = (state, action) => {
   switch (action.type) {
     case TaskReducerTypes.ADD_TASKS:
-      return { ...state, tasks: [...action.payload] };
+      return { ...state, tasks: NormalizeDates(action.payload) };
     case TaskReducerTypes.DUE_TASKS:
       return { ...state, due_count: action.payload };
     case TaskReducerTypes.UPDATE_TASK:
       UpdateTask(action.payload);
       return { ...state, update: true };
     case TaskReducerTypes.REFRESH_TASKS:
-      return { ...state, tasks: [...action.payload], update: false };
+      return {
+        ...state,
+        tasks: NormalizeDates(action.payload),
+        update: false,
+      };
+    case TaskReducerTypes.DELETE_TASK:
+      DeleteTask(action.payload);
+      return { ...state, tasks: RemoveTask(action.payload, state.tasks) };
+    case TaskReducerTypes.TOGGLE_COMPLETE:
+      ToggleCompleteAPICall(action.payload, state.tasks);
+      return { ...state, tasks: ToggleComplete(action.payload, state.tasks) };
     default:
       break;
   }
@@ -30,6 +42,7 @@ const Reducer = (state, action) => {
 
 export const TaskProvider = (props) => {
   const [TaskState, TaskDispatcher] = useReducer(Reducer, { tasks: [] });
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const dueCount = GetDueCount(TaskState.tasks);
@@ -37,19 +50,20 @@ export const TaskProvider = (props) => {
   }, [TaskState.tasks]);
 
   useEffect(() => {
-    const GetTasks = async () => {
-      const response = await fetchTasks();
+    const RefreshTasks = async () => {
+      const response = (await fetchTasks()) || [];
       if (response.length >= 1) {
-        TaskDispatcher({
-          type: TaskReducerTypes.ADD_TASKS,
+        await TaskDispatcher({
+          type: TaskReducerTypes.REFRESH_TASKS,
           payload: [...response],
         });
       }
     };
-    if (TaskState.update) {
-      console.log("updating tasks");
-      GetTasks();
+    if (TaskState.update === true) {
+      RefreshTasks();
     }
+    setUpdate(TaskState.update);
+    return;
   }, [TaskState.update]);
 
   return (
@@ -68,6 +82,31 @@ const GetDueCount = (tasks) => {
   return dueTasks.length;
 };
 
+const RemoveTask = (id, tasks) => {
+  return tasks.filter((task) => {
+    if (task.id !== id) {
+      return task;
+    }
+  });
+};
+
+const ToggleComplete = (id, tasks) => {
+  return tasks.map((task) => {
+    if (task.id === id) {
+      let newTask = { ...task, is_completed: !task.is_completed };
+      return newTask;
+    }
+    return task;
+  });
+};
+
+const ToggleCompleteAPICall = (id, tasks) => {
+  let task = tasks.find((task) => task.id === id);
+  task = { ...task, is_completed: !task.is_completed };
+  console.log(task);
+  UpdateTask(task);
+};
+
 const fetchTasks = async () => {
   const token = window.localStorage.getItem("token");
 
@@ -83,6 +122,22 @@ const fetchTasks = async () => {
       return [];
     }
     return response.data.tasks;
+  } catch (err) {
+    return err;
+  }
+};
+
+const DeleteTask = async (id) => {
+  const token = window.localStorage.getItem("token");
+
+  try {
+    await axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}/tasks/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (err) {
     return err;
   }
@@ -127,6 +182,16 @@ const UpdateTask = async (task) => {
       console.log(e.response.data.message);
     } catch {}
   }
+};
+
+const NormalizeDates = (tasks) => {
+  return tasks.map((task) => {
+    return {
+      ...task,
+      due_date: moment(task.due_date).format("D/MM/YYYY"),
+      created_at: moment(task.created_at).format("D/MM/YYYY"),
+    };
+  });
 };
 
 export default TaskProvider;

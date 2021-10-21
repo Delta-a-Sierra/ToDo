@@ -14,8 +14,8 @@ const TaskDetails = ({ CloseDetails, selectedTask }) => {
   const [Form, setForm] = useState({
     Title: selectedTask.title,
     Description: selectedTask.description,
-    "Created At": moment(selectedTask.created_at).format("D/MM/YYYY"),
-    "Due Date": moment(selectedTask.due_date).format("D/MM/YYYY"),
+    "Created At": selectedTask.created_at,
+    "Due Date": selectedTask.due_date,
     is_completed: selectedTask.is_completed,
   });
   const [FormErrors, setFormErrors] = useState({
@@ -69,6 +69,24 @@ const TaskDetails = ({ CloseDetails, selectedTask }) => {
     });
   };
 
+  const ToggleComplete = async (e) => {
+    e.preventDefault();
+    setForm({ ...Form, is_completed: !Form.is_completed });
+    TaskDispatcher({
+      type: TaskReducerTypes.TOGGLE_COMPLETE,
+      payload: taskDetails.id,
+    });
+  };
+
+  const DeleteTask = async (e) => {
+    e.preventDefault();
+    CloseDetails();
+    await TaskDispatcher({
+      type: TaskReducerTypes.DELETE_TASK,
+      payload: taskDetails.id,
+    });
+  };
+
   return (
     <TaskDetailsPresentation
       Form={Form}
@@ -84,6 +102,8 @@ const TaskDetails = ({ CloseDetails, selectedTask }) => {
       editMode={editMode}
       ToggleEdit={ToggleEdit}
       UpdateTask={UpdateTask}
+      DeleteTask={DeleteTask}
+      ToggleComplete={ToggleComplete}
     />
   );
 };

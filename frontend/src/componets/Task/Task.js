@@ -18,7 +18,7 @@ const Task = ({ task, openDetails }) => {
             is_completed && "Task__dueDate--complete"
           }`}
         >
-          {moment(due_date).format("D/MM/YYYY")}
+          {due_date}
         </p>
       )}
     </div>
