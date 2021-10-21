@@ -6,7 +6,7 @@
 
   &__fave {
     fill: $offWhite;
-    margin-right: 1.5em;
+    margin-right: 0.5em;
     &--active {
       fill: $accent1;
     }
@@ -38,6 +38,10 @@
     gap: 2em;
     padding-left: 10em;
     padding-top: 2em;
+
+    &__fave {
+      margin-right: 1.5em;
+    }
 
     &__title {
       @include Title-Large($color: white);

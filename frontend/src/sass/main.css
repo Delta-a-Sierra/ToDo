@@ -1577,7 +1577,7 @@ a {
 
 .Group-Nav__fave {
   fill: #b1b1b1;
-  margin-right: 1.5em;
+  margin-right: 0.5em;
 }
 
 .Group-Nav__fave--active {
@@ -1624,6 +1624,9 @@ a {
     gap: 2em;
     padding-left: 10em;
     padding-top: 2em;
+  }
+  .Group-Nav__fave {
+    margin-right: 1.5em;
   }
   .Group-Nav__title {
     font-family: "Cera-Black", "Courier New", "Courier", "monospace";
