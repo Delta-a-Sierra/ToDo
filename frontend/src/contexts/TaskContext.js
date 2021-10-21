@@ -75,7 +75,7 @@ export const TaskProvider = (props) => {
 
 const GetDueCount = (tasks) => {
   const dueTasks = tasks.filter((task) => {
-    if (moment().format("L") === moment(task.due_date).format("L")) {
+    if (moment().format("D/MM/YYYY") === task.due_date) {
       return task;
     }
   });
