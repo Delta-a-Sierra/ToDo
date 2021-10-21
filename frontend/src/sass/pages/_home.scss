@@ -1,0 +1,32 @@
+.Home {
+  width: 100vw;
+  height: 100vh;
+  @include flex-col;
+  background-color: $primaryColor2;
+
+  &__content {
+    height: 90%;
+    width: 100%;
+  }
+
+  .tasks_Cotainer {
+    height: 80%;
+    margin: 2em;
+  }
+}
+
+@media screen and(min-width: $desktopBreakpoint) {
+  .Home {
+    flex-direction: row;
+
+    &__content {
+      height: 100%;
+      width: 95%;
+      order: 2;
+    }
+
+    .tasks_Cotainer {
+      padding: 2em 5em;
+    }
+  }
+}

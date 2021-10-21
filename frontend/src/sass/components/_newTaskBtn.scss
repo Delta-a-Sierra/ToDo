@@ -1,0 +1,20 @@
+.NewTask-btn {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  background-color: $accent1;
+  width: fit-content;
+  border-radius: 2em;
+  padding: 0.2em 1em;
+  margin-top: 2em;
+  &__text {
+    @include Body-Regular($color: white);
+  }
+
+  &__icon {
+    width: 1.5em;
+    fill: white;
+    stroke: white;
+  }
+}

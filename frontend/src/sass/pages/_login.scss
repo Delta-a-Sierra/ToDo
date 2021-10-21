@@ -1,0 +1,57 @@
+.Login {
+  width: 100vw;
+  height: 100vh;
+  &__content {
+    padding: 0.5em;
+    @include flex-col;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: $primaryColor2;
+  }
+
+  &__logo {
+    width: 2.5em;
+    align-self: flex-start;
+  }
+
+  &__title {
+    margin-bottom: 1em;
+    @include Title-Large($color: white);
+  }
+
+  &__type-swap {
+    margin-top: 4em;
+    @include Body-small($color: $offWhite);
+
+    &--bold {
+      @include Body-small-bold($color: $offWhite);
+    }
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .Login {
+    display: flex;
+    flex-direction: row;
+
+    &__content {
+      @include flex-col;
+      height: 100%;
+
+      padding: 10em 0.5em;
+    }
+
+    &__logo {
+      display: none;
+    }
+
+    &__content {
+      width: 75vw;
+    }
+
+    &__type-swap {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.LargeButton {
+  @include Body-Bold($color: white);
+  padding: 0.5em 1em;
+  border-radius: 2em;
+  background-image: linear-gradient(to right, $accent1, $accent2);
+  border: 2px solid $accent1;
+  transform: transition ease-in-out 350ms;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

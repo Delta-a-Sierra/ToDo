@@ -1,0 +1,11 @@
+.TaskGroup {
+  &__title {
+    @include Title-Medium($color: white);
+    margin-bottom: 0.5em;
+  }
+
+  &__tasks {
+    @include flex-col;
+    gap: 1em;
+  }
+}

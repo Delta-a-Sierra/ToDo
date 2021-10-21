@@ -1,0 +1,18 @@
+.Popout-item {
+  &__container {
+    width: 100%;
+  }
+
+  &__item {
+    width: 100%;
+    display: inline-block;
+    padding: 0.5em 0;
+    margin: 0 auto;
+    @include Title-Small($color: $primaryColor1);
+    text-align: center;
+
+    &:hover {
+      background-color: $shadow;
+    }
+  }
+}

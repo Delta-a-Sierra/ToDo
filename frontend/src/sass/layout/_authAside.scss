@@ -1,0 +1,48 @@
+.AuthAside {
+  width: 25vw;
+  height: 100vh;
+  background-color: $primaryColor1;
+  display: none;
+  padding: 1em;
+
+  &__content {
+    @include flex-col;
+    align-items: center;
+    gap: 0.8em;
+  }
+
+  &__logo {
+    width: 3em;
+    margin-bottom: 4em;
+  }
+
+  &__title,
+  &__body {
+    text-align: center;
+  }
+
+  &__title {
+    @include Title-Medium($color: white);
+  }
+
+  &__body {
+    @include Body-Regular($color: white);
+    margin-bottom: 2em;
+  }
+}
+
+@media screen and (min-width: $desktopBreakpoint) {
+  .AuthAside {
+    @include flex-col;
+    align-items: center;
+    padding-top: 10em;
+
+    &__logo {
+      margin-bottom: 2em;
+    }
+
+    &__body {
+      width: 60%;
+    }
+  }
+}

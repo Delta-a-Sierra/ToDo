@@ -1,0 +1,78 @@
+.Dropdown {
+  width: 100%;
+  position: relative;
+  &__input {
+    width: 100%;
+    background-color: $invisible;
+    border: none;
+    @include Body-light($color: white);
+    margin-left: 1em;
+
+    &--active {
+      text-align: center;
+      margin-left: 0;
+      padding: 0.5em 2em;
+    }
+
+    &::placeholder {
+      @include Body-light($color: $offWhite);
+    }
+  }
+
+  .Input__label {
+    &--active {
+      border-radius: 0.5em;
+      padding-bottom: 1em;
+    }
+  }
+
+  &__cancel-input {
+    width: 100%;
+    display: flex;
+    gap: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  &__cancel-buttons {
+    display: flex;
+    gap: 0.5em;
+    position: absolute;
+    top: -2em;
+    right: 0.5em;
+  }
+
+  &__cancel-button {
+    box-sizing: border-box;
+    background-color: $accent1;
+    padding: 0.2em 0.5em;
+    @include Body-small-light($color: white);
+    border-radius: 1em;
+    border: 2px solid $accent1;
+
+    &--danger {
+      background-color: $invisible;
+      color: $primaryColor1;
+      border: 2px solid $primaryColor1;
+    }
+  }
+
+  &__container {
+    border-top: 2px solid $accent1;
+    padding-top: 1em;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 10em;
+  }
+
+  &__item {
+    list-style: none;
+    @include Body-small-light($color: white);
+    padding: 0.4em 0;
+    width: 100%;
+
+    &:hover {
+      background-color: $primaryColor0;
+    }
+  }
+}

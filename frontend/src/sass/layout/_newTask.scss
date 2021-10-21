@@ -1,0 +1,42 @@
+.New-Task {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  background-color: white;
+  padding: 3em 2em;
+  @include flex-col;
+  align-items: center;
+
+  &__title {
+    text-align: center;
+    @include Title-Medium($color: $primaryColor1);
+    margin-bottom: 1.5em;
+  }
+
+  &__form {
+    @include flex-col;
+    align-items: center;
+    width: 90%;
+    gap: 1em;
+  }
+
+  &__buttons {
+    margin-top: 1.5em;
+    display: flex;
+    gap: 1em;
+  }
+}
+
+@media screen and(min-width: $desktopBreakpoint) {
+  .New-Task {
+    width: 30vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    &__form {
+      width: 80%;
+    }
+  }
+}
