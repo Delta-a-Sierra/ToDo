@@ -75,7 +75,10 @@ export const TaskProvider = (props) => {
 
 const GetDueCount = (tasks) => {
   const dueTasks = tasks.filter((task) => {
-    if (moment().format("D/MM/YYYY") === task.due_date) {
+    if (
+      moment().format("DD/MM/YYYY") === task.due_date ||
+      moment().isAfter(moment(task.due_date, "DD/MM/YYYY"))
+    ) {
       return task;
     }
   });
@@ -188,8 +191,8 @@ const NormalizeDates = (tasks) => {
   return tasks.map((task) => {
     return {
       ...task,
-      due_date: moment(task.due_date).format("D/MM/YYYY"),
-      created_at: moment(task.created_at).format("D/MM/YYYY"),
+      due_date: moment(task.due_date).format("DD/MM/YYYY"),
+      created_at: moment(task.created_at).format("DD/MM/YYYY"),
     };
   });
 };
