@@ -8,6 +8,8 @@ export const types = {
   CHANGE_GROUP: "CHANGE_GROUP",
   DELETE_GROUP: "DELETE_GROUP",
   UPDATE_GROUP: "UPDATE_GROUP",
+  SET_CURRENT: "SET_CURRENT",
+  TOGGLE_FAVE: "TOGGLE_FAVE",
 };
 
 const reducer = (state, action) => {
@@ -16,6 +18,11 @@ const reducer = (state, action) => {
       const newGroup = { groups: [...state.groups, action.payload] };
       return { ...newGroup };
 
+    case types.SET_CURRENT:
+      return {
+        ...state,
+        current_group: FindGroup(action.payload, state.groups),
+      };
     case types.CHANGE_GROUP:
       const changedGroup = state.groups.map((group) => {
         if (group.id === action.payload.id) {
@@ -24,6 +31,7 @@ const reducer = (state, action) => {
         return group;
       });
       return { groups: [...changedGroup] };
+
     case types.DELETE_GROUP:
       const remaingGroups = state.groups.filter((group) => {
         if (group.id !== action.payload.id) {
@@ -31,21 +39,20 @@ const reducer = (state, action) => {
         }
       });
       return { ...state, groups: [...remaingGroups] };
+
     case types.UPDATE_GROUP:
       return { ...state, groups: [...action.payload] };
+
+    case types.TOGGLE_FAVE:
+      const ToggleGroup = ToggleFave(state.current_group);
+      ChangeGroupApiCall(ToggleGroup);
+      let newGroups = updateGroups(ToggleGroup, state.groups);
+
+      return { ...state, groups: newGroups, current_group: ToggleGroup };
 
     default:
       break;
   }
-};
-
-const mockGroup = {
-  groups: [
-    { name: "Personal", id: 1, is_fav: true },
-    { name: "Work", id: 2, is_fav: true },
-    { name: "hobbie", id: 3, is_fav: false },
-    { name: "study", id: 4, is_fav: false },
-  ],
 };
 
 // ------------------- Context ---------------------
@@ -68,6 +75,10 @@ export const GroupProvider = (props) => {
   );
 };
 
+const FindGroup = (id, groups) => {
+  return groups.find((group) => group.id == id);
+};
+
 const GetGroupsApiCall = async () => {
   const token = window.localStorage.getItem("token");
   try {
@@ -88,5 +99,42 @@ const GetGroupsApiCall = async () => {
       console.log("server unavailable");
     }
     return [];
+  }
+};
+
+const ToggleFave = (currentGroup) => {
+  return { ...currentGroup, is_fav: !currentGroup.is_fav };
+};
+
+const updateGroups = (changedGroup, groups) => {
+  return groups.map((group) => {
+    if (group.id == changedGroup.id) {
+      return changedGroup;
+    }
+    return group;
+  });
+};
+
+const ChangeGroupApiCall = async (group) => {
+  const token = window.localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}/taskgroups/${group.id}`,
+      data: group,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      return true;
+    }
+  } catch (e) {
+    try {
+      console.log(e.response.data.message);
+    } catch {
+      console.log("server unavailable");
+    }
+    return false;
   }
 };

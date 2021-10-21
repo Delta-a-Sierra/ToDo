@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Login, Home, Signup } from "./Pages";
+import { Login, Home, Signup, Group } from "./Pages";
 import { GroupProvider } from "./contexts/GroupContext";
 import { TaskProvider } from "./contexts/TaskContext";
 
@@ -18,6 +18,11 @@ function App() {
             <Route exact path="/">
               <TaskProvider>
                 <Home />
+              </TaskProvider>
+            </Route>
+            <Route path="/groups/:groupid">
+              <TaskProvider>
+                <Group />
               </TaskProvider>
             </Route>
           </GroupProvider>

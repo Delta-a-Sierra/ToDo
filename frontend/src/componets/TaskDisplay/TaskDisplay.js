@@ -2,26 +2,44 @@ import { useState, useEffect, useContext } from "react";
 import { TaskDateGroup } from "..";
 import { TaskContext } from "../../contexts/TaskContext";
 import moment from "moment";
+import { FilterContext } from "../../contexts/TaskFilterContext";
 
 const TaskDisplay = ({ filterType, SelectTask }) => {
   const [TaskState] = useContext(TaskContext);
+  const [FilterState] = useContext(FilterContext);
 
   const [displayedTasks, setDisplayedTasks] = useState([]);
   const [dueTasks, setDueTasks] = useState([]);
 
   useEffect(() => {
-    setDisplayedTasks(RemoveDueTask(FilterTasks(filterType, TaskState.tasks)));
-    setDueTasks(GetDueTasks(FilterTasks(filterType, TaskState.tasks)));
-  }, [filterType, TaskState.tasks]);
+    try {
+      setDisplayedTasks(
+        RemoveDueTask(FilterTasks(FilterState.filter, TaskState.tasks))
+      );
+    } catch {
+      setDisplayedTasks([]);
+    }
+
+    try {
+      setDueTasks(
+        GetDueTasks(FilterTasks(FilterState.filter, TaskState.tasks))
+      );
+    } catch {
+      setDueTasks([]);
+    }
+  }, [FilterState.filter, TaskState.tasks]);
 
   return (
     <div className="TaskDisplay">
-      <TaskDateGroup
-        SelectTask={SelectTask}
-        key="duetaskgroup"
-        title="Due Tasks"
-        tasks={dueTasks}
-      />
+      {dueTasks.length >= 1 && (
+        <TaskDateGroup
+          SelectTask={SelectTask}
+          key="duetaskgroup"
+          title="Due Tasks"
+          tasks={dueTasks}
+        />
+      )}
+
       <TaskDateGroup
         SelectTask={SelectTask}
         key="remainingtaskgroup"

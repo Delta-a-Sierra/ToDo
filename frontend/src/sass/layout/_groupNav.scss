@@ -4,6 +4,14 @@
   padding: 1em;
   border-bottom: 2px solid $primaryColor1;
 
+  &__fave {
+    fill: $offWhite;
+    margin-right: 1.5em;
+    &--active {
+      fill: $accent1;
+    }
+  }
+
   &__row {
     display: flex;
     align-items: center;

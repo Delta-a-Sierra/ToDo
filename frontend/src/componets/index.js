@@ -28,3 +28,6 @@ export { default as TaskDateGroup } from "./TaskDateGroup/TaskDateGroup";
 export { default as NewTaskBtn } from "./NewTaskBtn/newTaskBtn";
 export { default as TaskDetails } from "./TaskDetails/TaskDetails";
 export { default as TaskDisplay } from "./TaskDisplay/TaskDisplay";
+
+//----------- GroupContainer
+export { default as GroupContainer } from "./GroupContainer/GroupContainer";

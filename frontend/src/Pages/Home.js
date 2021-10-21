@@ -1,5 +1,6 @@
 import { AuthContext, AuthProvider } from "../contexts/AuthContext";
 import { TaskContext, TaskReducerTypes } from "../contexts/TaskContext";
+import { FilterProvider } from "../contexts/TaskFilterContext";
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import {
@@ -11,6 +12,7 @@ import {
   NewTaskBtn,
   TaskDetails,
   TaskDisplay,
+  GroupContainer,
 } from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
@@ -80,30 +82,7 @@ const Home = () => {
     );
   }
 
-  return (
-    <div className="Home">
-      <div className="Home__content">
-        <GroupNav title="All Tasks" dueCount={2} />
-        <div className="tasks_Cotainer">
-          {/* <TaskDateGroup
-            title="Due Today"
-            SelectTask={SelectTask}
-            tasks={TaskState.tasks}
-          /> */}
-          <TaskDisplay SelectTask={SelectTask} filterType={"all"} />
-          {NewTask && <NewTasks toggleNewTask={toggleNewTask} />}
-          <NewTaskBtn onClick={toggleNewTask} />
-          {TaskDetailsActive && (
-            <TaskDetails
-              selectedTask={selectedTask}
-              CloseDetails={CloseDetails}
-            />
-          )}
-        </div>
-      </div>
-      <Nav />
-    </div>
-  );
+  return <GroupContainer title="All Tasks" />;
 };
 
 const fetchTasks = async () => {
