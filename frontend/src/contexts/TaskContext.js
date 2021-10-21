@@ -19,7 +19,11 @@ const Reducer = (state, action) => {
     case TaskReducerTypes.ADD_TASKS:
       return { ...state, tasks: NormalizeDates(action.payload) };
     case TaskReducerTypes.DUE_TASKS:
-      return { ...state, due_count: action.payload };
+      return {
+        ...state,
+        due_count: action.payload.length,
+        due_tasks: action.payload,
+      };
     case TaskReducerTypes.UPDATE_TASK:
       UpdateTask(action.payload);
       return { ...state, update: true };
@@ -42,7 +46,6 @@ const Reducer = (state, action) => {
 
 export const TaskProvider = (props) => {
   const [TaskState, TaskDispatcher] = useReducer(Reducer, { tasks: [] });
-  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const dueCount = GetDueCount(TaskState.tasks);
@@ -62,7 +65,6 @@ export const TaskProvider = (props) => {
     if (TaskState.update === true) {
       RefreshTasks();
     }
-    setUpdate(TaskState.update);
     return;
   }, [TaskState.update]);
 
@@ -76,13 +78,14 @@ export const TaskProvider = (props) => {
 const GetDueCount = (tasks) => {
   const dueTasks = tasks.filter((task) => {
     if (
-      moment().format("DD/MM/YYYY") === task.due_date ||
-      moment().isAfter(moment(task.due_date, "DD/MM/YYYY"))
+      (moment().format("DD/MM/YYYY") === task.due_date ||
+        moment().isAfter(moment(task.due_date, "DD/MM/YYYY"))) &&
+      !task.is_completed
     ) {
       return task;
     }
   });
-  return dueTasks.length;
+  return dueTasks;
 };
 
 const RemoveTask = (id, tasks) => {

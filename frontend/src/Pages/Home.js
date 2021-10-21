@@ -10,6 +10,7 @@ import {
   TaskDateGroup,
   NewTaskBtn,
   TaskDetails,
+  TaskDisplay,
 } from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
@@ -84,11 +85,12 @@ const Home = () => {
       <div className="Home__content">
         <GroupNav title="All Tasks" dueCount={2} />
         <div className="tasks_Cotainer">
-          <TaskDateGroup
+          {/* <TaskDateGroup
             title="Due Today"
             SelectTask={SelectTask}
             tasks={TaskState.tasks}
-          />
+          /> */}
+          <TaskDisplay SelectTask={SelectTask} filterType={"all"} />
           {NewTask && <NewTasks toggleNewTask={toggleNewTask} />}
           <NewTaskBtn onClick={toggleNewTask} />
           {TaskDetailsActive && (

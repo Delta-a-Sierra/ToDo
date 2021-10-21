@@ -6,7 +6,13 @@ const TaskDateGroup = ({ title, tasks, SelectTask }) => {
       <h1 className="TaskGroup__title">{title}</h1>
       <div className="TaskGroup__tasks">
         {tasks.map((task) => {
-          return <Task openDetails={() => SelectTask(task)} task={task} />;
+          return (
+            <Task
+              key={task.id}
+              openDetails={() => SelectTask(task)}
+              task={task}
+            />
+          );
         })}
       </div>
     </div>

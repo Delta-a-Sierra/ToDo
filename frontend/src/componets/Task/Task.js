@@ -1,5 +1,3 @@
-import moment from "moment";
-
 const Task = ({ task, openDetails }) => {
   const { title, is_completed, due_date } = task;
 

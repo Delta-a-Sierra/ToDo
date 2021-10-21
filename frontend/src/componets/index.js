@@ -27,3 +27,4 @@ export { default as Task } from "./Task/Task";
 export { default as TaskDateGroup } from "./TaskDateGroup/TaskDateGroup";
 export { default as NewTaskBtn } from "./NewTaskBtn/newTaskBtn";
 export { default as TaskDetails } from "./TaskDetails/TaskDetails";
+export { default as TaskDisplay } from "./TaskDisplay/TaskDisplay";
