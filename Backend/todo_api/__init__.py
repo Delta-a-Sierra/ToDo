@@ -18,6 +18,8 @@ def initialize_app():
     app.config.from_pyfile("config.py")
     register_all_extensions(app)
     register_all_blueprints(app)
+    with app.app_context():
+        db.create_all()
     return app
 
 
@@ -38,6 +40,4 @@ def register_all_blueprints(app):
 
 def run():
     app = initialize_app()
-    with app.app_context():
-        db.create_all()
     app.run(debug=DEBUG, host=HOST, port=PORT)
