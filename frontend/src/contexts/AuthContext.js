@@ -9,7 +9,7 @@ export const AuthProvider = (props) => {
     const token = window.localStorage.getItem("token") || null;
     if (token) {
       const verifyToken = async () => {
-        const url = "http://127.0.0.1:8000/v1/auth";
+        const url = `${process.env.REACT_APP_API_URL}:/auth`;
         const options = {
           method: "POST",
           mode: "cors",
