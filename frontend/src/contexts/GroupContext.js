@@ -15,8 +15,8 @@ export const types = {
 const reducer = (state, action) => {
   switch (action.type) {
     case types.ADD_GROUP:
-      const newGroup = { groups: [...state.groups, action.payload] };
-      return { ...newGroup };
+      const newGroup = [...state.groups, action.payload];
+      return { ...state, groups: SortGroups(newGroup) };
 
     case types.SET_CURRENT:
       return {
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
         }
         return group;
       });
-      return { groups: [...changedGroup] };
+      return { ...state, groups: [...changedGroup] };
 
     case types.DELETE_GROUP:
       const remaingGroups = state.groups.filter((group) => {
@@ -41,7 +41,7 @@ const reducer = (state, action) => {
       return { ...state, groups: [...remaingGroups] };
 
     case types.UPDATE_GROUP:
-      return { ...state, groups: [...action.payload] };
+      return { ...state, groups: SortGroups([...action.payload]) };
 
     case types.TOGGLE_FAVE:
       const ToggleGroup = ToggleFave(state.current_group);
@@ -137,4 +137,20 @@ const ChangeGroupApiCall = async (group) => {
     }
     return false;
   }
+};
+
+const SortGroups = (groups) => {
+  console.log(groups);
+  return groups.sort((a, b) => {
+    let groupA = a.name.toLowerCase(),
+      groupB = b.name.toLowerCase();
+
+    if (groupA < groupB) {
+      return -1;
+    }
+    if (groupA > groupB) {
+      return 1;
+    }
+    return 0;
+  });
 };
