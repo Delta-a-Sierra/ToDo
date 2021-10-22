@@ -10,6 +10,7 @@ ENV PATH="./node_modules/.bin:$PATH"
 # install app dependencies
 COPY . .
 
+RUN npm install
 RUN npm run build
 
 
