@@ -6,7 +6,7 @@
 
   &__fave {
     fill: $offWhite;
-    margin-right: 0.5em;
+    margin-right: 0.2em;
     &--active {
       fill: $accent1;
     }
@@ -15,11 +15,19 @@
   &__row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  &__title-container {
+    display: flex;
+    align-items: center;
+    max-width: 60vw;
+    margin-right: auto;
   }
 
   &__title {
     @include Title-Medium($color: white);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__highlight {
@@ -40,6 +48,8 @@
     padding-top: 2em;
 
     &__fave {
+      width: 3em;
+      height: 3em;
       margin-right: 1.5em;
     }
 

@@ -95,7 +95,9 @@ const GroupNav = ({ title, fave }) => {
             </svg>
           </div>
         )}
-        <h1 className="Group-Nav__title">{title}</h1>
+        <div className="Group-Nav__title-container">
+          <h1 className="Group-Nav__title">{title}</h1>
+        </div>
 
         <GroupFilter {...filterProps} FilterTasks={FilterTasks} />
       </div>

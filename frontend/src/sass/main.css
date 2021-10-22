@@ -939,7 +939,7 @@ a {
   font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
   font-size: 1em;
   color: white;
-  letter-spacing: 0.15em;
+  letter-spacing: 0em;
   padding: 0.5em;
   background-color: #0a163052;
   border-radius: 0.5em;
@@ -1577,7 +1577,7 @@ a {
 
 .Group-Nav__fave {
   fill: #b1b1b1;
-  margin-right: 0.5em;
+  margin-right: 0.2em;
 }
 
 .Group-Nav__fave--active {
@@ -1591,15 +1591,25 @@ a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+}
+
+.Group-Nav__title-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 60vw;
+  margin-right: auto;
 }
 
 .Group-Nav__title {
   font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
   font-size: 2em;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Group-Nav__highlight {
@@ -1626,6 +1636,8 @@ a {
     padding-top: 2em;
   }
   .Group-Nav__fave {
+    width: 3em;
+    height: 3em;
     margin-right: 1.5em;
   }
   .Group-Nav__title {
