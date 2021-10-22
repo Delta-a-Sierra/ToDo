@@ -1,19 +1,8 @@
-import { AuthContext, AuthProvider } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { TaskContext, TaskReducerTypes } from "../contexts/TaskContext";
-import { FilterProvider } from "../contexts/TaskFilterContext";
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import {
-  LoadingScreen,
-  Nav,
-  NewTasks,
-  GroupNav,
-  TaskDateGroup,
-  NewTaskBtn,
-  TaskDetails,
-  TaskDisplay,
-  GroupContainer,
-} from "../componets";
+import { LoadingScreen, Nav, NewTasks, GroupContainer } from "../componets";
 import { GettingStarted } from ".";
 import axios from "axios";
 
@@ -22,8 +11,6 @@ const Home = () => {
   const [Loading, setLoading] = useState(true);
   const [NoTasks, setNoTasks] = useState(true);
   const [NewTask, setNewTask] = useState(false);
-  const [TaskDetailsActive, setTaskDetailsActive] = useState(false);
-  const [selectedTask, setSelectedTask] = useState({});
   const [TaskState, TaskDispatcher] = useContext(TaskContext);
 
   useEffect(() => {
@@ -51,15 +38,6 @@ const Home = () => {
 
   const toggleNewTask = () => {
     setNewTask((prev) => !prev);
-  };
-
-  const CloseDetails = () => {
-    setTaskDetailsActive(false);
-  };
-
-  const SelectTask = (task) => {
-    setSelectedTask({ ...task });
-    setTaskDetailsActive((prev) => !prev);
   };
 
   if (!authenticated) {

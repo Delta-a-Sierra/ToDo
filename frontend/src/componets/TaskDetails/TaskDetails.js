@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import TaskDetailsPresentation from "./TaskDetailsPresentation";
 import { GroupContext } from "../../contexts/GroupContext";
 import { TaskReducerTypes, TaskContext } from "../../contexts/TaskContext";
@@ -110,26 +110,6 @@ const TaskDetails = ({ CloseDetails, selectedTask }) => {
 };
 
 export default TaskDetails;
-
-const fetchTasks = async () => {
-  const token = window.localStorage.getItem("token");
-
-  try {
-    const response = await axios({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}/tasks`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.status === 204) {
-      return [];
-    }
-    return response.data.tasks;
-  } catch (err) {
-    return err;
-  }
-};
 
 const FindGroup = (id, groups) => {
   return groups.find((group) => group.id == id);

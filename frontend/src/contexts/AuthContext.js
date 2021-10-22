@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -9,23 +10,25 @@ export const AuthProvider = (props) => {
     const token = window.localStorage.getItem("token") || null;
     if (token) {
       const verifyToken = async () => {
-        const url = `${process.env.REACT_APP_API_URL}:/auth`;
-        const options = {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        let response = await fetch(url, options);
-
-        if (response.status === 200) {
-          setAuthenticated(true);
-        } else {
-          window.localStorage.removeItem("token");
-          setAuthenticated(false);
+        try {
+          const response = await axios({
+            method: "post",
+            url: `${process.env.REACT_APP_API_URL}/auth`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.status === 200) {
+            setAuthenticated(true);
+          } else {
+            setAuthenticated(false);
+          }
+        } catch (e) {
+          try {
+            console.error(e.response.data.message);
+          } catch {
+            console.error("server unavailable");
+          }
         }
       };
 

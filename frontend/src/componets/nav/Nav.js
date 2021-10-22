@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import NavPresentation from "./NavPresentation";
 import { AuthContext } from "../../contexts/AuthContext";
-import { types as GroupType, GroupContext } from "../../contexts/GroupContext";
+import { GroupContext } from "../../contexts/GroupContext";
 
 const Nav = () => {
   const [PopUpActive, setPopUpActive] = useState(false);
   const [PopOutTitle, setPopoutTitle] = useState(false);
   const [List, setList] = useState([]);
-  const [GroupState, GroupDispatcher] = useContext(GroupContext);
+  const [GroupState] = useContext(GroupContext);
   const [authenticated, setAuthenticated] = useContext(AuthContext);
 
   useEffect(() => {

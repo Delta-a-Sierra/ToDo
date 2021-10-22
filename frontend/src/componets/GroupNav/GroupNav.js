@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { GroupFilter } from "../";
-import { LargeButton, FilterButton } from "../";
+import { FilterButton } from "../";
 import { TaskContext } from "../../contexts/TaskContext";
 import {
   GroupContext,
