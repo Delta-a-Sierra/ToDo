@@ -1,0 +1,40 @@
+.GroupDeleteModal {
+  display: flex;
+  justify-content: center;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: $shadow;
+  }
+
+  .content {
+    position: absolute;
+    width: 80vw;
+    height: 25vh;
+    top: 10vh;
+    padding: 1em;
+    background-color: white;
+    border-radius: 0.5em;
+    @include flex-col;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    &__text {
+      @include Title-Small($primaryColor1);
+    }
+
+    &__buttons {
+      display: flex;
+
+      button {
+        transform: scale(0.8);
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { GroupFilter } from "../";
+import { GroupDeleteModal, GroupFilter } from "../";
 import { FilterButton } from "../";
 import { TaskContext } from "../../contexts/TaskContext";
 import {
@@ -20,6 +20,7 @@ const GroupNav = ({ title, fave }) => {
   const [TaskSate] = useContext(TaskContext);
   const [GroupState, GroupDispatcher] = useContext(GroupContext);
   const [FilterState, FilterDispacther] = useContext(FilterContext);
+  const [groupDelete, setGroupdelete] = useState(false);
 
   const filterProps = {
     allFiterActive: allFiterActive,
@@ -71,6 +72,10 @@ const GroupNav = ({ title, fave }) => {
     });
   };
 
+  const ToggleDeleteModal = () => {
+    setGroupdelete((prev) => !prev);
+  };
+
   return (
     <nav className="Group-Nav">
       <div className="Group-Nav__row">
@@ -104,6 +109,14 @@ const GroupNav = ({ title, fave }) => {
       <p className="Group-Nav__highlight">
         You have {TaskSate.due_count} tasks due today
       </p>
+      {fave && (
+        <button onClick={ToggleDeleteModal} className="Group-Nav__delete">
+          Delete Group
+        </button>
+      )}
+      {groupDelete && (
+        <GroupDeleteModal ToggleDeleteModal={ToggleDeleteModal} />
+      )}
       <div className="Group-Nav__buttons">
         <FilterButton
           onClick={() => FilterTasks("all")}

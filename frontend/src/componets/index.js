@@ -31,3 +31,4 @@ export { default as TaskDisplay } from "./TaskDisplay/TaskDisplay";
 
 //----------- GroupContainer
 export { default as GroupContainer } from "./GroupContainer/GroupContainer";
+export { default as GroupDeleteModal } from "./GroupDeleteModal/GroupDeleteModal";

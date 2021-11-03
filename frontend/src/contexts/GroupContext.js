@@ -33,8 +33,9 @@ const reducer = (state, action) => {
       return { ...state, groups: [...changedGroup] };
 
     case types.DELETE_GROUP:
+      DeleteGroupApiCall(action.payload);
       const remaingGroups = state.groups.filter((group) => {
-        if (group.id !== action.payload.id) {
+        if (group.id !== action.payload) {
           return group;
         }
       });
@@ -122,6 +123,29 @@ const ChangeGroupApiCall = async (group) => {
       method: "put",
       url: `${process.env.REACT_APP_API_URL}/taskgroups/${group.id}`,
       data: group,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      return true;
+    }
+  } catch (e) {
+    try {
+      console.log(e.response.data.message);
+    } catch {
+      console.log("server unavailable");
+    }
+    return false;
+  }
+};
+
+const DeleteGroupApiCall = async (id) => {
+  const token = window.localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API_URL}/taskgroups/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

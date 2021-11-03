@@ -37,6 +37,14 @@
   &__buttons {
     display: none;
   }
+
+  &__delete {
+    margin-top: 0.5em;
+    @include Body-small($error);
+    border: 1px solid $error;
+    border-radius: 0.2em;
+    padding: 0.2em 0.5em;
+  }
 }
 
 @media screen and (min-width: $desktopBreakpoint) {
@@ -67,6 +75,13 @@
       margin-right: 2em;
       display: flex;
       gap: 1em;
+    }
+
+    &__delete {
+      margin-top: auto;
+      @include Body-Regular($error);
+      border: 1px solid $error;
+      padding: 0.2em 0.5em;
     }
   }
 }

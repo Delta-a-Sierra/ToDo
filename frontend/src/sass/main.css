@@ -1112,6 +1112,66 @@ a {
   stroke: white;
 }
 
+.GroupDeleteModal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.GroupDeleteModal .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.GroupDeleteModal .content {
+  position: absolute;
+  width: 80vw;
+  height: 25vh;
+  top: 10vh;
+  padding: 1em;
+  background-color: white;
+  border-radius: 0.5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1em;
+}
+
+.GroupDeleteModal .content__text {
+  font-family: "Cera-Bold", "Courier New", "Courier", "monospace";
+  font-size: 1em;
+  color: #142850;
+}
+
+.GroupDeleteModal .content__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.GroupDeleteModal .content__buttons button {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+}
+
 .AuthForm {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1623,6 +1683,16 @@ a {
   display: none;
 }
 
+.Group-Nav__delete {
+  margin-top: 0.5em;
+  font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+  font-size: 16px;
+  color: #eb4343;
+  border: 1px solid #eb4343;
+  border-radius: 0.2em;
+  padding: 0.2em 0.5em;
+}
+
 @media screen and (min-width: 1024px) {
   .Group-Nav {
     display: -webkit-box;
@@ -1660,6 +1730,15 @@ a {
     display: -ms-flexbox;
     display: flex;
     gap: 1em;
+  }
+  .Group-Nav__delete {
+    margin-top: auto;
+    font-family: "Gilroy-Regular", "Courier New", "Courier", "monospace";
+    font-size: 18px;
+    line-height: 1.5em;
+    color: #eb4343;
+    border: 1px solid #eb4343;
+    padding: 0.2em 0.5em;
   }
 }
 
