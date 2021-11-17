@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '2d6dbd15-ffac-41ef-b1cb-8944cc0a2928'
   imageRepository: 'todo'
-  containerRegistry: 'blacknoirregistry.azurecr.io'
+  containerRegistry: '{"loginServer":"blacknoirregistry.azurecr.io", "id": "/subcriptions/a031777d-426c-4fbb-a882-02bf2c1d9242/ResourceGroups/rg-webApps-uks/BlackNoirRegistry"}'
   azureSubscriptionEndpoint: "a031777d-426c-4fbb-a882-02bf2c1d9242"
   tag: '$(Build.BuildId)'
 
@@ -32,7 +32,6 @@ stages:
       displayName: Build an image
       inputs:
         containerregistrytype: Azure Container Registry
-        azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
         dockerComposeFile: 'docker-compose.prod.yml'
         azureContainerRegistry: $(containerRegistry)
         projectName: $(Build.Repository.Name)
@@ -43,7 +42,6 @@ stages:
       displayName: push an image to container registry
       inputs:
         containerregistrytype: Azure Container Registry
-        azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
         dockerComposeFile: 'docker-compose.prod.yml'
         azureContainerRegistry: $(containerRegistry)
         projectName: $(Build.Repository.Name)
