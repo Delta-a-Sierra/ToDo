@@ -29,24 +29,24 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: DockerCompose@0
+      displayName: Container registry login
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Learning2 (a031777d-426c-4fbb-a882-02bf2c1d9242)'
+        azureContainerRegistry: '{"loginServer":"blacknoirregistry.azurecr.io", "id" : "/subscriptions/a031777d-426c-4fbb-a882-02bf2c1d9242/resourceGroups/rg-webApps-uks/providers/Microsoft.ContainerRegistry/registries/BlackNoirRegistry"}'
+    - task: DockerCompose@0
       displayName: Build an image
       inputs:
-        containerregistrytype: Azure Container Registry
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Learning2 (a031777d-426c-4fbb-a882-02bf2c1d9242)'
+        azureContainerRegistry: '{"loginServer":"blacknoirregistry.azurecr.io", "id" : "/subscriptions/a031777d-426c-4fbb-a882-02bf2c1d9242/resourceGroups/rg-webApps-uks/providers/Microsoft.ContainerRegistry/registries/BlackNoirRegistry"}'
         dockerComposeFile: 'docker-compose.prod.yml'
-        azureSubscriptionEndpoint: 'AzureSC'
-        azureContainerRegistry: $(containerRegistry)
-        projectName: $(Build.Repository.Name)
-        action: Build services
-        tags: |
-          $(tag)
+        action: 'Build services'
     - task: DockerCompose@0
       displayName: push an image to container registry
       inputs:
-        containerregistrytype: Azure Container Registry
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Learning2 (a031777d-426c-4fbb-a882-02bf2c1d9242)'
+        azureContainerRegistry: '{"loginServer":"blacknoirregistry.azurecr.io", "id" : "/subscriptions/a031777d-426c-4fbb-a882-02bf2c1d9242/resourceGroups/rg-webApps-uks/providers/Microsoft.ContainerRegistry/registries/BlackNoirRegistry"}'
         dockerComposeFile: 'docker-compose.prod.yml'
-        azureSubscriptionEndpoint: 'AzureSC'
-        azureContainerRegistry: $(containerRegistry)
-        projectName: $(Build.Repository.Name)
-        action: Push services
-        tags: |
-          $(tag)
+        action: 'Push services'
