@@ -65,7 +65,7 @@ const NewTasks = ({ toggleNewTask }) => {
     e.preventDefault();
     ValidateForm();
     if (Validated) {
-      const response = await NewTaskApiCall(Form);
+      await NewTaskApiCall(Form);
 
       toggleNewTask();
       TaskDispatcher({
@@ -74,7 +74,7 @@ const NewTasks = ({ toggleNewTask }) => {
     }
   };
 
-  const [GroupState, GroupDispatcher] = useContext(GroupContext);
+  const [GroupState] = useContext(GroupContext);
 
   const commonProps = {
     FormErrors: FormErrors,
@@ -119,9 +119,6 @@ const NewTasks = ({ toggleNewTask }) => {
   );
 };
 
-const onClick = () => {
-  return;
-};
 export default NewTasks;
 
 const NewTaskApiCall = async (form) => {

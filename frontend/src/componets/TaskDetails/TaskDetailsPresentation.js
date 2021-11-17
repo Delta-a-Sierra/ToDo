@@ -31,10 +31,6 @@ const TaskDetailsPresentation = ({
     }
   }, [editMode]);
 
-  const { Title, Description, Group } = Form;
-  const due_date = Form["Due Date"];
-  const created_at = Form["Created At"];
-
   if (editMode) {
     return (
       <div className="Task-details">

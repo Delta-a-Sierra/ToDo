@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "../../sass/main.css";
 import GroupDropDownPresentation from "./GroupDropdownPresentation";
 import axios from "axios";
@@ -11,7 +11,6 @@ const GroupDropdown = ({
   name,
   items,
   SetGroup,
-  resetGroup,
   ResetGroupErrors,
   setGroupError,
 }) => {
@@ -38,7 +37,6 @@ const GroupDropdown = ({
     if (DropdownActive) {
       setDropdownActive(false);
     }
-    // resetGroup();
     setCreateNew((prev) => !prev);
   };
 

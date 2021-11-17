@@ -15,8 +15,8 @@ export const types = {
 const reducer = (state, action) => {
   switch (action.type) {
     case types.ADD_GROUP:
-      const newGroup = { groups: [...state.groups, action.payload] };
-      return { ...newGroup };
+      const newGroup = [...state.groups, action.payload];
+      return { ...state, groups: SortGroups(newGroup) };
 
     case types.SET_CURRENT:
       return {
@@ -30,18 +30,19 @@ const reducer = (state, action) => {
         }
         return group;
       });
-      return { groups: [...changedGroup] };
+      return { ...state, groups: [...changedGroup] };
 
     case types.DELETE_GROUP:
+      DeleteGroupApiCall(action.payload);
       const remaingGroups = state.groups.filter((group) => {
-        if (group.id !== action.payload.id) {
+        if (group.id !== action.payload) {
           return group;
         }
       });
       return { ...state, groups: [...remaingGroups] };
 
     case types.UPDATE_GROUP:
-      return { ...state, groups: [...action.payload] };
+      return { ...state, groups: SortGroups([...action.payload]) };
 
     case types.TOGGLE_FAVE:
       const ToggleGroup = ToggleFave(state.current_group);
@@ -137,4 +138,43 @@ const ChangeGroupApiCall = async (group) => {
     }
     return false;
   }
+};
+
+const DeleteGroupApiCall = async (id) => {
+  const token = window.localStorage.getItem("token");
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_API_URL}/taskgroups/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status === 200) {
+      return true;
+    }
+  } catch (e) {
+    try {
+      console.log(e.response.data.message);
+    } catch {
+      console.log("server unavailable");
+    }
+    return false;
+  }
+};
+
+const SortGroups = (groups) => {
+  console.log(groups);
+  return groups.sort((a, b) => {
+    let groupA = a.name.toLowerCase(),
+      groupB = b.name.toLowerCase();
+
+    if (groupA < groupB) {
+      return -1;
+    }
+    if (groupA > groupB) {
+      return 1;
+    }
+    return 0;
+  });
 };

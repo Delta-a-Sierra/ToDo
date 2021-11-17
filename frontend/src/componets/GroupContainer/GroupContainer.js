@@ -1,9 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { FilterProvider } from "../../contexts/TaskFilterContext";
-import { TaskContext, TaskReducerTypes } from "../../contexts/TaskContext";
-import axios from "axios";
 import {
-  LoadingScreen,
   Nav,
   NewTasks,
   GroupNav,
@@ -13,13 +10,27 @@ import {
 } from "../";
 
 const GroupContainer = ({ title, fave }) => {
-  const SelectTask = (task) => {
-    setSelectedTask({ ...task });
-    setTaskDetailsActive((prev) => !prev);
-  };
   const [selectedTask, setSelectedTask] = useState({});
   const [NewTask, setNewTask] = useState(false);
   const [TaskDetailsActive, setTaskDetailsActive] = useState(false);
+
+  const SelectTask = async (task) => {
+    if (task.title === selectedTask.title) {
+      console.log("same task");
+      CloseDetails();
+      setSelectedTask({});
+      return;
+    }
+    if (TaskDetailsActive) {
+      console.log("changing");
+      await CloseDetails();
+      setSelectedTask({ ...task });
+      setTaskDetailsActive(true);
+      return;
+    }
+    setSelectedTask({ ...task });
+    setTaskDetailsActive((prev) => !prev);
+  };
 
   const CloseDetails = () => {
     setTaskDetailsActive(false);
@@ -53,23 +64,3 @@ const GroupContainer = ({ title, fave }) => {
 };
 
 export default GroupContainer;
-
-const fetchTasks = async () => {
-  const token = window.localStorage.getItem("token");
-
-  try {
-    const response = await axios({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}/tasks`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.status === 204) {
-      return [];
-    }
-    return response.data.tasks;
-  } catch (err) {
-    return err;
-  }
-};

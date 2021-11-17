@@ -6,7 +6,7 @@
 
   &__fave {
     fill: $offWhite;
-    margin-right: 0.5em;
+    margin-right: 0.2em;
     &--active {
       fill: $accent1;
     }
@@ -15,11 +15,19 @@
   &__row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+  }
+
+  &__title-container {
+    display: flex;
+    align-items: center;
+    max-width: 60vw;
+    margin-right: auto;
   }
 
   &__title {
     @include Title-Medium($color: white);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__highlight {
@@ -28,6 +36,14 @@
 
   &__buttons {
     display: none;
+  }
+
+  &__delete {
+    margin-top: 0.5em;
+    @include Body-small($error);
+    border: 1px solid $error;
+    border-radius: 0.2em;
+    padding: 0.2em 0.5em;
   }
 }
 
@@ -40,6 +56,8 @@
     padding-top: 2em;
 
     &__fave {
+      width: 3em;
+      height: 3em;
       margin-right: 1.5em;
     }
 
@@ -57,6 +75,13 @@
       margin-right: 2em;
       display: flex;
       gap: 1em;
+    }
+
+    &__delete {
+      margin-top: auto;
+      @include Body-Regular($error);
+      border: 1px solid $error;
+      padding: 0.2em 0.5em;
     }
   }
 }

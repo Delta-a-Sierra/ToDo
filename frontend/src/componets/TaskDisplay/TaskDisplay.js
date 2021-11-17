@@ -39,13 +39,17 @@ const TaskDisplay = ({ filterType, SelectTask }) => {
           tasks={dueTasks}
         />
       )}
-
-      <TaskDateGroup
-        SelectTask={SelectTask}
-        key="remainingtaskgroup"
-        title="Remaing Tasks"
-        tasks={displayedTasks}
-      />
+      {displayedTasks.length >= 1 && (
+        <TaskDateGroup
+          SelectTask={SelectTask}
+          key="remainingtaskgroup"
+          title="Remaing Tasks"
+          tasks={displayedTasks}
+        />
+      )}
+      {displayedTasks.length < 1 && dueTasks.length < 1 && (
+        <p className="TaskGroup__title">No Tasks to Display</p>
+      )}
     </div>
   );
 };
