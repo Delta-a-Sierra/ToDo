@@ -13,6 +13,7 @@ variables:
   dockerRegistryServiceConnection: '2d6dbd15-ffac-41ef-b1cb-8944cc0a2928'
   imageRepository: 'todo'
   containerRegistry: 'blacknoirregistry.azurecr.io'
+  azureSubscriptionEndpoint: "a031777d-426c-4fbb-a882-02bf2c1d9242"
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -31,8 +32,10 @@ stages:
       displayName: Build an image
       inputs:
         containerregistrytype: Azure Container Registry
+        azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
         dockerComposeFile: 'docker-compose.prod.yml'
         azureContainerRegistry: $(containerRegistry)
+        projectName: $(Build.Repository.Name)
         action: Build services
         tags: |
           $(tag)
@@ -40,8 +43,10 @@ stages:
       displayName: push an image to container registry
       inputs:
         containerregistrytype: Azure Container Registry
+        azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
         dockerComposeFile: 'docker-compose.prod.yml'
         azureContainerRegistry: $(containerRegistry)
+        projectName: $(Build.Repository.Name)
         action: Push services
         tags: |
           $(tag)
