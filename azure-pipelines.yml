@@ -32,7 +32,6 @@ stages:
       inputs:
         containerregistrytype: Azure Container Registry
         dockerComposeFile: docker-compose.yml
-        azureSubscriptionEndpoint: $(dockerRegistryServiceConnection)
-        azureContainerRegistry: $(containerRegistry)
+        azureContainerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
