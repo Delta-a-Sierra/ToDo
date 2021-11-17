@@ -28,12 +28,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: DockerCompose@0
-      displayName: Container registry login
-      inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscription: 'Learning2 (a031777d-426c-4fbb-a882-02bf2c1d9242)'
-        azureContainerRegistry: '{"loginServer":"blacknoirregistry.azurecr.io", "id" : "/subscriptions/a031777d-426c-4fbb-a882-02bf2c1d9242/resourceGroups/rg-webApps-uks/providers/Microsoft.ContainerRegistry/registries/BlackNoirRegistry"}'
+   
     - task: DockerCompose@0
       displayName: Build an image
       inputs:
