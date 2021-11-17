@@ -13,7 +13,6 @@ variables:
   dockerRegistryServiceConnection: '2d6dbd15-ffac-41ef-b1cb-8944cc0a2928'
   imageRepository: 'todo'
   containerRegistry: 'blacknoirregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Backend/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -28,12 +27,12 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
+    - task: DockerCompose@0
       displayName: Build and push an image to container registry
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerregistrytype: Azure Container Registry
+        dockerComposeFile: docker-compose.yml
+        azureSubscriptionEndpoint: $(dockerRegistryServiceConnection)
+        azureContainerRegistry: $(containerRegistry)
         tags: |
           $(tag)
