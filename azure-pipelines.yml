@@ -28,10 +28,20 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: DockerCompose@0
-      displayName: Build and push an image to container registry
+      displayName: Build an image
       inputs:
         containerregistrytype: Azure Container Registry
-        dockerComposeFile: docker-compose.yml
+        dockerComposeFile: 'docker-compose.yml'
         azureContainerRegistry: $(dockerRegistryServiceConnection)
+        action: Build services
+        tags: |
+          $(tag)
+    - task: DockerCompose@0
+      displayName: push an image to container registry
+      inputs:
+        containerregistrytype: Azure Container Registry
+        dockerComposeFile: 'docker-compose.yml'
+        azureContainerRegistry: $(dockerRegistryServiceConnection)
+        action: Push services
         tags: |
           $(tag)
