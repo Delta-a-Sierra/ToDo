@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: '59b2b3e8-ae96-4d86-b9d5-1476611b7fb7'
   imageRepository: 'todo'
   containerRegistry: 'blacknoirregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/docker-compose.prod.yml'
+  dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
