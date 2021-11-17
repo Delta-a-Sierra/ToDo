@@ -28,7 +28,11 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-   
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)'
+        artifact: 'docker-compose.prod.yml'
+        publishLocation: 'pipeline'
     - task: DockerCompose@0
       displayName: Build an image
       inputs:
