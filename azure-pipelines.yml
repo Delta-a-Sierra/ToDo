@@ -31,7 +31,7 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         containerregistrytype: Azure Container Registry
-        dockerComposeFile: '<Path>/docker-compose.yml'
+        dockerComposeFile: docker-compose.yml
         azureContainerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
