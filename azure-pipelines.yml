@@ -33,6 +33,7 @@ stages:
       inputs:
         containerregistrytype: Azure Container Registry
         dockerComposeFile: 'docker-compose.prod.yml'
+        azureSubscriptionEndpoint: 'AzureSC'
         azureContainerRegistry: $(containerRegistry)
         projectName: $(Build.Repository.Name)
         action: Build services
@@ -43,6 +44,7 @@ stages:
       inputs:
         containerregistrytype: Azure Container Registry
         dockerComposeFile: 'docker-compose.prod.yml'
+        azureSubscriptionEndpoint: 'AzureSC'
         azureContainerRegistry: $(containerRegistry)
         projectName: $(Build.Repository.Name)
         action: Push services
